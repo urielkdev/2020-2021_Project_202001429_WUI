@@ -82,7 +82,7 @@ $cakeDescription = 'InvestFunds';
                         <div class="column">
                             <h3>Serviços disponíveis sobre fundos de investimentos</h3>
                             <ul>
-                                <li class="bullet success">Informações gerais de cadastro</li>
+                                <li class="bullet success"><a href="/BuscaFundos">Busca Geral de Fundos de Investimento</a></li>
                                 <li class="bullet success">Rentabilidade e volatilidade em diferentes períodos de tempo</li>
                                 <li class="bullet success">Índices financeiros de Sharpe e Beta</li>
                                 <li class="bullet success">Comparação e correlação de fundos</li>

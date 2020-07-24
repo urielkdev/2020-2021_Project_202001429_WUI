@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\ORM\TableRegistry;
+use App\Form\BuscaFundosForm;
 
 /**
  * BuscaFundos Controller
@@ -26,10 +27,29 @@ class BuscaFundosController extends AppController {
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
 	public function index() {
+		
+		$formFiltro = new BuscaFundosForm();
+		$formFiltro->setErrors(["email" => ["_required" => "Your email is required"]]);
+        if ($this->request->is('post')) {
+            if ($formFiltro->execute($this->request->getData())) {
+                $this->Flash->success('We will get back to you soon.');
+            } else {
+                $this->Flash->error('There was a problem submitting your form.');
+            }
+        }
+		if ($this->request->is('get')) {
+            $formFiltro->setData([
+                'nome' => 'John Doe',
+                'tipo' => 'john.doe@example.com'
+            ]);
+        }
+        $this->set('filtroForm', $formFiltro);
+		
 		$CnpjFundos = TableRegistry::getTableLocator()->get('CnpjFundos');
 		$query = $CnpjFundos->find()
 				->contain(['CadastroFundos' => ['TipoClasseFundos', 'TipoRentabilidadeFundos', 'AdministradorFundos'], 'DocExtratosFundos', 'SituacaoFundos' => ['TipoSituacaoFundos']])
 				->where(['CnpjFundos.DENOM_SOCIAL !=' => '--DESCONHECIDO--'])
+				//->order('SituacaoFundos.DT_INI_SIT desc')
 		/*
 		  ->matching('CadastroFundos')
 		  ->matching('DocExtratosFundos')
