@@ -44,9 +44,7 @@ $cakeDescription = 'InvestFunds';
 		<?php echo$this->element('topNavBar'); ?>
 
 		<ul id=menu>
-			<li><a href="#L384">Section 1</a>
-			<li><a href="#details">Section 2</a>
-			<li><a href="#FAQ">Section 3</a>
+			<li><a href="">Precisa de Ajuda?</a>
 		</ul>
 
         <header>

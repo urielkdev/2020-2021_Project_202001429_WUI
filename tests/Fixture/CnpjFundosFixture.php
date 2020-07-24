@@ -17,7 +17,7 @@ class CnpjFundosFixture extends TestFixture
      */
     // phpcs:disable
     public $fields = [
-        'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
+        'id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'CNPJ' => ['type' => 'string', 'length' => 20, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_general_ci', 'comment' => '', 'precision' => null],
         'DENOM_SOCIAL' => ['type' => 'string', 'length' => 100, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_general_ci', 'comment' => '', 'precision' => null],
         'DT_REG_CVM' => ['type' => 'date', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
@@ -43,7 +43,7 @@ class CnpjFundosFixture extends TestFixture
                 'id' => 1,
                 'CNPJ' => 'Lorem ipsum dolor ',
                 'DENOM_SOCIAL' => 'Lorem ipsum dolor sit amet',
-                'DT_REG_CVM' => '2020-07-15',
+                'DT_REG_CVM' => '2020-07-17',
             ],
         ];
         parent::init();
