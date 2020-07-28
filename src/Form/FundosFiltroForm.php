@@ -12,13 +12,13 @@ use Cake\Form\Form;
 use Cake\Form\Schema;
 use Cake\Validation\Validator;
 
-class BuscaFundosForm extends Form {
+class FundosFiltroForm extends Form {
 
 	protected function _buildSchema(Schema $schema): Schema {
 		return $schema->addField('nome', 'string')
-						->addField('emOperacao', ['type' => 'boolean'])
+						->addField('apenasEmFuncionamentoNormal', ['type' => 'boolean'])
 						->addField('tipo', ['type' => 'string'])
-						->addField('classe', ['type' => 'string'])
+						->addField('classe', ['type' => 'select'])
 						->addField('aplicMin', ['type' => 'string'])
 				;
 	}

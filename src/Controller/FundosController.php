@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\ORM\TableRegistry;
-use App\Form\BuscaFundosForm;
+use App\Form\FundosFiltroForm;
 
 /**
- * BuscaFundos Controller
+ * Fundos Controller
  *
  */
-class BuscaFundosController extends AppController {
+class FundosController extends AppController {
 
 // In a controller or table method.
 
@@ -21,14 +21,19 @@ class BuscaFundosController extends AppController {
 		'paramType' => 'querystring' //Esta linha analisa o parâmetro fornecido pelo link.
 	);
 
+	public function index() {
+		$this->redirect('/Fundos/busca');
+	}
+
+	
 	/**
-	 * Index method
+	 * Busca method
 	 *
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
-	public function index() {
+	public function busca() {
 		
-		$formFiltro = new BuscaFundosForm();
+		$formFiltro = new FundosFiltroForm();
 		$formFiltro->setErrors(["email" => ["_required" => "Your email is required"]]);
         if ($this->request->is('post')) {
             if ($formFiltro->execute($this->request->getData())) {
@@ -49,13 +54,8 @@ class BuscaFundosController extends AppController {
 		$query = $CnpjFundos->find()
 				->contain(['CadastroFundos' => ['TipoClasseFundos', 'TipoRentabilidadeFundos', 'AdministradorFundos'], 'DocExtratosFundos', 'SituacaoFundos' => ['TipoSituacaoFundos']])
 				->where(['CnpjFundos.DENOM_SOCIAL !=' => '--DESCONHECIDO--'])
+				//->andWhere('SituacaoFundos.tipo_situacao_fundo_id = 1')
 				//->order('SituacaoFundos.DT_INI_SIT desc')
-		/*
-		  ->matching('CadastroFundos')
-		  ->matching('DocExtratosFundos')
-		  ->matching('SituacaoFundos')
-		  ->select(['CnpjFundos.id', 'CnpjFundos.CNPJ', 'CnpjFundos.DENOM_SOCIAL', 'CnpjFundos.DT_REG_CVM', 'CadastroFundos.administrador_fundo_id', 'CadastroFundos.tipo_classe_fundo_id', 'CadastroFundos.tipo_rentabilidade_fundo_id', 'SituacaoFundos.tipo_situacao_fundo_id', 'DocExtratosFundos.tipo_anbima_classe_id', ], true)
-		 */
 		;
 		$cnpjFundos = $this->paginate($query);
 		$this->set(compact('cnpjFundos'));
@@ -75,6 +75,31 @@ class BuscaFundosController extends AppController {
 		]);
 
 		$this->set(compact('cnpjFundo'));
+	}
+
+	
+	
+	/**
+	 * Comparacao method
+	 *
+	 * @return \Cake\Http\Response|null|void Renders view
+	 */
+	public function comparacao() {
+		$RetornoRiscoFundos = TableRegistry::getTableLocator()->get('RetornoRiscoFundos');
+		$this->paginate = [
+			'contain' => ['CnpjFundos' => ['CadastroFundos' => ['TipoClasseFundos']]],
+		];
+		$retornoRiscoFundos = $this->paginate($RetornoRiscoFundos);
+		$this->set(compact('retornoRiscoFundos'));
+	}
+
+		/**
+	 * Comparacao method
+	 *
+	 * @return \Cake\Http\Response|null|void Renders view
+	 */
+	public function indicadores() {
+		
 	}
 
 }

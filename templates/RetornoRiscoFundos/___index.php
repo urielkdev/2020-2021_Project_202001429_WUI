@@ -6,7 +6,7 @@
 ?>
 <div class="retornoRiscoFundos index content">
     <?= $this->Html->link(__('New Retorno Risco Fundo'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Retorno Risco Fundos') ?></h3>
+    <h3><?= __('Retorno Risco Fundos Table') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>

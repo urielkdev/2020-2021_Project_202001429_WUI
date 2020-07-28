@@ -5,25 +5,49 @@
  */
 ?>
 <div class="cnpjFundos index content">
-    <!-- <?= $this->Html->link(__('New Cnpj Fundo'), ['action' => 'add'], ['class' => 'button float-right']) ?> -->
-    <h2><?= __('Busca Geral de Fundos de Investimento') ?></h2>
+    <!-- $this->Html->link(__('New Cnpj Fundo'), ['action' => 'add'], ['class' => 'button float-right']) ?> -->
+	<table>
+		<tr>
+			<td class="min"><h2><?= __('Busca Geral de Fundos de Investimento') ?></h2></td>
+			<td class="min"><div class="dropdown">
+					<span>info</span>
+					<div class="dropdown-content">
+						<p>info</p>
+					</div>
+				</div></td>
+		</tr>
+	</table>
 
 	<div class="column-responsive">
-	<div class="retornoRiscoFundos form content">
-		<h3><?= __('Filtros') ?></h3>
-		<?php echo $this->Form->create($filtroForm); ?>
-		<table>
-			<tr>
-				<td><?php echo $this->Form->control('nome'); ?></td>
-				<td><?php echo $this->Form->control('emOperacao'); ?></td>
-				<td><?php echo $this->Form->control('tipo'); ?></td>
-				<td><?php echo $this->Form->control('classe'); ?></td>
-				<td><?php echo $this->Form->control('aplicMin'); ?></td>
-			</tr>
-		</table>
-		<?php echo $this->Form->button('Aplicar filtros'); ?>
-		<?php echo $this->Form->end(); ?>	
-	</div>
+		<div class="retornoRiscoFundos form content">
+			<h3><?= __('Filtros') ?></h3>
+			<?php echo $this->Form->create($filtroForm); ?>
+			<div class="table-responsive">
+				<table>
+					<thead>
+						<tr>
+							<td width='200'><?php echo $this->Form->control('nome'); ?></td>
+							<td width='200'><?php echo $this->Form->control('apenasEmFuncionamentoNormal'); ?></td>
+							<td width='200'><?php echo $this->Form->control('tipo'); ?></td>
+							<td width='200'><?php echo $this->Form->control('classe'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<?php echo $this->Form->button('Aplicar filtros'); ?>
+			<?php echo $this->Form->end(); ?>	
+		</div>
 	</div>
 	<div class="row">
 		<h3><?= __('Fundos de Investimento Encontrados') ?></h3>
@@ -57,7 +81,7 @@
 				<!-- <?php $rowCount = ($this->Paginator->counter('{{page}}') - 1) * $this->Paginator->counter('{{current}}'); ?> -->
 				<?php foreach ($cnpjFundos as $cnpjFundo): ?>
 					<tr>
-						<!-- <td><?= $this->Number->format(++$rowCount) ?></td> -->
+						<!-- <td><?= $this->Number->format( ++$rowCount) ?></td> -->
 						<td><?= h($cnpjFundo->CNPJ) ?></td>
 						<td>
 							<?= $this->Html->link(h($cnpjFundo->DENOM_SOCIAL), ['action' => 'view', $cnpjFundo->id]) ?>

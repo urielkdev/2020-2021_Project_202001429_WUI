@@ -157,6 +157,7 @@ if ($fullBaseUrl) {
 unset($fullBaseUrl);
 
 Cache::setConfig(Configure::consume('Cache'));
+////Cache::getConfig('_cake_model_');
 ConnectionManager::setConfig(Configure::consume('Datasources'));
 TransportFactory::setConfig(Configure::consume('EmailTransport'));
 Mailer::setConfig(Configure::consume('Email'));

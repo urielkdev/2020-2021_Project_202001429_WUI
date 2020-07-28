@@ -77,12 +77,12 @@ th {
     align-items: center;
     justify-content: space-between;
     max-width: 112rem;
-    padding: 0rem;
+    padding: 2rem;
     margin: 0 auto 2rem;
 }
 .top-nav-title a {
     font-size: 2.4rem;
-    color: #404041; /*#d33c43;*/
+    color: #d33c43;
 }
 .top-nav-title span {
     color: #404041;
