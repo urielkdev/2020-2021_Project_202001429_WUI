@@ -12,7 +12,7 @@
 	Esse sistema web é o resultado de um projeto de extensão realizado pela Universidade Federal de Santa Catarina, cujo objetivo principal é ajudar pessoas que têm investido em opções tradicionais de baixo risco e que não tem muito conhecimento financeiro a escolherem de modo facilitado e instruído outros investimentos, especificamente fundos de investimento.
 	<!--/small-->
 </div>
-
+<hr>
 <div class="row">
 	<div class="column">
 		<div class="message default text-center">

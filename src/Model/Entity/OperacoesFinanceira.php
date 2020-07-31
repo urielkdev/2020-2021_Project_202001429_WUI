@@ -11,8 +11,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $usuario_id
  * @property int $cnpj_fundo_id
- * @property int|null $distribuidora_id
- * @property bool $op_aplicacao
+ * @property int|null $distribuidor_fundo_id
+ * @property int $tipo_operacoes_financeira_id
  * @property bool $por_valor
  * @property float $valor_total
  * @property float $valor_cota
@@ -37,8 +37,8 @@ class OperacoesFinanceira extends Entity
     protected $_accessible = [
         'usuario_id' => true,
         'cnpj_fundo_id' => true,
-        'distribuidora_id' => true,
-        'op_aplicacao' => true,
+        'distribuidor_fundo_id' => true,
+        'tipo_operacoes_financeira_id' => true,
         'por_valor' => true,
         'valor_total' => true,
         'valor_cota' => true,

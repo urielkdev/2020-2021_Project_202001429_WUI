@@ -17,9 +17,9 @@ class FundosFiltroForm extends Form {
 	protected function _buildSchema(Schema $schema): Schema {
 		return $schema->addField('nome', 'string')
 						->addField('apenasEmFuncionamentoNormal', ['type' => 'boolean'])
-						->addField('tipo', ['type' => 'string'])
 						->addField('classe', ['type' => 'select'])
 						->addField('aplicMin', ['type' => 'string'])
+						->addField('gestor', ['type' => 'string'])
 				;
 	}
 

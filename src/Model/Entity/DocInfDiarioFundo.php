@@ -16,6 +16,8 @@ use Cake\ORM\Entity;
  * @property string $CAPTC_DIA
  * @property string $RESG_DIA
  * @property int $NR_COTST
+ * @property string|null $rentab_diaria
+ * @property string $volat_diaria
  *
  * @property \App\Model\Entity\CnpjFundo $cnpj_fundo
  */
@@ -37,6 +39,8 @@ class DocInfDiarioFundo extends Entity
         'CAPTC_DIA' => true,
         'RESG_DIA' => true,
         'NR_COTST' => true,
+        'rentab_diaria' => true,
+        'volat_diaria' => true,
         'cnpj_fundo' => true,
     ];
 }

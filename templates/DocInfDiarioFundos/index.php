@@ -19,6 +19,8 @@
                     <th><?= $this->Paginator->sort('CAPTC_DIA') ?></th>
                     <th><?= $this->Paginator->sort('RESG_DIA') ?></th>
                     <th><?= $this->Paginator->sort('NR_COTST') ?></th>
+                    <th><?= $this->Paginator->sort('rentab_diaria') ?></th>
+                    <th><?= $this->Paginator->sort('volat_diaria') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -33,6 +35,8 @@
                     <td><?= $this->Number->format($docInfDiarioFundo->CAPTC_DIA) ?></td>
                     <td><?= $this->Number->format($docInfDiarioFundo->RESG_DIA) ?></td>
                     <td><?= $this->Number->format($docInfDiarioFundo->NR_COTST) ?></td>
+                    <td><?= $this->Number->format($docInfDiarioFundo->rentab_diaria) ?></td>
+                    <td><?= $this->Number->format($docInfDiarioFundo->volat_diaria) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $docInfDiarioFundo->cnpj_fundo_id]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $docInfDiarioFundo->cnpj_fundo_id]) ?>
@@ -51,6 +55,6 @@
             <?= $this->Paginator->next(__('next') . ' >') ?>
             <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) do total de {{count}}')) ?></p>
+        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
     </div>
 </div>

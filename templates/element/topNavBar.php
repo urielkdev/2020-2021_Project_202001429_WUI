@@ -1,6 +1,10 @@
 <nav class="top-nav">
 	<div class="top-nav-title">
-		<a href="/"><?php echo$this->element('nomeApp'); ?></a>
+		
+		<a href="/">
+			<!--img src="img/logo.jpeg"  alt="" width="64" height="48"-->
+			<?php echo$this->element('nomeApp'); ?>
+		</a>
 	</div>
 	<?php
 	$session = $this->request->getSession();
@@ -21,20 +25,35 @@
 		<div class="dropdown">
 			<button class="dropbtn">Empresas abertas</button>
 			<div class="dropdown-content">
-				<a href="/Acoes/busca">Busca geral</a>
-				<a href="/Acoes/indicfund">Indicadores fundamentalistas</a>
-				<a href="/Acoes/indicgraf">Indicadores gráficos</a>
-				<a href="/Acoes/comparacao">Comparação de ações</a>
+				<?php if ($conectado) { ?>
+					<a href="/Acoes/busca">Busca geral</a>
+					<a href="/Acoes/indicfund">Indicadores fundamentalistas</a>
+					<a href="/Acoes/indicgraf">Indicadores gráficos</a>
+					<a href="/Acoes/comparacao">Comparação de ações</a>
+				<?php } else { ?>
+					<span>Busca geral</span>
+					<span>Indicadores fundamentalistas</span>
+					<span>Indicadores gráficos</span>
+					<span>Comparação de ações</span>
+				<?php } ?>
 			</div>
 		</div> 
 		<div class="dropdown">
 			<button class="dropbtn">Carteira de investimento</button>
 			<div class="dropdown-content">
-				<a href="/Portfolio/operacoes">Carteiras e operações</a>
-				<!--<a href="Portfolio/registro">Registro de transações</a> -->
-				<a href="/Portfolio/analise">Análise da carteira</a>
-				<a href="/Portfolio/comparacao">Comparação de carteiras</a>
-				<a href="/Portfolio/fronteira">Fronteira eficiente</a>
+				<?php if ($conectado) { ?>
+					<a href="/Portfolio/operacoes">Carteiras e operações</a>
+					<!--<a href="Portfolio/registro">Registro de transações</a> -->
+					<a href="/Portfolio/analise">Análise da carteira</a>
+					<a href="/Portfolio/comparacao">Comparação de carteiras</a>
+					<a href="/Portfolio/fronteira">Fronteira eficiente</a>
+				<?php } else { ?>
+					<span>Carteiras e operações</span>
+					<!--<a href="Portfolio/registro">Registro de transações</a> -->
+					<span>Análise da carteira</span>
+					<span>Comparação de carteiras</span>
+					<span>Fronteira eficiente</span>
+				<?php } ?>
 			</div>
 		</div> 
 

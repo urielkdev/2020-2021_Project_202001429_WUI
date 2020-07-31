@@ -18,7 +18,7 @@
 	-->
     <div class="column-responsive"> <!-- <div class="column-responsive column-80">  -->
 		<div class="cnpjFundos view content">
-			<h2><?= h($cnpjFundo->DENOM_SOCIAL) ?></h2>
+			<?php echo$this->element('titleInfo', array('title' => h($cnpjFundo->DENOM_SOCIAL), 'tam' => 6)); ?>
 			<table>
 				<tr>
 					<th><?= __('CNPJ') ?></th>
@@ -143,167 +143,98 @@
 					</div>
 				<?php endif; ?>
 			</div>
-			<div class="related">
-				<h4><?= __('Informes de Rendimentos') ?></h4>
 
+			<div class="related">
+				<h3><?= __('Gráficos') ?></h3>
 				<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
+
 				<div class="row">
-					<div class="column">
-						<script type="text/javascript">
-							google.charts.load('current', {'packages': ['corechart']});
-							google.charts.setOnLoadCallback(drawChart);
-
-							function drawChart() {
-								var data = google.visualization.arrayToDataTable([
-									['Data', 'Patrimônio Líquido'],
-<?php foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) : ?>
-	<?php echo("['" . $docInfDiarioFundos->DT_COMPTC . "'," . $docInfDiarioFundos->VL_PATRIM_LIQ . "],"); ?>
-<?php endforeach; ?>
-								]);
-
-								var options = {
-									title: 'Patrimônio Líquido',
-									hAxis: {title: 'Data', titleTextStyle: {color: '#333'},
-										format: 'm/y', gridlines: {color: '#333', minSpacing: 20}},
-									vAxis: {minValue: 0, format: 'currency'}, //, gridlines: {color: '#333', minSpacing: 20}},
-									//series: {2: {targetAxisIndex:1}},
-									//vAxes: {1: {title:'Patrimônio', textStyle: {color: 'red'}}},
-									areaOpacity: 0.2,
-									enableInteractivity: 'true',
-									focusTarget: 'category',
-									lineWidth: 2,
-									//selectionMode: 'multiple',
-									aggregationTarget: 'category',
-									//animation.duration: 200,
-									//animation.easing: 'in',
-									//animation.startup: 'true',
-								};
-
-								var chart = new google.visualization.AreaChart(document.getElementById('chart1_div'));
-								chart.draw(data, options);
-							}
-						</script>
+					<div class="column-graph">
+						<?php
+						echo$this->element('titleInfo', array('title' => __('Patrimônio Líquido'), 'align' => 'center', 'tam' => 4, 'info' => __('O patrimônio líquido é a quantidade de recursos...')));
+						$data = array();
+						$data[] = "['Data', 'Patrimônio Líquido'],";
+						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
+							$data[] = "['" . $docInfDiarioFundos->DT_COMPTC . "'," . $docInfDiarioFundos->VL_PATRIM_LIQ . "],";
+						}
+						echo$this->element('googleChartFundo', array('data' => $data, 'title' => '', 'vAxisTitle' => '', 'vAxisFormat' => 'currency', 'chart' => 'chart1_div'));
+						?>
 						<div id="chart1_div" style="width: 100%; height: 400px;"></div>
 					</div>
-					
-					<div class="column">
-						<script type="text/javascript">
-							google.charts.load('current', {'packages': ['corechart']});
-							google.charts.setOnLoadCallback(drawChart);
 
-							function drawChart() {
-								var data = google.visualization.arrayToDataTable([
-									['Data', 'Valor Cota'],
-<?php foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) : ?>
-	<?php echo("['" . $docInfDiarioFundos->DT_COMPTC . "'," . $docInfDiarioFundos->VL_QUOTA . "],"); ?>
-<?php endforeach; ?>
-								]);
-
-								var options = {
-									title: 'Valor da Cota',
-									hAxis: {title: 'Data', titleTextStyle: {color: '#333'},
-										format: 'm/y', gridlines: {color: '#333', minSpacing: 20}},
-									vAxis: {minValue: 0, format: 'currency'}, //, gridlines: {color: '#333', minSpacing: 20}},
-									//series: {2: {targetAxisIndex:1}},
-									//vAxes: {1: {title:'Patrimônio', textStyle: {color: 'red'}}},
-									areaOpacity: 0.2,
-									enableInteractivity: 'true',
-									focusTarget: 'category',
-									lineWidth: 2,
-									//selectionMode: 'multiple',
-									aggregationTarget: 'category',
-									//animation.duration: 200,
-									//animation.easing: 'in',
-									//animation.startup: 'true',
-								};
-
-								var chart = new google.visualization.AreaChart(document.getElementById('chart2_div'));
-								chart.draw(data, options);
-							}
-						</script>
+					<div class="column-graph">
+						<?php
+						echo$this->element('titleInfo', array('title' => __('Quantidade de Cotistas'), 'align' => 'center', 'tam' => 4, 'info' => __('A quantidade de cotistas corresponde...')));
+						$data = array();
+						$data[] = "['Data', 'Cotistas'],";
+						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
+							$data[] = "['" . $docInfDiarioFundos->DT_COMPTC . "'," . $docInfDiarioFundos->NR_COTST . "],";
+						}
+						echo$this->element('googleChartFundo', array('data' => $data, 'title' => '', 'vAxisTitle' => '', 'vAxisFormat' => ' ', 'chart' => 'chart2_div'));
+						?>
 						<div id="chart2_div" style="width: 100%; height: 400px;"></div>
 					</div>
 				</div>
 				
+
 				<div class="row">
-					<div class="column">
-						<script type="text/javascript">
-							google.charts.load('current', {'packages': ['corechart']});
-							google.charts.setOnLoadCallback(drawChart);
-
-							function drawChart() {
-								var data = google.visualization.arrayToDataTable([
-									['Data', 'Patrimônio Líquido'],
-<?php foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) : ?>
-	<?php echo("['" . $docInfDiarioFundos->DT_COMPTC . "'," . $docInfDiarioFundos->VL_PATRIM_LIQ . "],"); ?>
-<?php endforeach; ?>
-								]);
-
-								var options = {
-									title: 'Patrimônio Líquido',
-									hAxis: {title: 'Data', titleTextStyle: {color: '#333'},
-										format: 'm/y', gridlines: {color: '#333', minSpacing: 20}},
-									vAxis: {minValue: 0, format: 'currency'}, //, gridlines: {color: '#333', minSpacing: 20}},
-									//series: {2: {targetAxisIndex:1}},
-									//vAxes: {1: {title:'Patrimônio', textStyle: {color: 'red'}}},
-									areaOpacity: 0.2,
-									enableInteractivity: 'true',
-									focusTarget: 'category',
-									lineWidth: 2,
-									//selectionMode: 'multiple',
-									aggregationTarget: 'category',
-									//animation.duration: 200,
-									//animation.easing: 'in',
-									//animation.startup: 'true',
-								};
-
-								var chart = new google.visualization.AreaChart(document.getElementById('chart3_div'));
-								chart.draw(data, options);
-							}
-						</script>
+					<div class="column-graph">
+						<?php
+						echo$this->element('titleInfo', array('title' => __('Rentabilidade Acumulada'), 'align' => 'center', 'tam' => 4, 'info' => __('A rentabilidade acumulada é calculada como sendo a relação entre o valor atual da cota e o primeiro valor da cota, na data de abertura do fundo...')));
+						$data = array();
+						$data[] = "['Data', 'Acumulada', 'Rentabilidade'],";
+						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
+							$data[] = "['" . $docInfDiarioFundos['DT_COMPTC'] . "'," . $docInfDiarioFundos['rentab_acumulada'] . "," . $docInfDiarioFundos['rentab_diaria'] . "],";
+						}
+						echo$this->element('googleChartFundo', array('data' => $data, 'title' => '', 'vAxisTitle' => '', 'vAxisFormat' => 'percent', 'chart' => 'chart3_div'));
+						?>
 						<div id="chart3_div" style="width: 100%; height: 400px;"></div>
 					</div>
-					
-					<div class="column">
-						<script type="text/javascript">
-							google.charts.load('current', {'packages': ['corechart']});
-							google.charts.setOnLoadCallback(drawChart);
 
-							function drawChart() {
-								var data = google.visualization.arrayToDataTable([
-									['Data', 'Cotistas'],
-<?php foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) : ?>
-	<?php echo("['" . $docInfDiarioFundos->DT_COMPTC . "'," . $docInfDiarioFundos->NR_COTST . "],"); ?>
-<?php endforeach; ?>
-								]);
-
-								var options = {
-									title: 'Quantidade de Cotistas',
-									hAxis: {title: 'Data', titleTextStyle: {color: '#333'},
-										format: 'm/y', gridlines: {color: '#333', minSpacing: 20}},
-									vAxis: {minValue: 0}, //, gridlines: {color: '#333', minSpacing: 20}},
-									//series: {2: {targetAxisIndex:1}},
-									//vAxes: {1: {title:'Patrimônio', textStyle: {color: 'red'}}},
-									areaOpacity: 0.2,
-									enableInteractivity: 'true',
-									focusTarget: 'category',
-									lineWidth: 2,
-									//selectionMode: 'multiple',
-									aggregationTarget: 'category',
-									//animation.duration: 200,
-									//animation.easing: 'in',
-									//animation.startup: 'true',
-								};
-
-								var chart = new google.visualization.AreaChart(document.getElementById('chart4_div'));
-								chart.draw(data, options);
-							}
-						</script>
+					<div class="column-graph"'>
+						<?php
+						echo$this->element('titleInfo', array('title' => __('Drawdown'), 'align' => 'center', 'tam' => 4, 'info' => __('O drawdown é uma medida de perdas do fundos, e é obtido como a relação entre o valor atual da cota e o valor máximo já alcançado pela cota até aquele momento...')));
+						$data = array();
+						$data[] = "['Data', 'Drawdown'],";
+						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
+							$data[] = "['" . $docInfDiarioFundos['DT_COMPTC'] . "'," . $docInfDiarioFundos['drawdown'] . "],";
+						}
+						echo$this->element('googleChartFundo', array('data' => $data, 'title' => '', 'vAxisTitle' => '', 'vAxisFormat' => 'percent', 'chart' => 'chart4_div'));
+						?>
 						<div id="chart4_div" style="width: 100%; height: 400px;"></div>
 					</div>
 				</div>
-			</div>
+
+				<div class="row">
+					<div class="column-graph">
+						<?php
+						echo$this->element('titleInfo', array('title' => __('Volatilidade (Risco)'), 'align' => 'center', 'tam' => 4, 'info' => __('A volatilidade é uma medida da variação do retorno do investimento ao longo do tempo, e quanto maior a volatilidade, maior é essa variação e, portanto, maior a incerteza sobre qual rendimento que o investimento terá, ou seja, maior o risco do investimento. A volatilidade é calculada como o desvio-padrão do retorno atual em relação ao retorno médio num período de ...')));
+						$data = array();
+						$data[] = "['Data', 'Volatilidade'],";
+						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
+							$data[] = "['" . $docInfDiarioFundos['DT_COMPTC'] . "'," . "0],"; //$docInfDiarioFundos['volat_diaria'] . "],";
+						}
+						echo$this->element('googleChartFundo', array('data' => $data, 'title' => '', 'vAxisTitle' => '', 'vAxisFormat' => 'percent', 'chart' => 'chart5_div'));
+						?>
+						<div id="chart5_div" style="width: 100%; height: 400px;"></div>
+					</div>
+
+					<div class="column-graph">
+						<?php
+						echo$this->element('titleInfo', array('title' => __('Retorno x Risco'), 'align' => 'center', 'tam' => 4, 'info' => __('A relação entre o retorno esperado e o risco de um investimento fé um indicador que permite avaliar se um fundo "vale a pena" ou não. Riscos mais altos devem ser recompensados com um retorno maior. Se o aumento do risco não estiver associado a um retorno maior, o investimento pode não ser interessante...')));
+						$data = array();
+						$data[] = "['ID', 'Retorno', 'Risco'],";
+						foreach ($indicadores as $indicador) {
+							$data[] = "['" . $indicador['periodo_meses'] . "'," . $indicador['rentabilidade'].",". $indicador['desvio_padrao'] . "],";
+						}
+						echo$this->element('googleChartFundo', array('data' => $data, 'title' => '', 'vAxisTitle' => 'Retorno', 'vAxisFormat' => '', 'hAxisTitle'=>'Risco', 'hAxisFormat'=>'', 'chartType'=>'Bubble', 'chart' => 'chart6_div'));
+						?>
+						<div id="chart6_div" style="width: 100%; height: 400px;"></div>
+					</div>
+							
+			</div>				
 		</div>
 	</div>
+</div>
 </div>

@@ -31,8 +31,12 @@
                     <td><?= $this->Number->format($operacoesFinanceira->id) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Distribuidora Id') ?></th>
-                    <td><?= $this->Number->format($operacoesFinanceira->distribuidora_id) ?></td>
+                    <th><?= __('Distribuidor Fundo Id') ?></th>
+                    <td><?= $this->Number->format($operacoesFinanceira->distribuidor_fundo_id) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Tipo Operacoes Financeira Id') ?></th>
+                    <td><?= $this->Number->format($operacoesFinanceira->tipo_operacoes_financeira_id) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Valor Total') ?></th>
@@ -49,10 +53,6 @@
                 <tr>
                     <th><?= __('Data') ?></th>
                     <td><?= h($operacoesFinanceira->data) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Op Aplicacao') ?></th>
-                    <td><?= $operacoesFinanceira->op_aplicacao ? __('Yes') : __('No'); ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Por Valor') ?></th>

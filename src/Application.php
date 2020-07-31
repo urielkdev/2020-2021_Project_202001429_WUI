@@ -56,6 +56,8 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
+		/* TODO DOwnload this plugin has failed */
+		////$this->addPlugin('Authentication');
     }
 
     /**

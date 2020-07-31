@@ -23,6 +23,8 @@
                     echo $this->Form->control('CAPTC_DIA');
                     echo $this->Form->control('RESG_DIA');
                     echo $this->Form->control('NR_COTST');
+                    echo $this->Form->control('rentab_diaria');
+                    echo $this->Form->control('volat_diaria');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

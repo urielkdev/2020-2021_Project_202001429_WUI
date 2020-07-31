@@ -47,6 +47,14 @@
                     <td><?= $this->Number->format($docInfDiarioFundo->NR_COTST) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Rentab Diaria') ?></th>
+                    <td><?= $this->Number->format($docInfDiarioFundo->rentab_diaria) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Volat Diaria') ?></th>
+                    <td><?= $this->Number->format($docInfDiarioFundo->volat_diaria) ?></td>
+                </tr>
+                <tr>
                     <th><?= __('DT COMPTC') ?></th>
                     <td><?= h($docInfDiarioFundo->DT_COMPTC) ?></td>
                 </tr>

@@ -13,7 +13,6 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\UsuariosTable&\Cake\ORM\Association\BelongsTo $Usuarios
  * @property \App\Model\Table\CnpjFundosTable&\Cake\ORM\Association\BelongsTo $CnpjFundos
- * @property \App\Model\Table\DistribuidorasTable&\Cake\ORM\Association\BelongsTo $Distribuidoras
  *
  * @method \App\Model\Entity\OperacoesFinanceira newEmptyEntity()
  * @method \App\Model\Entity\OperacoesFinanceira newEntity(array $data, array $options = [])
@@ -53,8 +52,15 @@ class OperacoesFinanceirasTable extends Table
             'foreignKey' => 'cnpj_fundo_id',
             'joinType' => 'INNER',
         ]);
-        $this->belongsTo('Distribuidoras', [
-            'foreignKey' => 'distribuidora_id',
+        $this->belongsTo('DistribuidorFundos', [
+            'foreignKey' => 'distribuidor_fundo_id',
+        ]);
+        $this->belongsTo('TipoOperacoesFinanceiras', [
+            'foreignKey' => 'tipo_operacoes_financeira_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->hasMany('RelCarteirasOperacoes', [
+            'foreignKey' => 'operacoes_financeira_id',
         ]);
     }
 
@@ -69,11 +75,6 @@ class OperacoesFinanceirasTable extends Table
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
-
-        $validator
-            ->boolean('op_aplicacao')
-            ->requirePresence('op_aplicacao', 'create')
-            ->notEmptyString('op_aplicacao');
 
         $validator
             ->boolean('por_valor')
@@ -114,7 +115,8 @@ class OperacoesFinanceirasTable extends Table
     {
         $rules->add($rules->existsIn(['usuario_id'], 'Usuarios'));
         $rules->add($rules->existsIn(['cnpj_fundo_id'], 'CnpjFundos'));
-        $rules->add($rules->existsIn(['distribuidora_id'], 'Distribuidoras'));
+        $rules->add($rules->existsIn(['distribuidor_fundo_id'], 'DistribuidorFundos'));
+        $rules->add($rules->existsIn(['tipo_operacoes_financeira_id'], 'TipoOperacoesFinanceiras'));
 
         return $rules;
     }

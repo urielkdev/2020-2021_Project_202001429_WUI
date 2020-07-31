@@ -14,8 +14,8 @@
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('usuario_id') ?></th>
                     <th><?= $this->Paginator->sort('cnpj_fundo_id') ?></th>
-                    <th><?= $this->Paginator->sort('distribuidora_id') ?></th>
-                    <th><?= $this->Paginator->sort('op_aplicacao') ?></th>
+                    <th><?= $this->Paginator->sort('distribuidor_fundo_id') ?></th>
+                    <th><?= $this->Paginator->sort('tipo_operacoes_financeira_id') ?></th>
                     <th><?= $this->Paginator->sort('por_valor') ?></th>
                     <th><?= $this->Paginator->sort('valor_total') ?></th>
                     <th><?= $this->Paginator->sort('valor_cota') ?></th>
@@ -30,8 +30,8 @@
                     <td><?= $this->Number->format($operacoesFinanceira->id) ?></td>
                     <td><?= $operacoesFinanceira->has('usuario') ? $this->Html->link($operacoesFinanceira->usuario->nome, ['controller' => 'Usuarios', 'action' => 'view', $operacoesFinanceira->usuario->id]) : '' ?></td>
                     <td><?= $operacoesFinanceira->has('cnpj_fundo') ? $this->Html->link($operacoesFinanceira->cnpj_fundo->id, ['controller' => 'CnpjFundos', 'action' => 'view', $operacoesFinanceira->cnpj_fundo->id]) : '' ?></td>
-                    <td><?= $this->Number->format($operacoesFinanceira->distribuidora_id) ?></td>
-                    <td><?= h($operacoesFinanceira->op_aplicacao) ?></td>
+                    <td><?= $this->Number->format($operacoesFinanceira->distribuidor_fundo_id) ?></td>
+                    <td><?= $this->Number->format($operacoesFinanceira->tipo_operacoes_financeira_id) ?></td>
                     <td><?= h($operacoesFinanceira->por_valor) ?></td>
                     <td><?= $this->Number->format($operacoesFinanceira->valor_total) ?></td>
                     <td><?= $this->Number->format($operacoesFinanceira->valor_cota) ?></td>

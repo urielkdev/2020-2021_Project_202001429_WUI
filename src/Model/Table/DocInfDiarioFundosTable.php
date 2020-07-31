@@ -91,6 +91,15 @@ class DocInfDiarioFundosTable extends Table
             ->requirePresence('NR_COTST', 'create')
             ->notEmptyString('NR_COTST');
 
+        $validator
+            ->decimal('rentab_diaria')
+            ->allowEmptyString('rentab_diaria');
+
+        $validator
+            ->decimal('volat_diaria')
+            ->requirePresence('volat_diaria', 'create')
+            ->notEmptyString('volat_diaria');
+
         return $validator;
     }
 

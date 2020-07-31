@@ -6,41 +6,22 @@
 ?>
 <div class="cnpjFundos index content">
     <!-- $this->Html->link(__('New Cnpj Fundo'), ['action' => 'add'], ['class' => 'button float-right']) ?> -->
-	<table>
-		<tr>
-			<td class="min"><h2><?= __('Busca Geral de Fundos de Investimento') ?></h2></td>
-			<td class="min"><div class="dropdown">
-					<span>info</span>
-					<div class="dropdown-content">
-						<p>info</p>
-					</div>
-				</div></td>
-		</tr>
-	</table>
+	<?php echo$this->element('titleInfo', array('title' => __('Busca Geral de Fundos de Investimento'), 'tam' => 6)); ?>
 
 	<div class="column-responsive">
 		<div class="retornoRiscoFundos form content">
-			<h3><?= __('Filtros') ?></h3>
+			<?php echo$this->element('titleInfo', array('title' => __('Filtros'), 'tam' => 5, 'info' => 'Os filtros são usados para restringir a busca por fundos com características de seu interesse. Preencha um ou mais campos abaixo com as características desejadas e pressione o botão "Aplicar filtros" para refinar sua busca.')); ?>
 			<?php echo $this->Form->create($filtroForm); ?>
 			<div class="table-responsive">
 				<table>
 					<thead>
 						<tr>
 							<td width='200'><?php echo $this->Form->control('nome'); ?></td>
-							<td width='200'><?php echo $this->Form->control('apenasEmFuncionamentoNormal'); ?></td>
-							<td width='200'><?php echo $this->Form->control('tipo'); ?></td>
-							<td width='200'><?php echo $this->Form->control('classe'); ?></td>
+							<td width='200'><?php echo $this->Form->input('apenasEmFuncionamentoNormal', ['type' => 'checkbox', 'label' => 'Em operação normal', 'default' => true]); ?></td>
+							<td width='200'><?php echo $this->Form->input('classe', ['label' => 'Tipo do fundo', 'multiple' => true, 'class' => 'form-control', 'type' => 'select', 'options' => $classeFundos/* , 'default' => array_keys((array) $classeFundos) */]); ?></td>
+							<td width='200'><?php echo $this->Form->input('anbima', ['label' => 'Classe anbima', 'multiple' => true, 'class' => 'form-control', 'type' => 'select', 'options' => $classeAnbima/* , 'default' => array_keys((array) $classeFundos) */]); ?></td>
 							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
-							<td width='200'><?php echo $this->Form->control('aplicMin'); ?></td>
+							<td width='200'><?php echo $this->Form->control('gestor'); ?></td>
 						</tr>
 					</thead>
 				</table>
@@ -49,6 +30,7 @@
 			<?php echo $this->Form->end(); ?>	
 		</div>
 	</div>
+	<hr>
 	<div class="row">
 		<h3><?= __('Fundos de Investimento Encontrados') ?></h3>
 	</div>
