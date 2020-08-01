@@ -156,6 +156,10 @@
                             <th><?= __('CAPTC DIA') ?></th>
                             <th><?= __('RESG DIA') ?></th>
                             <th><?= __('NR COTST') ?></th>
+                            <th><?= __('Rentab Diaria') ?></th>
+                            <th><?= __('Volat Diaria') ?></th>
+                            <th><?= __('Rentab Acumulada') ?></th>
+                            <th><?= __('Drawdown') ?></th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
                         <?php foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) : ?>
@@ -168,10 +172,102 @@
                             <td><?= h($docInfDiarioFundos->CAPTC_DIA) ?></td>
                             <td><?= h($docInfDiarioFundos->RESG_DIA) ?></td>
                             <td><?= h($docInfDiarioFundos->NR_COTST) ?></td>
+                            <td><?= h($docInfDiarioFundos->rentab_diaria) ?></td>
+                            <td><?= h($docInfDiarioFundos->volat_diaria) ?></td>
+                            <td><?= h($docInfDiarioFundos->rentab_acumulada) ?></td>
+                            <td><?= h($docInfDiarioFundos->drawdown) ?></td>
                             <td class="actions">
                                 <?= $this->Html->link(__('View'), ['controller' => 'DocInfDiarioFundos', 'action' => 'view', $docInfDiarioFundos->cnpj_fundo_id]) ?>
                                 <?= $this->Html->link(__('Edit'), ['controller' => 'DocInfDiarioFundos', 'action' => 'edit', $docInfDiarioFundos->cnpj_fundo_id]) ?>
                                 <?= $this->Form->postLink(__('Delete'), ['controller' => 'DocInfDiarioFundos', 'action' => 'delete', $docInfDiarioFundos->cnpj_fundo_id], ['confirm' => __('Are you sure you want to delete # {0}?', $docInfDiarioFundos->cnpj_fundo_id)]) ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+                <?php endif; ?>
+            </div>
+            <div class="related">
+                <h4><?= __('Related Indicadores Fundos') ?></h4>
+                <?php if (!empty($cnpjFundo->indicadores_fundos)) : ?>
+                <div class="table-responsive">
+                    <table>
+                        <tr>
+                            <th><?= __('Cnpj Fundo Id') ?></th>
+                            <th><?= __('Periodo Meses') ?></th>
+                            <th><?= __('Data Final') ?></th>
+                            <th><?= __('Rentabilidade') ?></th>
+                            <th><?= __('Desvio Padrao') ?></th>
+                            <th><?= __('Num Valores') ?></th>
+                            <th><?= __('Rentab Min') ?></th>
+                            <th><?= __('Rentab Max') ?></th>
+                            <th><?= __('Max Drawdown') ?></th>
+                            <th><?= __('Tipo Benchmark Id') ?></th>
+                            <th><?= __('Meses Acima Bench') ?></th>
+                            <th><?= __('Sharpe') ?></th>
+                            <th><?= __('Beta') ?></th>
+                            <th class="actions"><?= __('Actions') ?></th>
+                        </tr>
+                        <?php foreach ($cnpjFundo->indicadores_fundos as $indicadoresFundos) : ?>
+                        <tr>
+                            <td><?= h($indicadoresFundos->cnpj_fundo_id) ?></td>
+                            <td><?= h($indicadoresFundos->periodo_meses) ?></td>
+                            <td><?= h($indicadoresFundos->data_final) ?></td>
+                            <td><?= h($indicadoresFundos->rentabilidade) ?></td>
+                            <td><?= h($indicadoresFundos->desvio_padrao) ?></td>
+                            <td><?= h($indicadoresFundos->num_valores) ?></td>
+                            <td><?= h($indicadoresFundos->rentab_min) ?></td>
+                            <td><?= h($indicadoresFundos->rentab_max) ?></td>
+                            <td><?= h($indicadoresFundos->max_drawdown) ?></td>
+                            <td><?= h($indicadoresFundos->tipo_benchmark_id) ?></td>
+                            <td><?= h($indicadoresFundos->meses_acima_bench) ?></td>
+                            <td><?= h($indicadoresFundos->sharpe) ?></td>
+                            <td><?= h($indicadoresFundos->beta) ?></td>
+                            <td class="actions">
+                                <?= $this->Html->link(__('View'), ['controller' => 'IndicadoresFundos', 'action' => 'view', $indicadoresFundos->cnpj_fundo_id]) ?>
+                                <?= $this->Html->link(__('Edit'), ['controller' => 'IndicadoresFundos', 'action' => 'edit', $indicadoresFundos->cnpj_fundo_id]) ?>
+                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'IndicadoresFundos', 'action' => 'delete', $indicadoresFundos->cnpj_fundo_id], ['confirm' => __('Are you sure you want to delete # {0}?', $indicadoresFundos->cnpj_fundo_id)]) ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+                <?php endif; ?>
+            </div>
+            <div class="related">
+                <h4><?= __('Related Operacoes Financeiras') ?></h4>
+                <?php if (!empty($cnpjFundo->operacoes_financeiras)) : ?>
+                <div class="table-responsive">
+                    <table>
+                        <tr>
+                            <th><?= __('Id') ?></th>
+                            <th><?= __('Usuario Id') ?></th>
+                            <th><?= __('Cnpj Fundo Id') ?></th>
+                            <th><?= __('Distribuidor Fundo Id') ?></th>
+                            <th><?= __('Tipo Operacoes Financeira Id') ?></th>
+                            <th><?= __('Por Valor') ?></th>
+                            <th><?= __('Valor Total') ?></th>
+                            <th><?= __('Valor Cota') ?></th>
+                            <th><?= __('Quantidade Cotas') ?></th>
+                            <th><?= __('Data') ?></th>
+                            <th class="actions"><?= __('Actions') ?></th>
+                        </tr>
+                        <?php foreach ($cnpjFundo->operacoes_financeiras as $operacoesFinanceiras) : ?>
+                        <tr>
+                            <td><?= h($operacoesFinanceiras->id) ?></td>
+                            <td><?= h($operacoesFinanceiras->usuario_id) ?></td>
+                            <td><?= h($operacoesFinanceiras->cnpj_fundo_id) ?></td>
+                            <td><?= h($operacoesFinanceiras->distribuidor_fundo_id) ?></td>
+                            <td><?= h($operacoesFinanceiras->tipo_operacoes_financeira_id) ?></td>
+                            <td><?= h($operacoesFinanceiras->por_valor) ?></td>
+                            <td><?= h($operacoesFinanceiras->valor_total) ?></td>
+                            <td><?= h($operacoesFinanceiras->valor_cota) ?></td>
+                            <td><?= h($operacoesFinanceiras->quantidade_cotas) ?></td>
+                            <td><?= h($operacoesFinanceiras->data) ?></td>
+                            <td class="actions">
+                                <?= $this->Html->link(__('View'), ['controller' => 'OperacoesFinanceiras', 'action' => 'view', $operacoesFinanceiras->id]) ?>
+                                <?= $this->Html->link(__('Edit'), ['controller' => 'OperacoesFinanceiras', 'action' => 'edit', $operacoesFinanceiras->id]) ?>
+                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'OperacoesFinanceiras', 'action' => 'delete', $operacoesFinanceiras->id], ['confirm' => __('Are you sure you want to delete # {0}?', $operacoesFinanceiras->id)]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

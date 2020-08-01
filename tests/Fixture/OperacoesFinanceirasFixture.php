@@ -54,7 +54,7 @@ class OperacoesFinanceirasFixture extends TestFixture
                 'valor_total' => 1,
                 'valor_cota' => 1,
                 'quantidade_cotas' => 1,
-                'data' => '2020-07-30',
+                'data' => '2020-08-01',
             ],
         ];
         parent::init();

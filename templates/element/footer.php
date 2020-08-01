@@ -8,12 +8,12 @@
         <div class="row">
             <div class="column">
                 <small>
-                    UFSC/CTC/INE - Projeto de Extensão InvestFunds
+                    Projeto InvestFunds
                 </small>
             </div>
             <div class="column">
                 <small>
-                    Coordenador: Prof. Dr. Eng. Rafael Luiz Cancian
+                    Coordenador: Prof. Dr. Eng. Rafael Luiz Cancian - rafael.cancian@ufsc.br
                 </small>
             </div>
         </div>

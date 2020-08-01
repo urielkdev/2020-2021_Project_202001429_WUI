@@ -19,6 +19,7 @@ class CnpjFundosController extends AppController
     public function index()
     {
         $cnpjFundos = $this->paginate($this->CnpjFundos);
+
         $this->set(compact('cnpjFundos'));
     }
 
@@ -32,7 +33,7 @@ class CnpjFundosController extends AppController
     public function view($id = null)
     {
         $cnpjFundo = $this->CnpjFundos->get($id, [
-            'contain' => ['CadastroFundos', 'CancelamentoFundos', 'DocExtratosFundos', 'DocInfDiarioFundos', 'SituacaoFundos'],
+            'contain' => ['CadastroFundos', 'CancelamentoFundos', 'DocExtratosFundos', 'DocInfDiarioFundos', 'IndicadoresFundos', 'OperacoesFinanceiras', 'SituacaoFundos'],
         ]);
 
         $this->set(compact('cnpjFundo'));

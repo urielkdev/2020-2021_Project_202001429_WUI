@@ -19,7 +19,7 @@ class OperacoesFinanceirasController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Usuarios', 'CnpjFundos', 'Distribuidoras'],
+            'contain' => ['Usuarios', 'CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras'],
         ];
         $operacoesFinanceiras = $this->paginate($this->OperacoesFinanceiras);
 
@@ -36,7 +36,7 @@ class OperacoesFinanceirasController extends AppController
     public function view($id = null)
     {
         $operacoesFinanceira = $this->OperacoesFinanceiras->get($id, [
-            'contain' => ['Usuarios', 'CnpjFundos', 'Distribuidoras'],
+            'contain' => ['Usuarios', 'CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras', 'RelCarteirasOperacoes'],
         ]);
 
         $this->set(compact('operacoesFinanceira'));
@@ -61,8 +61,9 @@ class OperacoesFinanceirasController extends AppController
         }
         $usuarios = $this->OperacoesFinanceiras->Usuarios->find('list', ['limit' => 200]);
         $cnpjFundos = $this->OperacoesFinanceiras->CnpjFundos->find('list', ['limit' => 200]);
-        $distribuidoras = $this->OperacoesFinanceiras->Distribuidoras->find('list', ['limit' => 200]);
-        $this->set(compact('operacoesFinanceira', 'usuarios', 'cnpjFundos', 'distribuidoras'));
+        $distribuidorFundos = $this->OperacoesFinanceiras->DistribuidorFundos->find('list', ['limit' => 200]);
+        $tipoOperacoesFinanceiras = $this->OperacoesFinanceiras->TipoOperacoesFinanceiras->find('list', ['limit' => 200]);
+        $this->set(compact('operacoesFinanceira', 'usuarios', 'cnpjFundos', 'distribuidorFundos', 'tipoOperacoesFinanceiras'));
     }
 
     /**
@@ -88,8 +89,9 @@ class OperacoesFinanceirasController extends AppController
         }
         $usuarios = $this->OperacoesFinanceiras->Usuarios->find('list', ['limit' => 200]);
         $cnpjFundos = $this->OperacoesFinanceiras->CnpjFundos->find('list', ['limit' => 200]);
-        $distribuidoras = $this->OperacoesFinanceiras->Distribuidoras->find('list', ['limit' => 200]);
-        $this->set(compact('operacoesFinanceira', 'usuarios', 'cnpjFundos', 'distribuidoras'));
+        $distribuidorFundos = $this->OperacoesFinanceiras->DistribuidorFundos->find('list', ['limit' => 200]);
+        $tipoOperacoesFinanceiras = $this->OperacoesFinanceiras->TipoOperacoesFinanceiras->find('list', ['limit' => 200]);
+        $this->set(compact('operacoesFinanceira', 'usuarios', 'cnpjFundos', 'distribuidorFundos', 'tipoOperacoesFinanceiras'));
     }
 
     /**

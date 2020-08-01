@@ -30,6 +30,8 @@ class CnpjFundosTableTest extends TestCase
         'app.CancelamentoFundos',
         'app.DocExtratosFundos',
         'app.DocInfDiarioFundos',
+        'app.IndicadoresFundos',
+        'app.OperacoesFinanceiras',
         'app.SituacaoFundos',
     ];
 

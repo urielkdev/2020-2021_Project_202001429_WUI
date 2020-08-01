@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\OperacoesFinanceirasController;
+use App\Controller\RelPlanosPermissoesController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\OperacoesFinanceirasController Test Case
+ * App\Controller\RelPlanosPermissoesController Test Case
  *
- * @uses \App\Controller\OperacoesFinanceirasController
+ * @uses \App\Controller\RelPlanosPermissoesController
  */
-class OperacoesFinanceirasControllerTest extends TestCase
+class RelPlanosPermissoesControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
@@ -22,12 +22,9 @@ class OperacoesFinanceirasControllerTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.OperacoesFinanceiras',
-        'app.Usuarios',
-        'app.CnpjFundos',
-        'app.DistribuidorFundos',
-        'app.TipoOperacoesFinanceiras',
-        'app.RelCarteirasOperacoes',
+        'app.RelPlanosPermissoes',
+        'app.TipoPlanos',
+        'app.Permissaos',
     ];
 
     /**

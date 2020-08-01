@@ -17,6 +17,8 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\CancelamentoFundo[] $cancelamento_fundos
  * @property \App\Model\Entity\DocExtratosFundo[] $doc_extratos_fundos
  * @property \App\Model\Entity\DocInfDiarioFundo[] $doc_inf_diario_fundos
+ * @property \App\Model\Entity\IndicadoresFundo[] $indicadores_fundos
+ * @property \App\Model\Entity\OperacoesFinanceira[] $operacoes_financeiras
  * @property \App\Model\Entity\SituacaoFundo[] $situacao_fundos
  */
 class CnpjFundo extends Entity
@@ -38,6 +40,8 @@ class CnpjFundo extends Entity
         'cancelamento_fundos' => true,
         'doc_extratos_fundos' => true,
         'doc_inf_diario_fundos' => true,
+        'indicadores_fundos' => true,
+        'operacoes_financeiras' => true,
         'situacao_fundos' => true,
     ];
 }

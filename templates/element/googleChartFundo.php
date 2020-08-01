@@ -27,13 +27,21 @@ if (!isset($dataType)) {
 ?>
 
 	function drawChart() {
-		var data = google.visualization.arrayToDataTable([
 <?php
+echo('var data = google.visualization.');
+echo ($dataType . '(');
+if ($dataType == 'arrayToDataTable') {
+	echo('[');
+} else { // $dataType == 'DataTable'
+	echo(');');
+}
 foreach ($data as $datum) {
 	echo $datum;
 }
+if ($dataType == 'arrayToDataTable') {
+	echo(']);');
+}
 ?>
-		]);
 
 		var options = {
 			//title: '<= $title ?>',
@@ -44,23 +52,23 @@ foreach ($data as $datum) {
 			legend: {position: 'top'},
 			hAxis: {title: '<?= $hAxisTitle ?>', titleTextStyle: {color: '#333'},
 				format: '<?= $hAxisFormat ?>', gridlines: {color: '#333', minSpacing: 60}, viewWindowMode: 'pretty'},
-			vAxis: {title: '<?= $vAxisTitle ?>', minValue: 0, format: '<?= $vAxisFormat ?>', viewWindowMode: 'pretty'}, //, gridlines: {color: '#333', minSpacing: 20}},
+			vAxis: {title: '<?= $vAxisTitle ?>', format: '<?= $vAxisFormat ?>', viewWindowMode: 'pretty'}, //, gridlines: {color: '#333', minSpacing: 20}},
 			//series: {2: {targetAxisIndex:1}},
 			//vAxes: {1: {title:'Patrimônio', textStyle: {color: 'red'}}},
 			areaOpacity: 0.2,
 			enableInteractivity: 'true',
+			lineWidth: 2,
+			//selectionMode: 'multiple',
+			aggregationTarget: 'category',
+			animation: {easing: 'inAndOut', duration: '2000', startup: 'true'},
+			sizeAxis: {minValue: 6, maxSize: 10},
+			bubble: {textStyle: {auraColor: 'yellow', fontSize: 10}},
 			focusTarget: <?php
 if ($chartType == 'Bubble')
 	echo("'datum'");
 else
 	echo("'category'");
 ?>,
-			lineWidth: 2,
-			//selectionMode: 'multiple',
-			aggregationTarget: 'category',
-			animation: {easing: 'in', duration: '200', startup: 'true'},
-			sizeAxis: {minValue: 6, maxSize: 10},
-			bubble: {textStyle: {auraColor: 'yellow', fontSize: 10}},
 		};
 
 		var chart = new google.visualization.<?= $chartType ?>Chart(document.getElementById('<?= $chart ?>'));

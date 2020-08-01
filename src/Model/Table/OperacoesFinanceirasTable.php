@@ -13,6 +13,9 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\UsuariosTable&\Cake\ORM\Association\BelongsTo $Usuarios
  * @property \App\Model\Table\CnpjFundosTable&\Cake\ORM\Association\BelongsTo $CnpjFundos
+ * @property \App\Model\Table\DistribuidorFundosTable&\Cake\ORM\Association\BelongsTo $DistribuidorFundos
+ * @property \App\Model\Table\TipoOperacoesFinanceirasTable&\Cake\ORM\Association\BelongsTo $TipoOperacoesFinanceiras
+ * @property \App\Model\Table\RelCarteirasOperacoesTable&\Cake\ORM\Association\HasMany $RelCarteirasOperacoes
  *
  * @method \App\Model\Entity\OperacoesFinanceira newEmptyEntity()
  * @method \App\Model\Entity\OperacoesFinanceira newEntity(array $data, array $options = [])

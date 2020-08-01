@@ -164,6 +164,7 @@ class UsuariosController extends AppController {
 					$words = explode(' ', $usuario['nome']);
 					$session->write('User.firstname', $words[0]);
 					$session->write('User.id', $usuario['id']);
+					$session->write('User.permissions', $usuario['id']);
 					return $this->redirect('/');
 				}
 			}

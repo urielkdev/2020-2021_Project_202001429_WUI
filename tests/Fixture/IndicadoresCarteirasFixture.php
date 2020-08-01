@@ -6,9 +6,9 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * IndicadoresFundosFixture
+ * IndicadoresCarteirasFixture
  */
-class IndicadoresFundosFixture extends TestFixture
+class IndicadoresCarteirasFixture extends TestFixture
 {
     /**
      * Fields
@@ -17,7 +17,7 @@ class IndicadoresFundosFixture extends TestFixture
      */
     // phpcs:disable
     public $fields = [
-        'cnpj_fundo_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'carteiras_investimento_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'periodo_meses' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'data_final' => ['type' => 'date', 'length' => null, 'null' => false, 'default' => 'current_timestamp()', 'comment' => '', 'precision' => null],
         'rentabilidade' => ['type' => 'decimal', 'length' => 27, 'precision' => 12, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => ''],
@@ -32,12 +32,11 @@ class IndicadoresFundosFixture extends TestFixture
         'beta' => ['type' => 'decimal', 'length' => 27, 'precision' => 12, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => ''],
         '_indexes' => [
             'IDX_DATA_FINAL' => ['type' => 'index', 'columns' => ['data_final'], 'length' => []],
-            'IDX_CNPJ' => ['type' => 'index', 'columns' => ['cnpj_fundo_id'], 'length' => []],
+            'IDX_CNPJ' => ['type' => 'index', 'columns' => ['carteiras_investimento_id'], 'length' => []],
         ],
         '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['cnpj_fundo_id', 'periodo_meses', 'data_final'], 'length' => []],
-            'UNIQUE_VALS' => ['type' => 'unique', 'columns' => ['cnpj_fundo_id', 'periodo_meses', 'data_final'], 'length' => []],
-            'cnpj_fundo_id' => ['type' => 'foreign', 'columns' => ['cnpj_fundo_id'], 'references' => ['cnpj_fundos', 'id'], 'update' => 'restrict', 'delete' => 'restrict', 'length' => []],
+            'primary' => ['type' => 'primary', 'columns' => ['carteiras_investimento_id', 'periodo_meses', 'data_final'], 'length' => []],
+            'UNIQUE_VALS' => ['type' => 'unique', 'columns' => ['carteiras_investimento_id', 'periodo_meses', 'data_final'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -54,7 +53,7 @@ class IndicadoresFundosFixture extends TestFixture
     {
         $this->records = [
             [
-                'cnpj_fundo_id' => 1,
+                'carteiras_investimento_id' => 1,
                 'periodo_meses' => 1,
                 'data_final' => '2020-08-01',
                 'rentabilidade' => 1.5,

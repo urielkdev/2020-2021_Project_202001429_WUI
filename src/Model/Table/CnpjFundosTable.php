@@ -15,6 +15,8 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\CancelamentoFundosTable&\Cake\ORM\Association\HasMany $CancelamentoFundos
  * @property \App\Model\Table\DocExtratosFundosTable&\Cake\ORM\Association\HasMany $DocExtratosFundos
  * @property \App\Model\Table\DocInfDiarioFundosTable&\Cake\ORM\Association\HasMany $DocInfDiarioFundos
+ * @property \App\Model\Table\IndicadoresFundosTable&\Cake\ORM\Association\HasMany $IndicadoresFundos
+ * @property \App\Model\Table\OperacoesFinanceirasTable&\Cake\ORM\Association\HasMany $OperacoesFinanceiras
  * @property \App\Model\Table\SituacaoFundosTable&\Cake\ORM\Association\HasMany $SituacaoFundos
  *
  * @method \App\Model\Entity\CnpjFundo newEmptyEntity()
@@ -57,6 +59,12 @@ class CnpjFundosTable extends Table
             'foreignKey' => 'cnpj_fundo_id',
         ]);
         $this->hasMany('DocInfDiarioFundos', [
+            'foreignKey' => 'cnpj_fundo_id',
+        ]);
+        $this->hasMany('IndicadoresFundos', [
+            'foreignKey' => 'cnpj_fundo_id',
+        ]);
+        $this->hasMany('OperacoesFinanceiras', [
             'foreignKey' => 'cnpj_fundo_id',
         ]);
         $this->hasMany('SituacaoFundos', [

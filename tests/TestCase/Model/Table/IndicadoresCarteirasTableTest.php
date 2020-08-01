@@ -3,21 +3,21 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\OperacoesFinanceirasTable;
+use App\Model\Table\IndicadoresCarteirasTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\OperacoesFinanceirasTable Test Case
+ * App\Model\Table\IndicadoresCarteirasTable Test Case
  */
-class OperacoesFinanceirasTableTest extends TestCase
+class IndicadoresCarteirasTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\OperacoesFinanceirasTable
+     * @var \App\Model\Table\IndicadoresCarteirasTable
      */
-    protected $OperacoesFinanceiras;
+    protected $IndicadoresCarteiras;
 
     /**
      * Fixtures
@@ -25,12 +25,9 @@ class OperacoesFinanceirasTableTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.OperacoesFinanceiras',
-        'app.Usuarios',
-        'app.CnpjFundos',
-        'app.DistribuidorFundos',
-        'app.TipoOperacoesFinanceiras',
-        'app.RelCarteirasOperacoes',
+        'app.IndicadoresCarteiras',
+        'app.CarteirasInvestimentos',
+        'app.TipoBenchmarks',
     ];
 
     /**
@@ -41,8 +38,8 @@ class OperacoesFinanceirasTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('OperacoesFinanceiras') ? [] : ['className' => OperacoesFinanceirasTable::class];
-        $this->OperacoesFinanceiras = TableRegistry::getTableLocator()->get('OperacoesFinanceiras', $config);
+        $config = TableRegistry::getTableLocator()->exists('IndicadoresCarteiras') ? [] : ['className' => IndicadoresCarteirasTable::class];
+        $this->IndicadoresCarteiras = TableRegistry::getTableLocator()->get('IndicadoresCarteiras', $config);
     }
 
     /**
@@ -52,7 +49,7 @@ class OperacoesFinanceirasTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->OperacoesFinanceiras);
+        unset($this->IndicadoresCarteiras);
 
         parent::tearDown();
     }

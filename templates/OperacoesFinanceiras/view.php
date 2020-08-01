@@ -27,16 +27,16 @@
                     <td><?= $operacoesFinanceira->has('cnpj_fundo') ? $this->Html->link($operacoesFinanceira->cnpj_fundo->id, ['controller' => 'CnpjFundos', 'action' => 'view', $operacoesFinanceira->cnpj_fundo->id]) : '' ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Distribuidor Fundo') ?></th>
+                    <td><?= $operacoesFinanceira->has('distribuidor_fundo') ? $this->Html->link($operacoesFinanceira->distribuidor_fundo->id, ['controller' => 'DistribuidorFundos', 'action' => 'view', $operacoesFinanceira->distribuidor_fundo->id]) : '' ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Tipo Operacoes Financeira') ?></th>
+                    <td><?= $operacoesFinanceira->has('tipo_operacoes_financeira') ? $this->Html->link($operacoesFinanceira->tipo_operacoes_financeira->id, ['controller' => 'TipoOperacoesFinanceiras', 'action' => 'view', $operacoesFinanceira->tipo_operacoes_financeira->id]) : '' ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Id') ?></th>
                     <td><?= $this->Number->format($operacoesFinanceira->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Distribuidor Fundo Id') ?></th>
-                    <td><?= $this->Number->format($operacoesFinanceira->distribuidor_fundo_id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Tipo Operacoes Financeira Id') ?></th>
-                    <td><?= $this->Number->format($operacoesFinanceira->tipo_operacoes_financeira_id) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Valor Total') ?></th>
@@ -59,6 +59,31 @@
                     <td><?= $operacoesFinanceira->por_valor ? __('Yes') : __('No'); ?></td>
                 </tr>
             </table>
+            <div class="related">
+                <h4><?= __('Related Rel Carteiras Operacoes') ?></h4>
+                <?php if (!empty($operacoesFinanceira->rel_carteiras_operacoes)) : ?>
+                <div class="table-responsive">
+                    <table>
+                        <tr>
+                            <th><?= __('Carteiras Investimento Id') ?></th>
+                            <th><?= __('Operacoes Financeira Id') ?></th>
+                            <th class="actions"><?= __('Actions') ?></th>
+                        </tr>
+                        <?php foreach ($operacoesFinanceira->rel_carteiras_operacoes as $relCarteirasOperacoes) : ?>
+                        <tr>
+                            <td><?= h($relCarteirasOperacoes->carteiras_investimento_id) ?></td>
+                            <td><?= h($relCarteirasOperacoes->operacoes_financeira_id) ?></td>
+                            <td class="actions">
+                                <?= $this->Html->link(__('View'), ['controller' => 'RelCarteirasOperacoes', 'action' => 'view', $relCarteirasOperacoes->carteiras_investimento_id]) ?>
+                                <?= $this->Html->link(__('Edit'), ['controller' => 'RelCarteirasOperacoes', 'action' => 'edit', $relCarteirasOperacoes->carteiras_investimento_id]) ?>
+                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'RelCarteirasOperacoes', 'action' => 'delete', $relCarteirasOperacoes->carteiras_investimento_id], ['confirm' => __('Are you sure you want to delete # {0}?', $relCarteirasOperacoes->carteiras_investimento_id)]) ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>

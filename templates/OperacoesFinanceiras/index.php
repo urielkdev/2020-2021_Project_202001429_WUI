@@ -30,8 +30,8 @@
                     <td><?= $this->Number->format($operacoesFinanceira->id) ?></td>
                     <td><?= $operacoesFinanceira->has('usuario') ? $this->Html->link($operacoesFinanceira->usuario->nome, ['controller' => 'Usuarios', 'action' => 'view', $operacoesFinanceira->usuario->id]) : '' ?></td>
                     <td><?= $operacoesFinanceira->has('cnpj_fundo') ? $this->Html->link($operacoesFinanceira->cnpj_fundo->id, ['controller' => 'CnpjFundos', 'action' => 'view', $operacoesFinanceira->cnpj_fundo->id]) : '' ?></td>
-                    <td><?= $this->Number->format($operacoesFinanceira->distribuidor_fundo_id) ?></td>
-                    <td><?= $this->Number->format($operacoesFinanceira->tipo_operacoes_financeira_id) ?></td>
+                    <td><?= $operacoesFinanceira->has('distribuidor_fundo') ? $this->Html->link($operacoesFinanceira->distribuidor_fundo->id, ['controller' => 'DistribuidorFundos', 'action' => 'view', $operacoesFinanceira->distribuidor_fundo->id]) : '' ?></td>
+                    <td><?= $operacoesFinanceira->has('tipo_operacoes_financeira') ? $this->Html->link($operacoesFinanceira->tipo_operacoes_financeira->id, ['controller' => 'TipoOperacoesFinanceiras', 'action' => 'view', $operacoesFinanceira->tipo_operacoes_financeira->id]) : '' ?></td>
                     <td><?= h($operacoesFinanceira->por_valor) ?></td>
                     <td><?= $this->Number->format($operacoesFinanceira->valor_total) ?></td>
                     <td><?= $this->Number->format($operacoesFinanceira->valor_cota) ?></td>

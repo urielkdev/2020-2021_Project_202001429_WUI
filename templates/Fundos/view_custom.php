@@ -176,7 +176,7 @@
 						<div id="chart2_div" style="width: 100%; height: 400px;"></div>
 					</div>
 				</div>
-				
+
 
 				<div class="row">
 					<div class="column-graph">
@@ -213,7 +213,7 @@
 						$data = array();
 						$data[] = "['Data', 'Volatilidade'],";
 						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
-							$data[] = "['" . $docInfDiarioFundos['DT_COMPTC'] . "'," . "0],"; //$docInfDiarioFundos['volat_diaria'] . "],";
+							$data[] = "['" . $docInfDiarioFundos['DT_COMPTC'] . "'," . $docInfDiarioFundos['volat_diaria'] . "],";
 						}
 						echo$this->element('googleChartFundo', array('data' => $data, 'title' => '', 'vAxisTitle' => '', 'vAxisFormat' => 'percent', 'chart' => 'chart5_div'));
 						?>
@@ -224,17 +224,17 @@
 						<?php
 						echo$this->element('titleInfo', array('title' => __('Retorno x Risco'), 'align' => 'center', 'tam' => 4, 'info' => __('A relação entre o retorno esperado e o risco de um investimento fé um indicador que permite avaliar se um fundo "vale a pena" ou não. Riscos mais altos devem ser recompensados com um retorno maior. Se o aumento do risco não estiver associado a um retorno maior, o investimento pode não ser interessante...')));
 						$data = array();
-						$data[] = "['ID', 'Retorno', 'Risco'],";
+						$data[] = "['ID', 'Risco', 'Retorno'],";
 						foreach ($indicadores as $indicador) {
-							$data[] = "['" . $indicador['periodo_meses'] . "'," . $indicador['rentabilidade'].",". $indicador['desvio_padrao'] . "],";
+							$data[] = "['" . $indicador['periodo_meses'] . "'," . $indicador['desvio_padrao'] . "," . $indicador['rentabilidade'] . "],";
 						}
-						echo$this->element('googleChartFundo', array('data' => $data, 'title' => '', 'vAxisTitle' => 'Retorno', 'vAxisFormat' => '', 'hAxisTitle'=>'Risco', 'hAxisFormat'=>'', 'chartType'=>'Bubble', 'chart' => 'chart6_div'));
+						echo$this->element('googleChartFundo', array('data' => $data, 'title' => '', 'vAxisTitle' => 'Retorno', 'vAxisFormat' => 'percent', 'hAxisTitle' => 'Risco', 'hAxisFormat' => 'percent', 'chartType' => 'Bubble', 'chart' => 'chart6_div'));
 						?>
 						<div id="chart6_div" style="width: 100%; height: 400px;"></div>
-					</div>
-							
-			</div>				
+					</div>				
+				</div>		
+				
+			</div>
 		</div>
 	</div>
-</div>
 </div>

@@ -21,7 +21,9 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Usuario $usuario
  * @property \App\Model\Entity\CnpjFundo $cnpj_fundo
- * @property \App\Model\Entity\Distribuidora $distribuidora
+ * @property \App\Model\Entity\DistribuidorFundo $distribuidor_fundo
+ * @property \App\Model\Entity\TipoOperacoesFinanceira $tipo_operacoes_financeira
+ * @property \App\Model\Entity\RelCarteirasOperaco[] $rel_carteiras_operacoes
  */
 class OperacoesFinanceira extends Entity
 {
@@ -46,6 +48,8 @@ class OperacoesFinanceira extends Entity
         'data' => true,
         'usuario' => true,
         'cnpj_fundo' => true,
-        'distribuidora' => true,
+        'distribuidor_fundo' => true,
+        'tipo_operacoes_financeira' => true,
+        'rel_carteiras_operacoes' => true,
     ];
 }

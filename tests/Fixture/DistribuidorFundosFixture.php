@@ -43,7 +43,7 @@ class DistribuidorFundosFixture extends TestFixture
                 'id' => 1,
                 'cnpj' => 'Lorem ipsum dolor ',
                 'nome' => 'Lorem ipsum dolor sit amet',
-                'DT_REG_CVM' => '2020-07-30',
+                'DT_REG_CVM' => '2020-08-01',
             ],
         ];
         parent::init();

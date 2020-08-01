@@ -19,8 +19,8 @@
                 <?php
                     echo $this->Form->control('usuario_id', ['options' => $usuarios]);
                     echo $this->Form->control('cnpj_fundo_id', ['options' => $cnpjFundos]);
-                    echo $this->Form->control('distribuidor_fundo_id');
-                    echo $this->Form->control('tipo_operacoes_financeira_id');
+                    echo $this->Form->control('distribuidor_fundo_id', ['options' => $distribuidorFundos, 'empty' => true]);
+                    echo $this->Form->control('tipo_operacoes_financeira_id', ['options' => $tipoOperacoesFinanceiras]);
                     echo $this->Form->control('por_valor');
                     echo $this->Form->control('valor_total');
                     echo $this->Form->control('valor_cota');
