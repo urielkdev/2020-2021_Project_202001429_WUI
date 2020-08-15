@@ -33,7 +33,7 @@ class PermissoesController extends AppController
     public function view($id = null)
     {
         $permisso = $this->Permissoes->get($id, [
-            'contain' => [],
+            'contain' => ['TipoPlanos'],
         ]);
 
         $this->set(compact('permisso'));

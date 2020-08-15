@@ -36,7 +36,7 @@
                     <td><?= h($usuario->dt_nasc) ?></td>
                     <td><?= h($usuario->senha) ?></td>
                     <td><?= h($usuario->dt_reg) ?></td>
-                    <td><?= $usuario->has('tipo_plano') ? $this->Html->link($usuario->tipo_plano->id, ['controller' => 'TipoPlanos', 'action' => 'view', $usuario->tipo_plano->id]) : '' ?></td>
+                    <td><?= $usuario->has('tipo_plano') ? $this->Html->link($usuario->tipo_plano->nome, ['controller' => 'TipoPlanos', 'action' => 'view', $usuario->tipo_plano->id]) : '' ?></td>
                     <td><?= $usuario->has('tipo_etapas_registro') ? $this->Html->link($usuario->tipo_etapas_registro->id, ['controller' => 'TipoEtapasRegistros', 'action' => 'view', $usuario->tipo_etapas_registro->id]) : '' ?></td>
                     <td><?= h($usuario->coment) ?></td>
                     <td><?= h($usuario->created) ?></td>
@@ -59,6 +59,6 @@
             <?= $this->Paginator->next(__('next') . ' >') ?>
             <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) do total de {{count}}')) ?></p>
+        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
     </div>
 </div>

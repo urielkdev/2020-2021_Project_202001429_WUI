@@ -23,6 +23,7 @@ class TipoPlanosControllerTest extends TestCase
      */
     protected $fixtures = [
         'app.TipoPlanos',
+        'app.Permissaos',
         'app.Usuarios',
     ];
 

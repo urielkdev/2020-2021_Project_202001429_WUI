@@ -26,6 +26,7 @@ class PermissoesTableTest extends TestCase
      */
     protected $fixtures = [
         'app.Permissoes',
+        'app.TipoPlanos',
     ];
 
     /**

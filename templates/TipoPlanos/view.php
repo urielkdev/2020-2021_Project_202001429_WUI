@@ -16,7 +16,7 @@
     </aside>
     <div class="column-responsive column-80">
         <div class="tipoPlanos view content">
-            <h3><?= h($tipoPlano->id) ?></h3>
+            <h3><?= h($tipoPlano->nome) ?></h3>
             <table>
                 <tr>
                     <th><?= __('Nome') ?></th>
@@ -25,6 +25,10 @@
                 <tr>
                     <th><?= __('Descricao') ?></th>
                     <td><?= h($tipoPlano->descricao) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Permissao') ?></th>
+                    <td><?= $tipoPlano->has('permissao') ? $this->Html->link($tipoPlano->permissao->id, ['controller' => 'Permissaos', 'action' => 'view', $tipoPlano->permissao->id]) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Id') ?></th>

@@ -24,6 +24,8 @@
                 <?php
                     echo $this->Form->control('fase');
                     echo $this->Form->control('etapa');
+                    echo $this->Form->control('podeLogar');
+                    echo $this->Form->control('podeInvestir');
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

@@ -1,0 +1,5 @@
+msgid "Administração"
+msgstr "bla bla"
+
+msgid "Entrar"
+msgstr "EEEEE"

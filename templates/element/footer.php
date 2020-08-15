@@ -8,7 +8,7 @@
         <div class="row">
             <div class="column">
                 <small>
-                    Projeto InvestFunds
+                    Projeto <?php echo$this->element('nomeApp', ['showColor'=> false]); ?>
                 </small>
             </div>
             <div class="column">

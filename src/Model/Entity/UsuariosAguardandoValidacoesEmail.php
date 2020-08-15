@@ -6,15 +6,13 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * RelPlanosPermisso Entity
+ * UsuariosAguardandoValidacoesEmail Entity
  *
- * @property int $tipo_plano_id
- * @property int $permissao_id
- *
- * @property \App\Model\Entity\TipoPlano $tipo_plano
- * @property \App\Model\Entity\Permissao $permissao
+ * @property int $usuarios_id
+ * @property string $codigo_validacao
+ * @property \Cake\I18n\FrozenTime $data_envio_email
  */
-class RelPlanosPermisso extends Entity
+class UsuariosAguardandoValidacoesEmail extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -26,7 +24,7 @@ class RelPlanosPermisso extends Entity
      * @var array
      */
     protected $_accessible = [
-        'tipo_plano' => true,
-        'permissao' => true,
+        'codigo_validacao' => true,
+        'data_envio_email' => true,
     ];
 }

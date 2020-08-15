@@ -43,7 +43,7 @@ class CnpjFundosFixture extends TestFixture
                 'id' => 1,
                 'CNPJ' => 'Lorem ipsum dolor ',
                 'DENOM_SOCIAL' => 'Lorem ipsum dolor sit amet',
-                'DT_REG_CVM' => '2020-08-01',
+                'DT_REG_CVM' => '2020-08-02',
             ],
         ];
         parent::init();

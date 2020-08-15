@@ -30,6 +30,14 @@
                     <th><?= __('Fase') ?></th>
                     <td><?= $this->Number->format($tipoEtapasRegistro->fase) ?></td>
                 </tr>
+                <tr>
+                    <th><?= __('PodeLogar') ?></th>
+                    <td><?= $tipoEtapasRegistro->podeLogar ? __('Yes') : __('No'); ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('PodeInvestir') ?></th>
+                    <td><?= $tipoEtapasRegistro->podeInvestir ? __('Yes') : __('No'); ?></td>
+                </tr>
             </table>
             <div class="related">
                 <h4><?= __('Related Usuarios') ?></h4>

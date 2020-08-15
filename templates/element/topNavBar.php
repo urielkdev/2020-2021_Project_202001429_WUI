@@ -18,8 +18,8 @@
 			<div class="dropdown">
 				<button class="dropbtn">Olá, <?= $firstname ?></button>
 				<div class="dropdown-content">
-					<a href="/Usuarios/conta">Conta e dados pessoais</a>
-					<a href="/Usuarios/perfil_investidor">Perfil do investidor</a>
+					<a href='/Usuarios/view/<?=$session->read('User.id')?>'>Conta e dados pessoais</a>
+					<a href="/Admin/usuarios_perfil_investidor">Perfil do investidor</a>
 					<a href="/Usuarios/logout">Sair</a>
 				</div>
 			</div> 

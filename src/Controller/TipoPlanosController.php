@@ -18,6 +18,9 @@ class TipoPlanosController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Permissaos'],
+        ];
         $tipoPlanos = $this->paginate($this->TipoPlanos);
 
         $this->set(compact('tipoPlanos'));
@@ -33,7 +36,7 @@ class TipoPlanosController extends AppController
     public function view($id = null)
     {
         $tipoPlano = $this->TipoPlanos->get($id, [
-            'contain' => ['Usuarios'],
+            'contain' => ['Permissaos', 'Usuarios'],
         ]);
 
         $this->set(compact('tipoPlano'));
@@ -56,7 +59,8 @@ class TipoPlanosController extends AppController
             }
             $this->Flash->error(__('The tipo plano could not be saved. Please, try again.'));
         }
-        $this->set(compact('tipoPlano'));
+        $permissaos = $this->TipoPlanos->Permissaos->find('list', ['limit' => 200]);
+        $this->set(compact('tipoPlano', 'permissaos'));
     }
 
     /**
@@ -80,7 +84,8 @@ class TipoPlanosController extends AppController
             }
             $this->Flash->error(__('The tipo plano could not be saved. Please, try again.'));
         }
-        $this->set(compact('tipoPlano'));
+        $permissaos = $this->TipoPlanos->Permissaos->find('list', ['limit' => 200]);
+        $this->set(compact('tipoPlano', 'permissaos'));
     }
 
     /**

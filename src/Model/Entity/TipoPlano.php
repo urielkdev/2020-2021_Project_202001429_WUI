@@ -11,7 +11,9 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $nome
  * @property string $descricao
+ * @property int $permissao_id
  *
+ * @property \App\Model\Entity\Permissao $permissao
  * @property \App\Model\Entity\Usuario[] $usuarios
  */
 class TipoPlano extends Entity
@@ -28,6 +30,8 @@ class TipoPlano extends Entity
     protected $_accessible = [
         'nome' => true,
         'descricao' => true,
+        'permissao_id' => true,
+        'permissao' => true,
         'usuarios' => true,
     ];
 }

@@ -28,6 +28,8 @@ class UsuariosTableTest extends TestCase
         'app.Usuarios',
         'app.TipoPlanos',
         'app.TipoEtapasRegistros',
+        'app.CarteirasInvestimentos',
+        'app.OperacoesFinanceiras',
     ];
 
     /**

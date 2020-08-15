@@ -11,7 +11,7 @@ if (!Configure::read('debug')) :
 	);
 endif;
 
-$cakeDescription = 'InvestFunds';
+$cakeDescription = 'FundosInvest';
 ?>
 <!DOCTYPE html>
 <html>
@@ -37,7 +37,7 @@ $cakeDescription = 'InvestFunds';
 		<?php echo$this->element('topNavBar'); ?>
         <header>
 			<div class="container text-center">
-				<h1 class="top-nav-title">Bem-vindo ao <?php echo$this->element('nomeApp'); ?></h1>
+				<h1 class="top-nav-title">Bem-vindo ao <?php echo$this->element('nomeApp', ['showVersion' => true]); ?></h1>
 				<h3>Serviço web para auxílio à escolha de fundos de investimento para investidores inexperientes</h3>
 				<!--<h2>OUSE</h2>-->
 			</div>
@@ -48,12 +48,7 @@ $cakeDescription = 'InvestFunds';
 					<?php echo$this->element('home_texto_intro'); ?>
                     <hr>
 					<?php echo$this->element('servicos_disponiveis'); ?>
-                    <hr>
-					<?php echo$this->element('links_uteis'); ?>
                 </div>
-                <!--
-				<hr>
-                <?ph echo$this->element('disponibilidade_servicos'); !> -->
             </div>
         </div>
     </main>

@@ -24,6 +24,7 @@
                 <?php
                     echo $this->Form->control('nome');
                     echo $this->Form->control('descricao');
+                    echo $this->Form->control('permissao_id', ['options' => $permissaos]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

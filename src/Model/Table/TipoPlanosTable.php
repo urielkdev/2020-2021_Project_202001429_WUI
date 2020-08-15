@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
 /**
  * TipoPlanos Model
  *
+ * @property \App\Model\Table\PermissaosTable&\Cake\ORM\Association\BelongsTo $Permissaos
  * @property \App\Model\Table\UsuariosTable&\Cake\ORM\Association\HasMany $Usuarios
  *
  * @method \App\Model\Entity\TipoPlano newEmptyEntity()
@@ -43,6 +44,10 @@ class TipoPlanosTable extends Table
         $this->setDisplayField('nome');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Permissaos', [
+            'foreignKey' => 'permissao_id',
+            'joinType' => 'INNER',
+        ]);
         $this->hasMany('Usuarios', [
             'foreignKey' => 'tipo_plano_id',
         ]);
@@ -73,5 +78,19 @@ class TipoPlanosTable extends Table
             ->notEmptyString('descricao');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['permissao_id'], 'Permissaos'));
+
+        return $rules;
     }
 }

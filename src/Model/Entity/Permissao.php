@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Permisso Entity
+ * Permissao Entity
  *
  * @property int $id
  * @property bool $supor_fck_root
@@ -17,8 +17,10 @@ use Cake\ORM\Entity;
  * @property bool $usuarios_mng
  * @property bool $tipos_mng
  * @property bool $rel_mng
+ *
+ * @property \App\Model\Entity\TipoPlano[] $tipo_planos
  */
-class Permisso extends Entity
+class Permissao extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -38,5 +40,6 @@ class Permisso extends Entity
         'usuarios_mng' => true,
         'tipos_mng' => true,
         'rel_mng' => true,
+        'tipo_planos' => true,
     ];
 }

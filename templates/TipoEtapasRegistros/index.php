@@ -14,6 +14,8 @@
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('fase') ?></th>
                     <th><?= $this->Paginator->sort('etapa') ?></th>
+                    <th><?= $this->Paginator->sort('podeLogar') ?></th>
+                    <th><?= $this->Paginator->sort('podeInvestir') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -23,6 +25,8 @@
                     <td><?= $this->Number->format($tipoEtapasRegistro->id) ?></td>
                     <td><?= $this->Number->format($tipoEtapasRegistro->fase) ?></td>
                     <td><?= h($tipoEtapasRegistro->etapa) ?></td>
+                    <td><?= h($tipoEtapasRegistro->podeLogar) ?></td>
+                    <td><?= h($tipoEtapasRegistro->podeInvestir) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['action' => 'view', $tipoEtapasRegistro->id]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $tipoEtapasRegistro->id]) ?>
@@ -41,6 +45,6 @@
             <?= $this->Paginator->next(__('next') . ' >') ?>
             <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) do total de {{count}}')) ?></p>
+        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
     </div>
 </div>

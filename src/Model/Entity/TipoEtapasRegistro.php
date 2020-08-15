@@ -11,6 +11,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $fase
  * @property string $etapa
+ * @property bool $podeLogar
+ * @property bool $podeInvestir
  *
  * @property \App\Model\Entity\Usuario[] $usuarios
  */
@@ -28,6 +30,8 @@ class TipoEtapasRegistro extends Entity
     protected $_accessible = [
         'fase' => true,
         'etapa' => true,
+        'podeLogar' => true,
+        'podeInvestir' => true,
         'usuarios' => true,
     ];
 }

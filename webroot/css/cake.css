@@ -21,6 +21,11 @@ a {
     transition:all 0.2s linear;
 }
 
+
+.error-message {
+    color:#ff0000;	
+}
+
 a:hover,
 a:focus,
 a:active  {

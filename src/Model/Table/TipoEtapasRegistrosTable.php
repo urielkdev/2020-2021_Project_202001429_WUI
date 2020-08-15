@@ -71,6 +71,16 @@ class TipoEtapasRegistrosTable extends Table
             ->requirePresence('etapa', 'create')
             ->notEmptyString('etapa');
 
+        $validator
+            ->boolean('podeLogar')
+            ->requirePresence('podeLogar', 'create')
+            ->notEmptyString('podeLogar');
+
+        $validator
+            ->boolean('podeInvestir')
+            ->requirePresence('podeInvestir', 'create')
+            ->notEmptyString('podeInvestir');
+
         return $validator;
     }
 }

@@ -105,7 +105,7 @@ return [
 		 */
 		'_cake_core_' => [
 			'className' => FileEngine::class,
-			'prefix' => 'investFunds_cake_core_',
+			'prefix' => 'fundosinvest_cake_core_',
 			'path' => CACHE . 'persistent' . DS,
 			'serialize' => true,
 			'duration' => '+1 years',
@@ -119,7 +119,7 @@ return [
 		 */
 		'_cake_model_' => [
 			'className' => FileEngine::class,
-			'prefix' => 'investFunds_cake_model_',
+			'prefix' => 'fundosinvest_cake_model_',
 			'path' => CACHE . 'models' . DS,
 			'serialize' => true,
 			'duration' => '+1 years',
@@ -132,7 +132,7 @@ return [
 		 */
 		'_cake_routes_' => [
 			'className' => FileEngine::class,
-			'prefix' => 'investFunds_cake_routes_',
+			'prefix' => 'fundosinvest_cake_routes_',
 			'path' => CACHE,
 			'serialize' => true,
 			'duration' => '+1 years',
@@ -211,23 +211,29 @@ return [
 	 */
 	'EmailTransport' => [
 		'default' => [
-			'className' => MailTransport::class,
-			/*
-			 * The keys host, port, timeout, username, password, client and tls
-			 * are used in SMTP transports
-			 */
-			'host' => 'localhost',
-			'port' => 25,
+			'className' => 'Smtp',
+			'host' => 'smtp.gmail.com',
+			'port' => 587,
 			'timeout' => 30,
-			/*
-			 * It is recommended to set these options through your environment or app_local.php
-			 */
-			//'username' => null,
-			//'password' => null,
+			'username' => 'fundos.invest.rlc@gmail.com',
+			'password' => 'senhadofundosinvest',
 			'client' => null,
-			'tls' => false,
+			'tls' => true,
 			'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
 		],
+	/*
+	  'default' => [
+	  'className' => MailTransport::class,
+	  'host' => 'smtp.gmail.com',
+	  'port' => 587,
+	  'timeout' => 30,
+	  'username' => 'fundos.invest.rlc@gmail.com',
+	  'password' => 'senhadofundosinvest',
+	  'client' => null,
+	  'tls' => true,
+	  'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+	  ],
+	 */
 	],
 	/*
 	 * Email delivery profiles
@@ -241,7 +247,7 @@ return [
 	'Email' => [
 		'default' => [
 			'transport' => 'default',
-			'from' => 'you@localhost',
+			'from' => 'fundos.invest.rlc@gmail.com',
 		/*
 		 * Will by default be set to config value of App.encoding, if that exists otherwise to UTF-8.
 		 */
@@ -401,26 +407,25 @@ return [
 			'model' => 'Session',
 		]
 	],
-	
-	/*
-	 * 
-	 */
-	/*
-	'Cache' => [
-		'apc' => ['engine' => 'Apc'],
-		'short' => [
-			'className' => 'File',
-			'duration' => '+1 hours',
-			'path' => CACHE,
-			'prefix' => 'cake_short_'
-		],
-		// Using a fully namespaced name.
-		'long' => [
-			'className' => 'Cake\Cache\Engine\FileEngine',
-			'duration' => '+1 week',
-			'probability' => 100,
-			'path' => CACHE . 'long' . DS,
-		]
-	],
-	 */
+		/*
+		 * 
+		 */
+		/*
+		  'Cache' => [
+		  'apc' => ['engine' => 'Apc'],
+		  'short' => [
+		  'className' => 'File',
+		  'duration' => '+1 hours',
+		  'path' => CACHE,
+		  'prefix' => 'cake_short_'
+		  ],
+		  // Using a fully namespaced name.
+		  'long' => [
+		  'className' => 'Cake\Cache\Engine\FileEngine',
+		  'duration' => '+1 week',
+		  'probability' => 100,
+		  'path' => CACHE . 'long' . DS,
+		  ]
+		  ],
+		 */
 ];

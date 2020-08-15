@@ -9,23 +9,25 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Permissoes Model
+ * Permissaos Model
  *
- * @method \App\Model\Entity\Permisso newEmptyEntity()
- * @method \App\Model\Entity\Permisso newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Permisso[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Permisso get($primaryKey, $options = [])
- * @method \App\Model\Entity\Permisso findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Permisso patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Permisso[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Permisso|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Permisso saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Permisso[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Permisso[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Permisso[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Permisso[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @property \App\Model\Table\TipoPlanosTable&\Cake\ORM\Association\HasMany $TipoPlanos
+ *
+ * @method \App\Model\Entity\Permissao newEmptyEntity()
+ * @method \App\Model\Entity\Permissao newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Permissao[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Permissao get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Permissao findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Permissao patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Permissao[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Permissao|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Permissao saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Permissao[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Permissao[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Permissao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Permissao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class PermissoesTable extends Table
+class PermissaosTable extends Table
 {
     /**
      * Initialize method
@@ -37,9 +39,13 @@ class PermissoesTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('permissoes');
+        $this->setTable('permissaos');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('TipoPlanos', [
+            'foreignKey' => 'permissao_id',
+        ]);
     }
 
     /**
