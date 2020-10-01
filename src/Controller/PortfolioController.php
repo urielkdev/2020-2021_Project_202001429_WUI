@@ -228,6 +228,8 @@ class PortfolioController extends AppController {
 		];
 		$retornoRiscoFundos = $this->paginate($RetornoRiscoFundos);
 		$this->set(compact('retornoRiscoFundos'));
+		//var_dump($retornoRiscoFundos);
+		//exit();
 
 		foreach ($RetornoRiscoFundos->find() as $fundo) {
 			$rentabFundos[] = $fundo->rentab_media;

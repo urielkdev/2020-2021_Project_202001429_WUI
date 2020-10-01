@@ -25,7 +25,7 @@ class CarteirasInvestimentosControllerTest extends TestCase
         'app.CarteirasInvestimentos',
         'app.Usuarios',
         'app.IndicadoresCarteiras',
-        'app.RelCarteirasOperacoes',
+        'app.OperacoesFinanceiras',
     ];
 
     /**

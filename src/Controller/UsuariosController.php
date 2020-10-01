@@ -1,14 +1,7 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
-
-use Cake\ORM\TableRegistry;
-use App\Controller\AppController;
-use Cake\Mailer\Mailer;
-
-//use App\Controller\TableRegistry;
 
 /**
  * Usuarios Controller
@@ -16,102 +9,108 @@ use Cake\Mailer\Mailer;
  * @property \App\Model\Table\UsuariosTable $Usuarios
  * @method \App\Model\Entity\Usuario[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class UsuariosController extends AppController {
+class UsuariosController extends AppController
+{
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function index()
+    {
+        $this->paginate = [
+            'contain' => ['TipoPlanos', 'TipoEtapasRegistros'],
+        ];
+        $usuarios = $this->paginate($this->Usuarios);
 
-	/**
-	 * Index method
-	 *
-	 * @return \Cake\Http\Response|null|void Renders view
-	 */
-	public function index() {
-		$this->paginate = [
-			'contain' => ['TipoPlanos', 'TipoEtapasRegistros'],
-		];
-		$usuarios = $this->paginate($this->Usuarios);
+        $this->set(compact('usuarios'));
+    }
 
-		$this->set(compact('usuarios'));
-	}
+    /**
+     * View method
+     *
+     * @param string|null $id Usuario id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $usuario = $this->Usuarios->get($id, [
+            'contain' => ['TipoPlanos', 'TipoEtapasRegistros', 'CarteirasInvestimentos'],
+        ]);
 
-	/**
-	 * View method
-	 *
-	 * @param string|null $id Usuario id.
-	 * @return \Cake\Http\Response|null|void Renders view
-	 * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-	 */
-	public function view($id = null) {
-		$usuario = $this->Usuarios->get($id, [
-			'contain' => ['TipoPlanos', 'TipoEtapasRegistros', 'CarteirasInvestimentos', 'OperacoesFinanceiras'],
-		]);
+        $this->set(compact('usuario'));
+    }
 
-		$this->set(compact('usuario'));
-	}
+    /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $usuario = $this->Usuarios->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $usuario = $this->Usuarios->patchEntity($usuario, $this->request->getData());
+            if ($this->Usuarios->save($usuario)) {
+                $this->Flash->success(__('The usuario has been saved.'));
 
-	/**
-	 * Add method
-	 *
-	 * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-	 */
-	public function add() {
-		$usuario = $this->Usuarios->newEmptyEntity();
-		if ($this->request->is('post')) {
-			$usuario = $this->Usuarios->patchEntity($usuario, $this->request->getData());
-			if ($this->Usuarios->save($usuario)) {
-				$this->Flash->success(__('The usuario has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The usuario could not be saved. Please, try again.'));
+        }
+        $tipoPlanos = $this->Usuarios->TipoPlanos->find('list', ['limit' => 200]);
+        $tipoEtapasRegistros = $this->Usuarios->TipoEtapasRegistros->find('list', ['limit' => 200]);
+        $this->set(compact('usuario', 'tipoPlanos', 'tipoEtapasRegistros'));
+    }
 
-				return $this->redirect(['action' => 'index']);
-			}
-			$this->Flash->error(__('The usuario could not be saved. Please, try again.'));
-		}
-		$tipoPlanos = $this->Usuarios->TipoPlanos->find('list', ['limit' => 200]);
-		$tipoEtapasRegistros = $this->Usuarios->TipoEtapasRegistros->find('list', ['limit' => 200]);
-		$this->set(compact('usuario', 'tipoPlanos', 'tipoEtapasRegistros'));
-	}
+    /**
+     * Edit method
+     *
+     * @param string|null $id Usuario id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $usuario = $this->Usuarios->get($id, [
+            'contain' => [],
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $usuario = $this->Usuarios->patchEntity($usuario, $this->request->getData());
+            if ($this->Usuarios->save($usuario)) {
+                $this->Flash->success(__('The usuario has been saved.'));
 
-	/**
-	 * Edit method
-	 *
-	 * @param string|null $id Usuario id.
-	 * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-	 * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-	 */
-	public function edit($id = null) {
-		$usuario = $this->Usuarios->get($id, [
-			'contain' => [],
-		]);
-		if ($this->request->is(['patch', 'post', 'put'])) {
-			$usuario = $this->Usuarios->patchEntity($usuario, $this->request->getData());
-			if ($this->Usuarios->save($usuario)) {
-				$this->Flash->success(__('The usuario has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The usuario could not be saved. Please, try again.'));
+        }
+        $tipoPlanos = $this->Usuarios->TipoPlanos->find('list', ['limit' => 200]);
+        $tipoEtapasRegistros = $this->Usuarios->TipoEtapasRegistros->find('list', ['limit' => 200]);
+        $this->set(compact('usuario', 'tipoPlanos', 'tipoEtapasRegistros'));
+    }
 
-				return $this->redirect(['action' => 'index']);
-			}
-			$this->Flash->error(__('The usuario could not be saved. Please, try again.'));
-		}
-		$tipoPlanos = $this->Usuarios->TipoPlanos->find('list', ['limit' => 200]);
-		$tipoEtapasRegistros = $this->Usuarios->TipoEtapasRegistros->find('list', ['limit' => 200]);
-		$this->set(compact('usuario', 'tipoPlanos', 'tipoEtapasRegistros'));
-	}
+    /**
+     * Delete method
+     *
+     * @param string|null $id Usuario id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $usuario = $this->Usuarios->get($id);
+        if ($this->Usuarios->delete($usuario)) {
+            $this->Flash->success(__('The usuario has been deleted.'));
+        } else {
+            $this->Flash->error(__('The usuario could not be deleted. Please, try again.'));
+        }
 
-	/**
-	 * Delete method
-	 *
-	 * @param string|null $id Usuario id.
-	 * @return \Cake\Http\Response|null|void Redirects to index.
-	 * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-	 */
-	public function delete($id = null) {
-		$this->request->allowMethod(['post', 'delete']);
-		$usuario = $this->Usuarios->get($id);
-		if ($this->Usuarios->delete($usuario)) {
-			$this->Flash->success(__('The usuario has been deleted.'));
-		} else {
-			$this->Flash->error(__('The usuario could not be deleted. Please, try again.'));
-		}
-
-		return $this->redirect(['action' => 'index']);
-	}
-
+        return $this->redirect(['action' => 'index']);
+    }
+	
+	
 	/*
 	 * ****************************************************************************************
 	 * ****************************************************************************************
@@ -121,21 +120,22 @@ class UsuariosController extends AppController {
 		//$session = $this->request->getSession();
 		if ($this->request->is('post')) {
 			$dadosLogin = $this->request->getData(); //$this->Usuarios->patchEntity($usuario, $this->request->getData());
-			$query = $this->Usuarios->find()->contain(['TipoPlanos', 'TipoEtapasRegistros'])->where('cpf=' . $dadosLogin['cpf']);
+			$query = $this->Usuarios->find()->contain(['TipoPlanos', 'TipoEtapasRegistros'])->where('cpf=' . $dadosLogin['username']);
 			$usuario = $query->first();
 			$session = $this->request->getSession();
 			if ($usuario != null) {
-				if ($dadosLogin['senha'] == $usuario['senha']) { //verifica que login e senha são válidos
+				if ($dadosLogin['password'] == $usuario['senha']) { //verifica que login e senha são válidos
 					// find
 					$podeLogar = $usuario['tipo_etapas_registro']['podeLogar'];
 					$this->set(compact('usuario'));
 					if ($podeLogar) { // se usuario já confirmou email e está em etapas mais avançadas do registro, então loga
 						$words = explode(' ', $usuario['nome']);
-						$session->write('User.firstname', $words[0]);
-						//$session->write('User', $usuario);
-						$session->write('User.id', $usuario['id']);
+						$session->write('User.firstname', $words[0]); // apenas para mostrar nome no canto superior direito
+						$session->write('User.nome', $usuario['nome']);
+						$session->write('User.id', $usuario['id']); // o mais importante
 						$session->write('User.plano', $usuario['tipo_plano_id']);
 						$session->write('User.etapa', $usuario['tipo_etapas_registro_id']);
+						$this->Flash->success(__('Seu login foi realizado com sucesso, {0}.', $words[0]));//,'.words[0]));
 						return $this->redirect('/');
 					} else { // mensagem de erro informando que precisa avançar no registro
 						$this->Flash->error(__('Você ainda não confirmou seu e-mail. Por favor, acesse a conta de e-mail cadastrada e clique no link na mensagem enviada a você.'));
@@ -237,8 +237,8 @@ class UsuariosController extends AppController {
 	}
 
 	public function register() {
-		var_dump($this->registerWaitingForUserToValidateCode(4));
-		exit();
+		//var_dump($this->registerWaitingForUserToValidateCode(4));
+		//exit();
 		$usuario = $this->Usuarios->newEmptyEntity();
 		if ($this->request->is('post')) {
 			$this->sendEmail();

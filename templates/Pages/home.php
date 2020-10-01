@@ -4,15 +4,11 @@ use Cake\Core\Configure;
 use Cake\Http\Exception\NotFoundException;
 
 $this->disableAutoLayout();
-
-if (!Configure::read('debug')) :
-	throw new NotFoundException(
-			'Please replace templates/Pages/home.php with your own version or re-enable debug mode.'
-	);
-endif;
-
 $cakeDescription = 'FundosInvest';
+$session = $this->request->getSession();
+$conectado = $session->read('User.id') != null;
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,25 +30,42 @@ $cakeDescription = 'FundosInvest';
     </head>
 
     <body>
-		<?php echo$this->element('topNavBar'); ?>
+		<?= $this->element('topNavBar') ?>
         <header>
 			<div class="container text-center">
-				<h1 class="top-nav-title">Bem-vindo ao <?php echo$this->element('nomeApp', ['showVersion' => true]); ?></h1>
+				<?php if (!$conectado) { ?>
+					<h1 class="top-nav-title">Bem-vindo ao <?= $this->element('nomeApp', ['showVersion' => true]) ?></h1>
+				<?php } else { ?>
+					<h1 class="top-nav-title">Bem-vindo de volta ao <?= $this->element('nomeApp', ['showVersion' => true]) ?>, <?= $session->read('User.firstname') ?></h1>
+				<?php } ?>
 				<h3>Serviço web para auxílio à escolha de fundos de investimento para investidores inexperientes</h3>
-				<!--<h2>OUSE</h2>-->
+				<?= $this->Flash->render() ?>
 			</div>
 		</header>
         <main class="main">
             <div class="container">
                 <div class="content">
-					<?php echo$this->element('home_texto_intro'); ?>
-                    <hr>
-					<?php echo$this->element('servicos_disponiveis'); ?>
+					<?= $this->element('home_texto_intro') ?>
+
+					<?php
+					if (!$conectado) {
+						?>
+						<br/>
+						<strong>
+							<a href="/Usuarios/login">Login</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;						
+							<a href="/Usuarios/register">Registrar</a><br/>							
+						</strong>
+					<?php } ?>
+					<hr>
+					<?= $this->element('avisoSistemaExperimental') ?>
+					<hr>
+					<?= $this->element('servicos_disponiveis') ?>
                 </div>
             </div>
         </div>
     </main>
-	<?php echo$this->element('footer'); ?>    
+	<?= $this->element('footer') ?>    
 	<ul id=menu>
 		<li><a href="">Precisa de Ajuda?</a>
 	</ul>

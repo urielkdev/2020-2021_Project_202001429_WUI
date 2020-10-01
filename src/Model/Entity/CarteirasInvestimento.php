@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Usuario $usuario
  * @property \App\Model\Entity\IndicadoresCarteira[] $indicadores_carteiras
- * @property \App\Model\Entity\RelCarteirasOperaco[] $rel_carteiras_operacoes
+ * @property \App\Model\Entity\OperacoesFinanceira[] $operacoes_financeiras
  */
 class CarteirasInvestimento extends Entity
 {
@@ -34,6 +34,6 @@ class CarteirasInvestimento extends Entity
         'descricao' => true,
         'usuario' => true,
         'indicadores_carteiras' => true,
-        'rel_carteiras_operacoes' => true,
+        'operacoes_financeiras' => true,
     ];
 }

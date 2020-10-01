@@ -15,23 +15,23 @@ use Cake\Validation\Validator;
 class FundosFiltroForm extends Form {
 
 	protected function _buildSchema(Schema $schema): Schema {
-		return $schema->addField('nome', 'string')
-						->addField('apenasEmFuncionamentoNormal', ['type' => 'boolean'])
-						->addField('classe', ['type' => 'select'])
-						->addField('aplicMin', ['type' => 'string'])
-						->addField('gestor', ['type' => 'string'])
-				;
+		return $schema->addField('nome', ['type' => 'text'])
+						->addField('administrador', ['type' => 'text'])
+						->addField('apenasFuncionando', ['type' => 'checkbox'])
+		;
 	}
 
 	public function validationDefault(Validator $validator): Validator {
 		$validator->minLength('nome', 0)
-				//->email('email')
-				;
+				->minLength('administrador', 0)
+				->allowEmptyString('nome')
+				->allowEmptyString('administrador')
+		//->email('email')
+		;
 		return $validator;
 	}
 
 	protected function _execute(array $data): bool {
-		// Send an email.
 		return true;
 	}
 

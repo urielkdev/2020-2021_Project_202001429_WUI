@@ -12,7 +12,7 @@
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('usuario_id') ?></th>
+                    <th><?= $this->Paginator->sort('carteiras_investimento_id') ?></th>
                     <th><?= $this->Paginator->sort('cnpj_fundo_id') ?></th>
                     <th><?= $this->Paginator->sort('distribuidor_fundo_id') ?></th>
                     <th><?= $this->Paginator->sort('tipo_operacoes_financeira_id') ?></th>
@@ -28,7 +28,7 @@
                 <?php foreach ($operacoesFinanceiras as $operacoesFinanceira): ?>
                 <tr>
                     <td><?= $this->Number->format($operacoesFinanceira->id) ?></td>
-                    <td><?= $operacoesFinanceira->has('usuario') ? $this->Html->link($operacoesFinanceira->usuario->nome, ['controller' => 'Usuarios', 'action' => 'view', $operacoesFinanceira->usuario->id]) : '' ?></td>
+                    <td><?= $operacoesFinanceira->has('carteiras_investimento') ? $this->Html->link($operacoesFinanceira->carteiras_investimento->id, ['controller' => 'CarteirasInvestimentos', 'action' => 'view', $operacoesFinanceira->carteiras_investimento->id]) : '' ?></td>
                     <td><?= $operacoesFinanceira->has('cnpj_fundo') ? $this->Html->link($operacoesFinanceira->cnpj_fundo->id, ['controller' => 'CnpjFundos', 'action' => 'view', $operacoesFinanceira->cnpj_fundo->id]) : '' ?></td>
                     <td><?= $operacoesFinanceira->has('distribuidor_fundo') ? $this->Html->link($operacoesFinanceira->distribuidor_fundo->id, ['controller' => 'DistribuidorFundos', 'action' => 'view', $operacoesFinanceira->distribuidor_fundo->id]) : '' ?></td>
                     <td><?= $operacoesFinanceira->has('tipo_operacoes_financeira') ? $this->Html->link($operacoesFinanceira->tipo_operacoes_financeira->id, ['controller' => 'TipoOperacoesFinanceiras', 'action' => 'view', $operacoesFinanceira->tipo_operacoes_financeira->id]) : '' ?></td>

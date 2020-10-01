@@ -12,12 +12,3 @@
 	Esse sistema web é o resultado de um projeto de extensão realizado pela Universidade Federal de Santa Catarina, cujo objetivo principal é ajudar pessoas que têm investido em opções tradicionais de baixo risco e que não tem muito conhecimento financeiro a escolherem de modo facilitado e instruído outros investimentos, especificamente fundos de investimento.
 	<!--/small-->
 </div>
-<hr>
-<div class="row">
-	<div class="column">
-		<div class="message default text-center">
-			O <?=$this->element('nomeApp', ['showColor' => false, 'showVersion' => true]);?> é um sistema experimental, ainda em desenvolvimento e, portanto, possivelmente instável ou com informações temporárias e inconsistentes (não confiáveis). Portanto, enquanto o sistema não estiver em sua versão estável (v1.0 ou superior), sempre verifique os dados fornecidos em outras plataformas antes de aceitar qualquer dado fornecido como verdadeiro. <br/>
-			Esse sistema visa auxiliar o investidor leigo, mas é de responsabilidade do investidor a decisão sobre aceitar ou não as sugestões fornecidas e também  é de sua responsabilidade tomar qualquer decisão sobre seus próprios investimentos.
-		</div>
-	</div>
-</div>

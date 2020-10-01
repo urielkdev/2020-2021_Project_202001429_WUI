@@ -40,7 +40,7 @@ class TipoEtapasRegistrosTable extends Table
         parent::initialize($config);
 
         $this->setTable('tipo_etapas_registros');
-        $this->setDisplayField('id');
+        $this->setDisplayField('etapa');
         $this->setPrimaryKey('id');
 
         $this->hasMany('Usuarios', [

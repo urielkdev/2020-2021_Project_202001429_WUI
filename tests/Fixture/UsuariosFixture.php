@@ -31,6 +31,7 @@ class UsuariosFixture extends TestFixture
         'modified' => ['type' => 'datetime', 'length' => null, 'precision' => null, 'null' => true, 'default' => 'current_timestamp()', 'comment' => ''],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            'UNIQUE_VALS' => ['type' => 'unique', 'columns' => ['cpf'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -51,14 +52,14 @@ class UsuariosFixture extends TestFixture
                 'cpf' => 'Lorem ips',
                 'nome' => 'Lorem ipsum dolor sit amet',
                 'email' => 'Lorem ipsum dolor sit amet',
-                'dt_nasc' => '2020-08-02',
+                'dt_nasc' => '2020-08-31',
                 'senha' => '',
-                'dt_reg' => '2020-08-02',
+                'dt_reg' => '2020-08-31',
                 'tipo_plano_id' => 1,
                 'tipo_etapas_registro_id' => 1,
                 'coment' => 'Lorem ipsum dolor sit amet',
-                'created' => '2020-08-02 07:59:42',
-                'modified' => '2020-08-02 07:59:42',
+                'created' => '2020-08-31 22:50:51',
+                'modified' => '2020-08-31 22:50:51',
             ],
         ];
         parent::init();

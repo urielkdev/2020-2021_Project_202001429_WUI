@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\UsuariosTable;
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -29,7 +28,6 @@ class UsuariosTableTest extends TestCase
         'app.TipoPlanos',
         'app.TipoEtapasRegistros',
         'app.CarteirasInvestimentos',
-        'app.OperacoesFinanceiras',
     ];
 
     /**
@@ -40,8 +38,8 @@ class UsuariosTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('Usuarios') ? [] : ['className' => UsuariosTable::class];
-        $this->Usuarios = TableRegistry::getTableLocator()->get('Usuarios', $config);
+        $config = $this->getTableLocator()->exists('Usuarios') ? [] : ['className' => UsuariosTable::class];
+        $this->Usuarios = $this->getTableLocator()->get('Usuarios', $config);
     }
 
     /**

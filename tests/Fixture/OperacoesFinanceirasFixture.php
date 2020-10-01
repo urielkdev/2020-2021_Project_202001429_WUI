@@ -18,7 +18,7 @@ class OperacoesFinanceirasFixture extends TestFixture
     // phpcs:disable
     public $fields = [
         'id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'usuario_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'carteiras_investimento_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'cnpj_fundo_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'distribuidor_fundo_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'tipo_operacoes_financeira_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
@@ -46,7 +46,7 @@ class OperacoesFinanceirasFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'usuario_id' => 1,
+                'carteiras_investimento_id' => 1,
                 'cnpj_fundo_id' => 1,
                 'distribuidor_fundo_id' => 1,
                 'tipo_operacoes_financeira_id' => 1,
@@ -54,7 +54,7 @@ class OperacoesFinanceirasFixture extends TestFixture
                 'valor_total' => 1,
                 'valor_cota' => 1,
                 'quantidade_cotas' => 1,
-                'data' => '2020-08-01',
+                'data' => '2020-08-31',
             ],
         ];
         parent::init();

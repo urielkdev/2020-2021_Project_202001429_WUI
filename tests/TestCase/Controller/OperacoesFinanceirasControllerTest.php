@@ -23,11 +23,10 @@ class OperacoesFinanceirasControllerTest extends TestCase
      */
     protected $fixtures = [
         'app.OperacoesFinanceiras',
-        'app.Usuarios',
+        'app.CarteirasInvestimentos',
         'app.CnpjFundos',
         'app.DistribuidorFundos',
         'app.TipoOperacoesFinanceiras',
-        'app.RelCarteirasOperacoes',
     ];
 
     /**

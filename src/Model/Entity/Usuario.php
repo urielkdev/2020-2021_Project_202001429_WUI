@@ -24,7 +24,6 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\TipoPlano $tipo_plano
  * @property \App\Model\Entity\TipoEtapasRegistro $tipo_etapas_registro
  * @property \App\Model\Entity\CarteirasInvestimento[] $carteiras_investimentos
- * @property \App\Model\Entity\OperacoesFinanceira[] $operacoes_financeiras
  */
 class Usuario extends Entity
 {
@@ -52,6 +51,5 @@ class Usuario extends Entity
         'tipo_plano' => true,
         'tipo_etapas_registro' => true,
         'carteiras_investimentos' => true,
-        'operacoes_financeiras' => true,
     ];
 }

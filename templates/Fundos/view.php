@@ -18,7 +18,7 @@
 	-->
     <div class="column-responsive"> <!-- <div class="column-responsive column-80">  -->
 		<div class="cnpjFundos view content">
-			<?php echo$this->element('titleInfo', array('title' => h($cnpjFundo->DENOM_SOCIAL), 'tam' => 6)); ?>
+			<?php echo$this->element('titleInfo', array('title' => h($cnpjFundo->DENOM_SOCIAL), 'h' => 1)); ?>
 			<table>
 				<tr>
 					<th><?= __('CNPJ') ?></th>
@@ -152,7 +152,7 @@
 				<div class="row">
 					<div class="column-graph">
 						<?php
-						echo$this->element('titleInfo', array('title' => __('Patrimônio Líquido'), 'align' => 'center', 'tam' => 4, 'info' => __('O patrimônio líquido é a quantidade de recursos...')));
+						echo$this->element('titleInfo', array('title' => __('Patrimônio Líquido'), 'align' => 'center', 'h' => 3, 'info' => __('O patrimônio líquido é a quantidade de recursos...')));
 						$data = array();
 						$data[] = "['Data', 'Patrimônio Líquido'],";
 						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
@@ -165,7 +165,7 @@
 
 					<div class="column-graph">
 						<?php
-						echo$this->element('titleInfo', array('title' => __('Quantidade de Cotistas'), 'align' => 'center', 'tam' => 4, 'info' => __('A quantidade de cotistas corresponde...')));
+						echo$this->element('titleInfo', array('title' => __('Quantidade de Cotistas'), 'align' => 'center', 'h' => 3, 'info' => __('A quantidade de cotistas corresponde...')));
 						$data = array();
 						$data[] = "['Data', 'Cotistas'],";
 						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
@@ -181,7 +181,7 @@
 				<div class="row">
 					<div class="column-graph">
 						<?php
-						echo$this->element('titleInfo', array('title' => __('Rentabilidade Acumulada'), 'align' => 'center', 'tam' => 4, 'info' => __('A rentabilidade acumulada é calculada como sendo a relação entre o valor atual da cota e o primeiro valor da cota, na data de abertura do fundo...')));
+						echo$this->element('titleInfo', array('title' => __('Rentabilidade Acumulada'), 'align' => 'center', 'h' => 3, 'info' => __('A rentabilidade acumulada é calculada como sendo a relação entre o valor atual da cota e o primeiro valor da cota, na data de abertura do fundo...')));
 						$data = array();
 						$data[] = "['Data', 'Acumulada', 'Rentabilidade'],";
 						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
@@ -194,7 +194,7 @@
 
 					<div class="column-graph"'>
 						<?php
-						echo$this->element('titleInfo', array('title' => __('Drawdown'), 'align' => 'center', 'tam' => 4, 'info' => __('O drawdown é uma medida de perdas do fundos, e é obtido como a relação entre o valor atual da cota e o valor máximo já alcançado pela cota até aquele momento...')));
+						echo$this->element('titleInfo', array('title' => __('Drawdown'), 'align' => 'center', 'h' => 3, 'info' => __('O drawdown é uma medida de perdas do fundos, e é obtido como a relação entre o valor atual da cota e o valor máximo já alcançado pela cota até aquele momento...')));
 						$data = array();
 						$data[] = "['Data', 'Drawdown'],";
 						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
@@ -209,7 +209,7 @@
 				<div class="row">
 					<div class="column-graph">
 						<?php
-						echo$this->element('titleInfo', array('title' => __('Volatilidade (Risco)'), 'align' => 'center', 'tam' => 4, 'info' => __('A volatilidade é uma medida da variação do retorno do investimento ao longo do tempo, e quanto maior a volatilidade, maior é essa variação e, portanto, maior a incerteza sobre qual rendimento que o investimento terá, ou seja, maior o risco do investimento. A volatilidade é calculada como o desvio-padrão do retorno atual em relação ao retorno médio num período de ...')));
+						echo$this->element('titleInfo', array('title' => __('Volatilidade (Risco)'), 'align' => 'center', 'h' => 3, 'info' => __('A volatilidade é uma medida da variação do retorno do investimento ao longo do tempo, e quanto maior a volatilidade, maior é essa variação e, portanto, maior a incerteza sobre qual rendimento que o investimento terá, ou seja, maior o risco do investimento. A volatilidade é calculada como o desvio-padrão do retorno atual em relação ao retorno médio num período de ...')));
 						$data = array();
 						$data[] = "['Data', 'Volatilidade'],";
 						foreach ($cnpjFundo->doc_inf_diario_fundos as $docInfDiarioFundos) {
@@ -222,7 +222,7 @@
 
 					<div class="column-graph">
 						<?php
-						echo$this->element('titleInfo', array('title' => __('Retorno x Risco'), 'align' => 'center', 'tam' => 4, 'info' => __('A relação entre o retorno esperado e o risco de um investimento fé um indicador que permite avaliar se um fundo "vale a pena" ou não. Riscos mais altos devem ser recompensados com um retorno maior. Se o aumento do risco não estiver associado a um retorno maior, o investimento pode não ser interessante...')));
+						echo$this->element('titleInfo', array('title' => __('Retorno x Risco'), 'align' => 'center', 'h' => 3, 'info' => __('A relação entre o retorno esperado e o risco de um investimento fé um indicador que permite avaliar se um fundo "vale a pena" ou não. Riscos mais altos devem ser recompensados com um retorno maior. Se o aumento do risco não estiver associado a um retorno maior, o investimento pode não ser interessante...')));
 						$data = array();
 						$data[] = "['ID', 'Risco', 'Retorno'],";
 						foreach ($indicadores as $indicador) {

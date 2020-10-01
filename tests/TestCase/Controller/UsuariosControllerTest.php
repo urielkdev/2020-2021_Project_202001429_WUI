@@ -26,7 +26,6 @@ class UsuariosControllerTest extends TestCase
         'app.TipoPlanos',
         'app.TipoEtapasRegistros',
         'app.CarteirasInvestimentos',
-        'app.OperacoesFinanceiras',
     ];
 
     /**
@@ -75,6 +74,76 @@ class UsuariosControllerTest extends TestCase
      * @return void
      */
     public function testDelete(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test login method
+     *
+     * @return void
+     */
+    public function testLogin(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test logout method
+     *
+     * @return void
+     */
+    public function testLogout(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test generateRandomValidationCode method
+     *
+     * @return void
+     */
+    public function testGenerateRandomValidationCode(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test registerWaitingForUserToValidateCode method
+     *
+     * @return void
+     */
+    public function testRegisterWaitingForUserToValidateCode(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test validateEmail method
+     *
+     * @return void
+     */
+    public function testValidateEmail(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test register method
+     *
+     * @return void
+     */
+    public function testRegister(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test sendValidationEmail method
+     *
+     * @return void
+     */
+    public function testSendValidationEmail(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

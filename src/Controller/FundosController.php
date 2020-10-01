@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\ORM\TableRegistry;
+use \Cake\Event\EventInterface;
+use Cake\View\ViewBuilder;
 use App\Form\FundosFiltroForm;
 
 /**
@@ -22,9 +24,63 @@ class FundosController extends AppController {
 		'paramType' => 'querystring' //Esta linha analisa o parâmetro fornecido pelo link.
 	);
 
+	public function initialize(): void {
+		parent::initialize();
+		$this->loadComponent('RequestHandler');
+	}
+
+	public function beforeFilter(\Cake\Event\EventInterface $event) {
+		parent::beforeFilter($event);
+		if ($this->request->is('ajax')) {
+			//	$this->viewBuilder()->setLayout('ajax');
+		}
+	}
+
 	public function index() {
 		$this->viewBuilder()->setHelpers(['Html', 'Ajax', 'Javascript', 'Form']);
 		$this->redirect('/Fundos/busca');
+	}
+
+	function buscaFundoPorAssociacaoCampo($associacao, $campo, $valor, \Cake\ORM\Query $queryFundos) {
+		$novaQuery = clone $queryFundos;
+		$novaQuery->matching($associacao, function ($q) {
+			return $q->where([$campo . ' LIKE' => '%' . $valor . '%']);
+		});
+		if ($novaQuery->count() > 0) {
+			return $novaQuery;
+		}
+		$novaQuery = clone $queryFundos;
+		$novaQuery->matching($associacao, function ($q) {
+			return $q->where([$campo . ' LIKE' => '% ' . $valor . ' %']);
+		});
+		if ($novaQuery->count() > 0) {
+			return $novaQuery;
+		}
+		$novaQuery = clone $queryFundos;
+		$partesNomeBuscado = str_replace(' ', '%', $valor);
+		$novaQuery->matching($associacao, function ($q) {
+			return $q->where([$campo . ' LIKE' => '% ' . $partesNomeBuscado . ' %']);
+		});
+
+		return $novaQuery;
+	}
+
+	function buscaFundoPorCampo($campo, $valor, \Cake\ORM\Query $queryFundos) {
+		$novaQuery = clone $queryFundos;
+		$novaQuery->andWhere([$campo . ' LIKE' => '% ' . $valor . ' %']);
+		if ($novaQuery->count() > 0) {
+			return $novaQuery;
+		}
+		$novaQuery = clone $queryFundos;
+		$novaQuery->andWhere([$campo . ' LIKE' => '%' . $valor . '%']);
+		if ($novaQuery->count() > 0) {
+			return $novaQuery;
+		}
+		$novaQuery = clone $queryFundos;
+		$partesNomeBuscado = str_replace(' ', '%', $valor);
+		$novaQuery->andWhere([$campo . ' LIKE' => '%' . $partesNomeBuscado . '%']);
+
+		return $novaQuery;
 	}
 
 	/**
@@ -33,48 +89,100 @@ class FundosController extends AppController {
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
 	public function busca() {
+		/*
+		  $ClassesFundos = TableRegistry::getTableLocator()->get('TipoClasseFundos');
+		  $classeFundos = $ClassesFundos->find();
+		  $this->set(compact('classeFundos'));
+		  //
+		  $ClassesAnbima = TableRegistry::getTableLocator()->get('TipoAnbimaClasses');
+		  $classeAnbima = $ClassesAnbima->find();
+		  $this->set(compact('classeAnbima'));
+		 */
+
 		//
-		// filtro
-		//$formFiltro = new FundosFiltroForm();
-		//$formFiltro->setErrors(["email" => ["_required" => "Your email is required"]]);
-		if ($this->request->is('post')) {
-			if ($formFiltro->execute($this->request->getData())) {
-				$this->Flash->success('We will get back to you soon.');
-			} else {
-				$this->Flash->error('There was a problem submitting your form.');
-			}
-		}
-		$this->set('filtroForm', $formFiltro);
-		//
-		//
-		$ClassesFundos = TableRegistry::getTableLocator()->get('TipoClasseFundos');
-		$query = $ClassesFundos->find();
-		$classeFundos = $this->paginate($query);
-		$this->set(compact('classeFundos'));
-		//
-		$ClassesAnbima = TableRegistry::getTableLocator()->get('TipoAnbimaClasses');
-		$query = $ClassesAnbima->find();
-		$classeAnbima = $this->paginate($query);
-		$this->set(compact('classeAnbima'));
 		//
 		// lista
 		$CnpjFundos = TableRegistry::getTableLocator()->get('CnpjFundos');
-		$query = $CnpjFundos->find()
-				//->contain(['CadastroFundos' => ['TipoClasseFundos', 'TipoRentabilidadeFundos', 'AdministradorFundos'], 'DocExtratosFundos' => ['sort' => ['DocExtratosFundos.DT_COMPTC' => 'DESC']], 'SituacaoFundos' => ['sort' => ['SituacaoFundos.DT_INI_SIT' => 'DESC'], 'TipoSituacaoFundos']])
-				->contain(['CadastroFundos' => ['sort' => ['CadastroFundos.DT_REG_CVM ' => 'DESC'], 'TipoClasseFundos', 'TipoRentabilidadeFundos', 'AdministradorFundos']])
-				->contain(['DocExtratosFundos' => ['sort' => ['DocExtratosFundos.DT_COMPTC' => 'DESC']]])
-				->contain(['SituacaoFundos' => ['sort' => ['SituacaoFundos.DT_INI_SIT' => 'DESC'], 'TipoSituacaoFundos']])
+		$queryFundos = $CnpjFundos->find()
+				->select(['id', 'CNPJ', 'DENOM_SOCIAL'])
+				->distinct(['CnpjFundos.id'])
+				->contain(['CadastroFundos' => [
+						'sort' => ['CadastroFundos.DT_REG_CVM ' => 'DESC'],
+						'TipoClasseFundos',
+						'TipoRentabilidadeFundos',
+						'AdministradorFundos']
+						]
+				)
+				->contain(['DocExtratosFundos' => [
+						'sort' => ['DocExtratosFundos.DT_COMPTC' => 'DESC'],
+						'TipoAnbimaClasses']
+				])
+				->contain(['SituacaoFundos' => [
+						'sort' => ['SituacaoFundos.DT_INI_SIT' => 'DESC'],
+						'TipoSituacaoFundos']
+				])
 				->notMatching('CancelamentoFundos')
-				->where([['CnpjFundos.DENOM_SOCIAL != ' => ' --DESCONHECIDO--']]) // e atualmente tem pelo menos 1000 cotistas (como fazer isso?)
-		//->matching('SituacaoFundos', function ($q) {return $q->where(['SituacaoFundos.tipo_situacao_fundo_id' => 1]);	})
-		//->andWhere('SituacaoFundos.tipo_situacao_fundo_id = 1')
-		//->order('SituacaoFundos.DT_INI_SIT desc')
+				->matching('CadastroFundos', function ($q) {
+					return $q->where(['CadastroFundos.condom_aberto' => 1]); // 1 = Fundos abertos (condomínio aberto)
+				})
+				//->matching('SituacaoFundos', function ($q) {
+				//	return $q->where(['SituacaoFundos.tipo_situacao_fundo_id' => 1]); // 1 = EM FUNCIONAMENTO NORMAL
+				//}) //  TODO Não funciona, pois fundo pode ter duas situações. Uma em funcionamento e depois outra, cancelando. Esse matching não exclui fundos com situação cancelada
+				->where([
+					['CnpjFundos.DENOM_SOCIAL != ' => ' --DESCONHECIDO--'],
+				]) // OUTROS FILTROS
+				->order(['CnpjFundos.DENOM_SOCIAL' => 'asc'])
+		/* 						
+		  // OUTROS FILTROS
+		  /*
+		  ->matching('CadastroFundos', function ($q) {
+		  return $q->where(['CadastroFundos.tipo_classe_fundo_id' => 3]);
+		  })
+		  ->matching('DocExtratosFundos', function ($q) {
+		  return $q->where(['DocExtratosFundos.tipo_anbima_classe_id' => 3]);
+		  })
+		  ->matching('CadastroFundos.AdministradorFundos', function ($q) {
+		  return $q->where(['AdministradorFundos.nome LIKE' => '%PACTUAL%']);
+		  })
+		 */
 		;
-		// aplica filtros customizados
-		//$query->find()->where(['SituacaoFundos.tipo_situacao_fundo_id >= 0']);
 		//
-		$cnpjFundos = $this->paginate($query);
+		// filtro
+		$formFiltro = new FundosFiltroForm();
+		$divResultados = '';
+		if ($this->request->is('post')) {
+			//if ($formFiltro->execute()) {
+			//	$this->Flash->success('We will get back to you soon.');
+			//} else {
+			//	$this->Flash->error('There was a problem submitting your form.');
+			//}
+			$nomeBuscado = $this->request->getData('nome');
+			if ($nomeBuscado != '') {
+				$queryFundos = $this->buscaFundoPorCampo('DENOM_SOCIAL', $nomeBuscado, $queryFundos);
+				/*
+				  $divResultados = '<div class="dropdown-visible-content"> Resultados:<br/>';
+				  foreach ($queryFundos as $result) {
+				  $divResultados .= '<a>' . $result['DENOM_SOCIAL'] . '</a ><br/>';
+				  }
+				  $divResultados .= '</div>';
+				  echo($divResultados);
+				  exit();
+				 */
+			}
+			$admBuscado = $this->request->getData('administrador');
+			if ($admBuscado != '') {
+				$queryFundos = $this->buscaFundoPorAssociacaoCampo('CadastroFundos.AdministradorFundos', 'AdministradorFundos.nome', $admBuscado, $queryFundos);
+			}
+		}
+		//if ($this->request->is('get')) {
+		//}
+		$this->set('divResultados', ''); /////$divResultados);
+		$this->set('formFiltro', $formFiltro);
+
+		$cnpjFundos = $this->paginate($queryFundos);
 		$this->set(compact('cnpjFundos'));
+		// Specify which view vars JsonView should serialize.
+		//$this->viewBuilder()->setOption('serialize', 'cnpjFundos', ['classeAnbima', 'classeFundos']);
 	}
 
 	/**
@@ -119,6 +227,29 @@ class FundosController extends AppController {
 	 */
 	public function indicadores() {
 		
+	}
+
+	public function ajaxsearch() {
+		$this->request->allowMethod('ajax');
+		//$this->viewBuilder()->setLayout('ajax');
+		$CnpjFundos = TableRegistry::getTableLocator()->get('CnpjFundos');
+		$keyword = $this->request->getQuery('keyword');
+		if ($keyword != '') {
+			$query = $CnpjFundos->find('all', [
+				'conditions' => ['DENOM_SOCIAL LIKE' => '%' . $keyword . '%'],
+				'order' => ['CNPJ' => 'DESC'],
+				'limit' => 10
+			]);
+		} else {
+			$id = $this->request->getQuery('id');
+			$query = $CnpjFundos->find('all', [
+				'conditions' => ['id' => $id]
+			]);
+		}
+		$this->set('fundos_encontrados', $this->paginate($query));
+		$this->set('_serialize', ['fundos_encontrados']);
+		$this->viewBuilder()->setLayout('ajax');
+		$this->render('ajax_response', 'ajax');
 	}
 
 }

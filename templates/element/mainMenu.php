@@ -19,7 +19,7 @@ $administrador = $conectado && $session->read('User.plano') == 4;
 	<div class="dropdown">
 		<button class="dropbtn"><?= __('Fundos de investimento') ?></button>
 		<div class="dropdown-content">
-			<a href="/CnpjFundos/index"><?= __('Busca geral Cnpj') ?></a>
+			<!--a href="/Fundos/index"><?= __('Busca geral Cnpj') ?></a-->
 			<a href="/Fundos/busca"><?= __('Busca geral') ?></a>
 			<a href="/Fundos/indicadores"><?= __('Indicadores financeiros') ?></a>
 			<a href="/Fundos/comparacao"><?= __('Comparação de fundos') ?></a>

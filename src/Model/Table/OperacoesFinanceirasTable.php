@@ -11,11 +11,10 @@ use Cake\Validation\Validator;
 /**
  * OperacoesFinanceiras Model
  *
- * @property \App\Model\Table\UsuariosTable&\Cake\ORM\Association\BelongsTo $Usuarios
+ * @property \App\Model\Table\CarteirasInvestimentosTable&\Cake\ORM\Association\BelongsTo $CarteirasInvestimentos
  * @property \App\Model\Table\CnpjFundosTable&\Cake\ORM\Association\BelongsTo $CnpjFundos
  * @property \App\Model\Table\DistribuidorFundosTable&\Cake\ORM\Association\BelongsTo $DistribuidorFundos
  * @property \App\Model\Table\TipoOperacoesFinanceirasTable&\Cake\ORM\Association\BelongsTo $TipoOperacoesFinanceiras
- * @property \App\Model\Table\RelCarteirasOperacoesTable&\Cake\ORM\Association\HasMany $RelCarteirasOperacoes
  *
  * @method \App\Model\Entity\OperacoesFinanceira newEmptyEntity()
  * @method \App\Model\Entity\OperacoesFinanceira newEntity(array $data, array $options = [])
@@ -47,8 +46,8 @@ class OperacoesFinanceirasTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Usuarios', [
-            'foreignKey' => 'usuario_id',
+        $this->belongsTo('CarteirasInvestimentos', [
+            'foreignKey' => 'carteiras_investimento_id',
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('CnpjFundos', [
@@ -61,9 +60,6 @@ class OperacoesFinanceirasTable extends Table
         $this->belongsTo('TipoOperacoesFinanceiras', [
             'foreignKey' => 'tipo_operacoes_financeira_id',
             'joinType' => 'INNER',
-        ]);
-        $this->hasMany('RelCarteirasOperacoes', [
-            'foreignKey' => 'operacoes_financeira_id',
         ]);
     }
 
@@ -116,10 +112,10 @@ class OperacoesFinanceirasTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['usuario_id'], 'Usuarios'));
-        $rules->add($rules->existsIn(['cnpj_fundo_id'], 'CnpjFundos'));
-        $rules->add($rules->existsIn(['distribuidor_fundo_id'], 'DistribuidorFundos'));
-        $rules->add($rules->existsIn(['tipo_operacoes_financeira_id'], 'TipoOperacoesFinanceiras'));
+        $rules->add($rules->existsIn(['carteiras_investimento_id'], 'CarteirasInvestimentos'), ['errorField' => 'carteiras_investimento_id']);
+        $rules->add($rules->existsIn(['cnpj_fundo_id'], 'CnpjFundos'), ['errorField' => 'cnpj_fundo_id']);
+        $rules->add($rules->existsIn(['distribuidor_fundo_id'], 'DistribuidorFundos'), ['errorField' => 'distribuidor_fundo_id']);
+        $rules->add($rules->existsIn(['tipo_operacoes_financeira_id'], 'TipoOperacoesFinanceiras'), ['errorField' => 'tipo_operacoes_financeira_id']);
 
         return $rules;
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\OperacoesFinanceirasTable;
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -26,11 +25,10 @@ class OperacoesFinanceirasTableTest extends TestCase
      */
     protected $fixtures = [
         'app.OperacoesFinanceiras',
-        'app.Usuarios',
+        'app.CarteirasInvestimentos',
         'app.CnpjFundos',
         'app.DistribuidorFundos',
         'app.TipoOperacoesFinanceiras',
-        'app.RelCarteirasOperacoes',
     ];
 
     /**
@@ -41,8 +39,8 @@ class OperacoesFinanceirasTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('OperacoesFinanceiras') ? [] : ['className' => OperacoesFinanceirasTable::class];
-        $this->OperacoesFinanceiras = TableRegistry::getTableLocator()->get('OperacoesFinanceiras', $config);
+        $config = $this->getTableLocator()->exists('OperacoesFinanceiras') ? [] : ['className' => OperacoesFinanceirasTable::class];
+        $this->OperacoesFinanceiras = $this->getTableLocator()->get('OperacoesFinanceiras', $config);
     }
 
     /**

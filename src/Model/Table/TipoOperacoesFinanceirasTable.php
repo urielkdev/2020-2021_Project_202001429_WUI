@@ -40,7 +40,7 @@ class TipoOperacoesFinanceirasTable extends Table
         parent::initialize($config);
 
         $this->setTable('tipo_operacoes_financeiras');
-        $this->setDisplayField('id');
+        $this->setDisplayField('nome');
         $this->setPrimaryKey('id');
 
         $this->hasMany('OperacoesFinanceiras', [

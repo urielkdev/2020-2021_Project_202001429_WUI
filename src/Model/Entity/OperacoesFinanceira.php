@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * OperacoesFinanceira Entity
  *
  * @property int $id
- * @property int $usuario_id
+ * @property int $carteiras_investimento_id
  * @property int $cnpj_fundo_id
  * @property int|null $distribuidor_fundo_id
  * @property int $tipo_operacoes_financeira_id
@@ -19,11 +19,10 @@ use Cake\ORM\Entity;
  * @property int $quantidade_cotas
  * @property \Cake\I18n\FrozenDate $data
  *
- * @property \App\Model\Entity\Usuario $usuario
+ * @property \App\Model\Entity\CarteirasInvestimento $carteiras_investimento
  * @property \App\Model\Entity\CnpjFundo $cnpj_fundo
  * @property \App\Model\Entity\DistribuidorFundo $distribuidor_fundo
  * @property \App\Model\Entity\TipoOperacoesFinanceira $tipo_operacoes_financeira
- * @property \App\Model\Entity\RelCarteirasOperaco[] $rel_carteiras_operacoes
  */
 class OperacoesFinanceira extends Entity
 {
@@ -37,7 +36,7 @@ class OperacoesFinanceira extends Entity
      * @var array
      */
     protected $_accessible = [
-        'usuario_id' => true,
+        'carteiras_investimento_id' => true,
         'cnpj_fundo_id' => true,
         'distribuidor_fundo_id' => true,
         'tipo_operacoes_financeira_id' => true,
@@ -46,10 +45,9 @@ class OperacoesFinanceira extends Entity
         'valor_cota' => true,
         'quantidade_cotas' => true,
         'data' => true,
-        'usuario' => true,
+        'carteiras_investimento' => true,
         'cnpj_fundo' => true,
         'distribuidor_fundo' => true,
         'tipo_operacoes_financeira' => true,
-        'rel_carteiras_operacoes' => true,
     ];
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\CarteirasInvestimentosTable;
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -28,7 +27,7 @@ class CarteirasInvestimentosTableTest extends TestCase
         'app.CarteirasInvestimentos',
         'app.Usuarios',
         'app.IndicadoresCarteiras',
-        'app.RelCarteirasOperacoes',
+        'app.OperacoesFinanceiras',
     ];
 
     /**
@@ -39,8 +38,8 @@ class CarteirasInvestimentosTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('CarteirasInvestimentos') ? [] : ['className' => CarteirasInvestimentosTable::class];
-        $this->CarteirasInvestimentos = TableRegistry::getTableLocator()->get('CarteirasInvestimentos', $config);
+        $config = $this->getTableLocator()->exists('CarteirasInvestimentos') ? [] : ['className' => CarteirasInvestimentosTable::class];
+        $this->CarteirasInvestimentos = $this->getTableLocator()->get('CarteirasInvestimentos', $config);
     }
 
     /**

@@ -16,7 +16,7 @@
     </aside>
     <div class="column-responsive column-80">
         <div class="usuarios view content">
-            <h3><?= h($usuario->nome) ?></h3>
+            <h3><?= h($usuario->id) ?></h3>
             <table>
                 <tr>
                     <th><?= __('Cpf') ?></th>
@@ -89,47 +89,6 @@
                                 <?= $this->Html->link(__('View'), ['controller' => 'CarteirasInvestimentos', 'action' => 'view', $carteirasInvestimentos->id]) ?>
                                 <?= $this->Html->link(__('Edit'), ['controller' => 'CarteirasInvestimentos', 'action' => 'edit', $carteirasInvestimentos->id]) ?>
                                 <?= $this->Form->postLink(__('Delete'), ['controller' => 'CarteirasInvestimentos', 'action' => 'delete', $carteirasInvestimentos->id], ['confirm' => __('Are you sure you want to delete # {0}?', $carteirasInvestimentos->id)]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
-                <?php endif; ?>
-            </div>
-            <div class="related">
-                <h4><?= __('Related Operacoes Financeiras') ?></h4>
-                <?php if (!empty($usuario->operacoes_financeiras)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Usuario Id') ?></th>
-                            <th><?= __('Cnpj Fundo Id') ?></th>
-                            <th><?= __('Distribuidor Fundo Id') ?></th>
-                            <th><?= __('Tipo Operacoes Financeira Id') ?></th>
-                            <th><?= __('Por Valor') ?></th>
-                            <th><?= __('Valor Total') ?></th>
-                            <th><?= __('Valor Cota') ?></th>
-                            <th><?= __('Quantidade Cotas') ?></th>
-                            <th><?= __('Data') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($usuario->operacoes_financeiras as $operacoesFinanceiras) : ?>
-                        <tr>
-                            <td><?= h($operacoesFinanceiras->id) ?></td>
-                            <td><?= h($operacoesFinanceiras->usuario_id) ?></td>
-                            <td><?= h($operacoesFinanceiras->cnpj_fundo_id) ?></td>
-                            <td><?= h($operacoesFinanceiras->distribuidor_fundo_id) ?></td>
-                            <td><?= h($operacoesFinanceiras->tipo_operacoes_financeira_id) ?></td>
-                            <td><?= h($operacoesFinanceiras->por_valor) ?></td>
-                            <td><?= h($operacoesFinanceiras->valor_total) ?></td>
-                            <td><?= h($operacoesFinanceiras->valor_cota) ?></td>
-                            <td><?= h($operacoesFinanceiras->quantidade_cotas) ?></td>
-                            <td><?= h($operacoesFinanceiras->data) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'OperacoesFinanceiras', 'action' => 'view', $operacoesFinanceiras->id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'OperacoesFinanceiras', 'action' => 'edit', $operacoesFinanceiras->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'OperacoesFinanceiras', 'action' => 'delete', $operacoesFinanceiras->id], ['confirm' => __('Are you sure you want to delete # {0}?', $operacoesFinanceiras->id)]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

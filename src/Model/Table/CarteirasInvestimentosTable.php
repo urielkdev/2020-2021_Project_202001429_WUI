@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\UsuariosTable&\Cake\ORM\Association\BelongsTo $Usuarios
  * @property \App\Model\Table\IndicadoresCarteirasTable&\Cake\ORM\Association\HasMany $IndicadoresCarteiras
- * @property \App\Model\Table\RelCarteirasOperacoesTable&\Cake\ORM\Association\HasMany $RelCarteirasOperacoes
+ * @property \App\Model\Table\OperacoesFinanceirasTable&\Cake\ORM\Association\HasMany $OperacoesFinanceiras
  *
  * @method \App\Model\Entity\CarteirasInvestimento newEmptyEntity()
  * @method \App\Model\Entity\CarteirasInvestimento newEntity(array $data, array $options = [])
@@ -52,7 +52,7 @@ class CarteirasInvestimentosTable extends Table
         $this->hasMany('IndicadoresCarteiras', [
             'foreignKey' => 'carteiras_investimento_id',
         ]);
-        $this->hasMany('RelCarteirasOperacoes', [
+        $this->hasMany('OperacoesFinanceiras', [
             'foreignKey' => 'carteiras_investimento_id',
         ]);
     }
@@ -93,7 +93,7 @@ class CarteirasInvestimentosTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['usuario_id'], 'Usuarios'));
+        $rules->add($rules->existsIn(['usuario_id'], 'Usuarios'), ['errorField' => 'usuario_id']);
 
         return $rules;
     }

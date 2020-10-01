@@ -19,8 +19,8 @@
             <h3><?= h($operacoesFinanceira->id) ?></h3>
             <table>
                 <tr>
-                    <th><?= __('Usuario') ?></th>
-                    <td><?= $operacoesFinanceira->has('usuario') ? $this->Html->link($operacoesFinanceira->usuario->nome, ['controller' => 'Usuarios', 'action' => 'view', $operacoesFinanceira->usuario->id]) : '' ?></td>
+                    <th><?= __('Carteiras Investimento') ?></th>
+                    <td><?= $operacoesFinanceira->has('carteiras_investimento') ? $this->Html->link($operacoesFinanceira->carteiras_investimento->id, ['controller' => 'CarteirasInvestimentos', 'action' => 'view', $operacoesFinanceira->carteiras_investimento->id]) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Cnpj Fundo') ?></th>
@@ -59,31 +59,6 @@
                     <td><?= $operacoesFinanceira->por_valor ? __('Yes') : __('No'); ?></td>
                 </tr>
             </table>
-            <div class="related">
-                <h4><?= __('Related Rel Carteiras Operacoes') ?></h4>
-                <?php if (!empty($operacoesFinanceira->rel_carteiras_operacoes)) : ?>
-                <div class="table-responsive">
-                    <table>
-                        <tr>
-                            <th><?= __('Carteiras Investimento Id') ?></th>
-                            <th><?= __('Operacoes Financeira Id') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
-                        </tr>
-                        <?php foreach ($operacoesFinanceira->rel_carteiras_operacoes as $relCarteirasOperacoes) : ?>
-                        <tr>
-                            <td><?= h($relCarteirasOperacoes->carteiras_investimento_id) ?></td>
-                            <td><?= h($relCarteirasOperacoes->operacoes_financeira_id) ?></td>
-                            <td class="actions">
-                                <?= $this->Html->link(__('View'), ['controller' => 'RelCarteirasOperacoes', 'action' => 'view', $relCarteirasOperacoes->carteiras_investimento_id]) ?>
-                                <?= $this->Html->link(__('Edit'), ['controller' => 'RelCarteirasOperacoes', 'action' => 'edit', $relCarteirasOperacoes->carteiras_investimento_id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'RelCarteirasOperacoes', 'action' => 'delete', $relCarteirasOperacoes->carteiras_investimento_id], ['confirm' => __('Are you sure you want to delete # {0}?', $relCarteirasOperacoes->carteiras_investimento_id)]) ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </table>
-                </div>
-                <?php endif; ?>
-            </div>
         </div>
     </div>
 </div>

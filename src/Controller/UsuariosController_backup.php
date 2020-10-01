@@ -12,7 +12,7 @@ use Cake\ORM\TableRegistry;
  * @property \App\Model\Table\UsuariosTable $Usuarios
  * @method \App\Model\Entity\Usuario[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class UsuariosController extends AppController {
+class UsuariosController_backup extends AppController {
 
 	public function conta() {
 		
