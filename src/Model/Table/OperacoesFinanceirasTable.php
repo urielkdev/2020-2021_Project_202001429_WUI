@@ -80,6 +80,10 @@ class OperacoesFinanceirasTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->integer('cnpj_fundo_id')
+            ->requirePresence('cnpj_fundo_id', 'create');
+
+        $validator
             ->boolean('por_valor')
             ->requirePresence('por_valor', 'create')
             ->notEmptyString('por_valor');
