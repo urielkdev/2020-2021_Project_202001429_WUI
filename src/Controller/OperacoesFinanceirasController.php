@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -45,21 +46,24 @@ class OperacoesFinanceirasController extends AppController
     /**
      * Add method
      *
+     * @param string|null $carteiras_investimento_id Carteiras Investimento id.
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($carteiras_investimento_id = 1)
     {
         $operacoesFinanceira = $this->OperacoesFinanceiras->newEmptyEntity();
         if ($this->request->is('post')) {
             $operacoesFinanceira = $this->OperacoesFinanceiras->patchEntity($operacoesFinanceira, $this->request->getData());
+            $operacoesFinanceira->carteiras_investimento_id = $carteiras_investimento_id;
             if ($this->OperacoesFinanceiras->save($operacoesFinanceira)) {
                 $this->Flash->success(__('The operacoes financeira has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'CarteirasInvestimentos', 'action' => 'view', $carteiras_investimento_id]);
+                // return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The operacoes financeira could not be saved. Please, try again.'));
         }
-        $carteirasInvestimentos = $this->OperacoesFinanceiras->CarteirasInvestimentos->find('list', ['limit' => 200]);
+        $carteirasInvestimentos = $this->OperacoesFinanceiras->CarteirasInvestimentos->find()->where(['id' => $carteiras_investimento_id])->first();
         $cnpjFundos = $this->OperacoesFinanceiras->CnpjFundos->find('list', ['limit' => 200]);
         $distribuidorFundos = $this->OperacoesFinanceiras->DistribuidorFundos->find('list', ['limit' => 200]);
         $tipoOperacoesFinanceiras = $this->OperacoesFinanceiras->TipoOperacoesFinanceiras->find('list', ['limit' => 200]);

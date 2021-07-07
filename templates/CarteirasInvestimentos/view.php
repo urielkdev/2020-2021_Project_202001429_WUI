@@ -21,14 +21,13 @@
 
 			<div class="related">
 				<h4><?= __('Operações Financeiras (Transações)') ?></h4>
-				<?= $this->Html->link(__('Nova Operação Financeira'), ['controller' => 'OperacoesFinanceiras', 'action' => 'add'], ['class' => 'button float-right']) ?>
+				<?= $this->Html->link(__('Nova Operação Financeira'), ['controller' => 'OperacoesFinanceiras', 'action' => 'add', $carteirasInvestimento->id], ['class' => 'button float-right']) ?>
 
 				<?php if (!empty($carteirasInvestimento->operacoes_financeiras)) : ?>
 					<div class="table-responsive">
 						<table>
 							<tr>
 								<th><?= __('Id') ?></th>
-								<th><?= __('Carteiras Investimento Id') ?></th>
 								<th><?= __('Cnpj Fundo Id') ?></th>
 								<th><?= __('Distribuidor Fundo Id') ?></th>
 								<th><?= __('Tipo Operacoes Financeira Id') ?></th>
@@ -42,7 +41,6 @@
 							<?php foreach ($carteirasInvestimento->operacoes_financeiras as $operacoesFinanceiras) : ?>
 								<tr>
 									<td><?= h($operacoesFinanceiras->id) ?></td>
-									<td><?= h($operacoesFinanceiras->carteiras_investimento_id) ?></td>
 									<td><?= h($operacoesFinanceiras->cnpj_fundo_id) ?></td>
 									<td><?= h($operacoesFinanceiras->distribuidor_fundo_id) ?></td>
 									<td><?= h($operacoesFinanceiras->tipo_operacoes_financeira_id) ?></td>
@@ -69,7 +67,6 @@
 					<div class="table-responsive">
 						<table>
 							<tr>
-								<th><?= __('Carteiras Investimento Id') ?></th>
 								<th><?= __('Periodo Meses') ?></th>
 								<th><?= __('Data Final') ?></th>
 								<th><?= __('Rentabilidade') ?></th>
@@ -86,7 +83,6 @@
 							</tr>
 							<?php foreach ($carteirasInvestimento->indicadores_carteiras as $indicadoresCarteiras) : ?>
 								<tr>
-									<td><?= h($indicadoresCarteiras->carteiras_investimento_id) ?></td>
 									<td><?= h($indicadoresCarteiras->periodo_meses) ?></td>
 									<td><?= h($indicadoresCarteiras->data_final) ?></td>
 									<td><?= h($indicadoresCarteiras->rentabilidade) ?></td>
@@ -110,7 +106,6 @@
 					</div>
 				<?php endif; ?>
 			</div>
-
 		</div>
 	</div>
 </div>

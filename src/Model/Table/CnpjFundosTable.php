@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -46,7 +47,7 @@ class CnpjFundosTable extends Table
         parent::initialize($config);
 
         $this->setTable('cnpj_fundos');
-        $this->setDisplayField('id');
+        $this->setDisplayField('DENOM_SOCIAL');
         $this->setPrimaryKey('id');
 
         $this->hasMany('CadastroFundos', [
