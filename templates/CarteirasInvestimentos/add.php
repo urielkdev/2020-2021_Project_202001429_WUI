@@ -6,13 +6,7 @@
  */
 ?>
 <div class="row">
-    <!--<aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('List Carteiras Investimentos'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div> 
-    </aside>-->
-    <div class="column-responsive column-80">
+    <div class="column-responsive column-100">
         <div class="carteirasInvestimentos form content">
             <?= $this->Form->create($carteirasInvestimento) ?>
             <fieldset>

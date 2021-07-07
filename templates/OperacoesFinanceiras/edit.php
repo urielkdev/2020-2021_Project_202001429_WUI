@@ -6,21 +6,11 @@
  */
 ?>
 <div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $operacoesFinanceira->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $operacoesFinanceira->id), 'class' => 'side-nav-item']
-            ) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
+    <div class="column-responsive column-100">
         <div class="operacoesFinanceiras form content">
+            <?= $this->element('titleInfo', array('title' => __('Editar Operação Financeira "{0}"', $operacoesFinanceira->id), 'h' => 2)); ?>
             <?= $this->Form->create($operacoesFinanceira) ?>
             <fieldset>
-                <legend><?= __('Edit Operacoes Financeira') ?></legend>
                 <?php
                 echo $this->Form->control('carteiras_investimento_id', ['options' => $carteirasInvestimentos]);
                 echo $this->Form->control('cnpj_fundo_id', ['options' => $cnpjFundos]);
