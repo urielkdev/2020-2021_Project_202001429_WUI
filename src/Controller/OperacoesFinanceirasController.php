@@ -64,7 +64,7 @@ class OperacoesFinanceirasController extends AppController
             $this->Flash->error(__('The operacoes financeira could not be saved. Please, try again.'));
         }
         $carteirasInvestimentos = $this->OperacoesFinanceiras->CarteirasInvestimentos->find()->where(['id' => $carteiras_investimento_id])->first();
-        $cnpjFundos = $this->OperacoesFinanceiras->CnpjFundos->find('list', ['limit' => 200]);
+        // $cnpjFundos = $this->OperacoesFinanceiras->CnpjFundos->find('list', ['limit' => 200]);
         $distribuidorFundos = $this->OperacoesFinanceiras->DistribuidorFundos->find('list', ['limit' => 200]);
         $tipoOperacoesFinanceiras = $this->OperacoesFinanceiras->TipoOperacoesFinanceiras->find('list', ['limit' => 200]);
         $this->set(compact('operacoesFinanceira', 'carteirasInvestimentos', 'cnpjFundos', 'distribuidorFundos', 'tipoOperacoesFinanceiras'));
@@ -87,7 +87,8 @@ class OperacoesFinanceirasController extends AppController
             if ($this->OperacoesFinanceiras->save($operacoesFinanceira)) {
                 $this->Flash->success(__('The operacoes financeira has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'CarteirasInvestimentos', 'action' => 'view', $operacoesFinanceira['carteiras_investimento_id']]);
+                // return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The operacoes financeira could not be saved. Please, try again.'));
         }

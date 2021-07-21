@@ -10,7 +10,7 @@
 
 			success: function(response) {
 				$('#cnpj-fundo-id').val(data)
-				$('.resultado_busca').html(response);
+				$('.resultado_busca').html('');
 			}
 		});
 	}
@@ -21,16 +21,16 @@
 	$qtd = count($fundos_encontrados);
 	if ($qtd == 0) {
 		echo 'Nenhum fundo encontrado';
-	} else if ($qtd == 1) {
-		foreach ($fundos_encontrados as $fundo) {
-			echo '<div class="content">Fundo selecionado:</br><strong>' . $fundo['DENOM_SOCIAL'] . ' (' . $fundo['CNPJ'] . ')</strong></div>';
-		}
+		// } else if ($qtd == 1) {
+		// 	foreach ($fundos_encontrados as $fundo) {
+		// 		echo '<div class="content">Fundo selecionado:</br><strong>' . $fundo['DENOM_SOCIAL'] . ' (' . $fundo['CNPJ'] . ')</strong></div>';
+		// 	}
 	} else {
-		echo 'Fundos encontrados (selecione o correto):';
+		echo 'Fundo(s) encontrado(s) (selecione o correto):';
 	}
 	?>
 
-	<?php if ($qtd > 1) { ?>
+	<?php if ($qtd > 0) { ?>
 		<table>
 			<!-- TODO: Fix color styles -->
 			<?php foreach ($fundos_encontrados as $fundo) { ?>

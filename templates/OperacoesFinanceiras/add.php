@@ -37,8 +37,7 @@
             <?= $this->Form->create($operacoesFinanceira) ?>
             <fieldset>
                 <?php
-                // echo $this->Form->control('cnpj_fundo_id', ['options' => $cnpjFundos]);
-                echo $this->Form->control('cnpj_fundo_id', ['label' => __('Nome, CNPJ ou id do fundo para busca'), 'type' => 'text']);
+                echo $this->Form->control('cnpj_fundo_id', ['label' => __('Nome ou CNPJ do fundo para busca'), 'type' => 'text']);
                 ?>
                 <div class="resultado_busca"></div>
                 <?php
