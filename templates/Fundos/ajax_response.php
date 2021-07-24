@@ -1,16 +1,17 @@
 <script>
-	function sendXHR(id) {
-		var data = id;
+	function sendXHR(fundo) {
+		var data = fundo;
+
 		$.ajax({
 			method: 'get',
 			url: "<?php echo $this->Url->build(['controller' => 'Fundos', 'action' => 'Ajaxsearch']); ?>",
 			data: {
-				id: data
+				id: data['id']
 			},
 
 			success: function(response) {
-				$('#cnpj-fundo-id').val(data)
-				$('.resultado_busca').html('');
+				$('#cnpj-fundo-id').val(data['id']);
+				$('.resultado_busca').html('<div class="content">Fundo selecionado:</br><strong>' + data['DENOM_SOCIAL'] + ' (' + data['CNPJ'] + ')</strong></div><br>');
 			}
 		});
 	}
@@ -35,7 +36,7 @@
 			<!-- TODO: Fix color styles -->
 			<?php foreach ($fundos_encontrados as $fundo) { ?>
 				<tr>
-					<td id="<?= $fundo['id'] ?>" onMouseOut="this.style.color = '#c0c0c0'" onMouseOver="this.style.cursor = 'pointer'; this.style.color = '#2a6496'" onclick="sendXHR(<?= $fundo['id'] ?>)">
+					<td id="<?= $fundo['id'] ?>" onMouseOut="this.style.color = '#c0c0c0'" onMouseOver="this.style.cursor = 'pointer'; this.style.color = '#2a6496'" onclick='sendXHR(<?php echo $fundo; ?>)'>
 						<?= $fundo['DENOM_SOCIAL'] . ' (' . $fundo['CNPJ'] . ')' ?>
 					</td>
 				</tr>

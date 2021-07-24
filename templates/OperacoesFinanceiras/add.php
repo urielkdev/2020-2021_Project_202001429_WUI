@@ -8,7 +8,7 @@
 
 <script>
     $('document').ready(function() {
-        $('#cnpj-fundo-id').keyup(function() {
+        $('#busca-fundo').keyup(function() {
             var searchkey = $(this).val();
             searchFundos(searchkey);
         });
@@ -37,10 +37,11 @@
             <?= $this->Form->create($operacoesFinanceira) ?>
             <fieldset>
                 <?php
-                echo $this->Form->control('cnpj_fundo_id', ['label' => __('Nome ou CNPJ do fundo para busca'), 'type' => 'text']);
+                echo $this->Form->control('busca_fundo', ['label' => __('Nome ou CNPJ do fundo para busca'), 'type' => 'text']);
                 ?>
                 <div class="resultado_busca"></div>
                 <?php
+                echo $this->Form->control('cnpj_fundo_id', ['label' => __('Id do fundo escolhido'), 'type' => 'text']);
                 echo $this->Form->control('distribuidor_fundo_id', ['options' => $distribuidorFundos, 'empty' => true]);
                 echo $this->Form->control('tipo_operacoes_financeira_id', ['options' => $tipoOperacoesFinanceiras]);
                 echo $this->Form->control('por_valor');
