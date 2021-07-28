@@ -63,6 +63,178 @@
 
 			<div class="related">
 				<h4><?= __('Indicadores Financeiros da Carteira') ?></h4>
+
+				<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+				<script type='text/javascript'>
+					google.charts.load('current', {
+						'packages': ['annotationchart']
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+						var data = new google.visualization.DataTable();
+						data.addColumn('date', 'Y');
+						data.addColumn('number', 'Total');
+						<?php
+						foreach ($todosFundos as $fundo) {
+							echo "data.addColumn('number', 'Fundo " . $fundo . "');";
+						}
+						?>
+						<?php
+						echo "data.addRows([";
+						foreach ($tabelaFormatada as $linha) {
+							echo "[new Date(" . $linha[0] . ", " . $linha[1] . ")";
+							for ($i = 2; $i < sizeof($linha); $i++) {
+								echo ", " . $linha[$i];
+							}
+							echo "],";
+						}
+						echo "]);";
+						?>
+
+						var chart = new google.visualization.AnnotationChart(document.getElementById('chart_div'));
+
+						var options = {
+							displayAnnotations: false,
+							height: 700,
+							hAxis: {
+								title: 'Mês'
+							},
+							vAxis: {
+								title: 'Patrimônio'
+							}
+						};
+
+						chart.draw(data, options);
+					}
+				</script>
+
+
+				<br>
+				<div id="chart_div" style="width: 100%; margin-left: -20px;"></div>
+				<br>
+
+				<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+				<script type="text/javascript">
+					google.charts.load('current', {
+						packages: ['corechart', 'line']
+					});
+					google.charts.setOnLoadCallback(drawChart);
+
+					function drawChart() {
+						var configuracaoGrafico = new google.visualization.DataTable();
+						configuracaoGrafico.addColumn('date', 'Y');
+						configuracaoGrafico.addColumn('number', 'Total');
+						<?php
+						foreach ($todosFundos as $fundo) {
+							echo "configuracaoGrafico.addColumn('number', 'Fundo " . $fundo . "');";
+						}
+
+						?>
+						<?php
+						echo "configuracaoGrafico.addRows([";
+						// echo "<div>";
+						foreach ($tabelaFormatada as $linha) {
+							echo "[new Date(" . $linha[0] . ", " . $linha[1] . ")";
+							for ($i = 2; $i < sizeof($linha); $i++) {
+								echo ", " . $linha[$i];
+							}
+							echo "],";
+						}
+						echo "]);";
+
+						?>
+
+						var options = {
+							hAxis: {
+								title: 'Mês'
+							},
+							vAxis: {
+								title: 'Patrimônio'
+							},
+							crosshair: {
+								color: '#666666',
+								trigger: 'selection'
+							},
+							height: 900,
+							// explorer: {}
+							explorer: {
+								axis: 'horizontal',
+								// actions: ['dragToZoom', 'rightClickToReset']
+							}
+						};
+
+						var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+
+						chart.draw(configuracaoGrafico, options);
+						chart.setSelection([{
+							row: 0,
+							column: 0
+						}]);
+
+					}
+				</script>
+
+				<br>
+				<div id="chart_div2" style="width: 100%; margin-left: -20px;"></div>
+				<br>
+
+
+				<?php
+				echo "dados que vao para o addRow() do grafico<br>";
+				foreach ($tabelaFormatada as $linha) {
+					echo "[new Date(" . $linha[0] . ", " . $linha[1] . ")";
+					for ($i = 2; $i < sizeof($linha); $i++) {
+						echo ", " . $linha[$i];
+					}
+					echo "]," . "<br>";
+				}
+
+				echo "<br>=================<br>";
+
+				echo $dataOpMaisAntiga . "<br>";
+				echo $dataOpMaisRecente . "<br>";
+
+				echo "<br>=================<br>";
+
+				echo "meses:<br>";
+				foreach ($todosOsMeses as $mes) :
+					echo $mes . "<br>";
+				endforeach;
+
+				echo "<br>=================<br>";
+
+				echo "fundos:<br>";
+				foreach ($todosFundos as $fundo) :
+					echo $fundo . "<br>";
+				endforeach;
+
+				echo "<br>=================<br>";
+
+				echo "patrimonio para fundos nos meses:<br>";
+				foreach ($balancoFundoMes as $op) :
+					foreach ($todosFundos as $fundo) :
+						echo $op[$fundo] . "<br>";
+					endforeach;
+					echo "--------------<br>";
+				endforeach;
+
+				echo "<br><br>";
+
+				echo "<br>=================<br>";
+				echo "<br><br>";
+
+				echo var_dump($balancoFundoMes);
+
+				echo "<br><br>";
+				echo "<br>=================<br>";
+				echo "<br><br>";
+
+				echo var_dump($tabelaFormatada);
+				?>
+
+
+
 				<?php if (!empty($carteirasInvestimento->indicadores_carteiras)) : ?>
 					<div class="table-responsive">
 						<table>

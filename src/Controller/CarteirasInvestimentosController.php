@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use DateTime;
+
 /**
  * CarteirasInvestimentos Controller
  *
@@ -27,6 +29,81 @@ class CarteirasInvestimentosController extends AppController {
 		$this->set(compact('carteirasInvestimentos', 'userName'));
 	}
 
+
+	public function indicadores_patrimonio($id_carteira = null) {
+		$operacoesFinanceiras = $this->CarteirasInvestimentos->OperacoesFinanceiras->find('all', ['order' => ['data' => 'ASC']])->where(['carteiras_investimento_id' => $id_carteira])->toList();
+
+		$dataOpMaisAntiga = date_format($operacoesFinanceiras[0]['data'], 'Y-m');
+		$dataOpMaisRecente = date_format(end($operacoesFinanceiras)['data'], 'Y-m');
+
+		$todosOsMeses = [];
+		$todosFundos = [];
+		// balanco de cada fundo em cada mes
+		$balancoFundoMes = [];
+
+		$mesIterador = $operacoesFinanceiras[0]['data'];
+		$mesFormatado = "";
+		// inicializa os todosOsMeses
+		do {
+			$mesFormatado = date_format($mesIterador, 'Y-m');
+			$todosOsMeses[] = $mesFormatado;
+			$mesIterador = $mesIterador->modify('+1 month');
+		} while ($mesFormatado != $dataOpMaisRecente);
+
+		// inicializa todosFundos
+		foreach ($operacoesFinanceiras as $operacaoFinanceira) {
+			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
+			if (!in_array($fundoId, $todosFundos)) {
+				$todosFundos[] = $fundoId;
+				foreach ($todosOsMeses as $mes) {
+					$balancoFundoMes[$mes][$fundoId] = 0;
+				}
+			}
+		}
+
+		// inicializa o balanco de cada fundo em cada mes
+		foreach ($operacoesFinanceiras as $operacaoFinanceira) {
+			$mesFormatado = date_format($operacaoFinanceira['data'], 'Y-m');
+			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
+
+			// TODO: VER TIPO de OPERACOES NEGATIVAS, subtrair
+			$balancoFundoMes[$mesFormatado][$fundoId] += $operacaoFinanceira["valor_total"];
+		}
+
+		$mesAnterior = "";
+
+		// calcula o valor total do patrimonio dos fundos somados em determinado mes
+		foreach ($todosOsMeses as $mes) {
+			$soma = 0;
+			foreach ($todosFundos as $fundoId) {
+				// TODO: ADICIONAR O RENDIMENTO DO MES PASSADO, RENTABILIDADE DO FUNDO NO MES ENTRE PARENTESES
+				$rentabilidade = 1 + (0.1);
+				$patrimonioMesAnterios = $balancoFundoMes[$mesAnterior][$fundoId] * $rentabilidade;
+				$balancoFundoMes[$mes][$fundoId] += $patrimonioMesAnterios;
+
+				$soma += $balancoFundoMes[$mes][$fundoId];
+			}
+			$balancoFundoMes[$mes]['total'] += $soma;
+			$mesAnterior = $mes;
+		}
+
+		$tabelaFormatada = [];
+		// setar os valores para usar no grafico
+		foreach ($todosOsMeses as $idx => $mes) {
+			$diaJS = $mes[0] . $mes[1] . $mes[2] . $mes[3];
+			$mesJS = (int)($mes[5] . $mes[6]) - 1;
+			$tabelaFormatada[$idx] = [$diaJS, $mesJS, $balancoFundoMes[$mes]['total']];
+			foreach ($todosFundos as $fundo) {
+				$tabelaFormatada[$idx][] = $balancoFundoMes[$mes][$fundo];
+			}
+		}
+
+
+		// return $operacoesFinanceiras;
+		// return $dataOpMaisAntiga;
+		$this->set(compact('dataOpMaisAntiga', 'dataOpMaisRecente', 'todosFundos', 'todosOsMeses', 'balancoFundoMes', 'tabelaFormatada'));
+	}
+
 	/**
 	 * View method
 	 *
@@ -36,10 +113,15 @@ class CarteirasInvestimentosController extends AppController {
 	 */
 	public function view($id = null) {
 		$carteirasInvestimento = $this->CarteirasInvestimentos->get($id, [
-			'contain' => ['Usuarios', 'IndicadoresCarteiras', 'OperacoesFinanceiras'=>['CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras']],
+			'contain' => ['Usuarios', 'IndicadoresCarteiras', 'OperacoesFinanceiras' => ['CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras']],
 		]);
 
-		$this->set(compact('carteirasInvestimento'));
+		$this->indicadores_patrimonio($id);
+
+		$this->set(compact('carteirasInvestimento', 'indicadoresPatrimonio'));
+
+
+
 		/*
 		$this->paginate = [
 			'contain' => ['CarteirasInvestimentos', 'CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras'],
@@ -127,5 +209,4 @@ class CarteirasInvestimentosController extends AppController {
 			return $this->redirect(['controller' => 'Pages', 'action' => 'home']);
 		}
 	}
-
 }

@@ -49,7 +49,6 @@
                 echo $this->Form->control('valor_cota');
                 echo $this->Form->control('quantidade_cotas');
                 echo $this->Form->control('data');
-                echo $this->Url->build(['controller' => 'Fundos', 'action' => 'Ajaxsearch']);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

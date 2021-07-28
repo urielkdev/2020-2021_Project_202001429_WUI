@@ -15,7 +15,7 @@ $administrador = $conectado && $session->read('User.plano') == 4;
 			<a href="/Educacao/index"><?= __('Como começar a investir') ?></a>
 			<a href="/Educacao/index"><?= __('Perfis de investidores') ?></a>
 		</div>
-	</div> 
+	</div>
 	<div class="dropdown">
 		<button class="dropbtn"><?= __('Fundos de investimento') ?></button>
 		<div class="dropdown-content">
@@ -24,7 +24,7 @@ $administrador = $conectado && $session->read('User.plano') == 4;
 			<a href="/Fundos/indicadores"><?= __('Indicadores financeiros') ?></a>
 			<a href="/Fundos/comparacao"><?= __('Comparação de fundos') ?></a>
 		</div>
-	</div> 
+	</div>
 	<div class="dropdown">
 		<button class="dropbtn"><?= __('Empresas abertas') ?></button>
 		<div class="dropdown-content">
@@ -40,7 +40,7 @@ $administrador = $conectado && $session->read('User.plano') == 4;
 				<span><?= __('Comparação de ações') ?></span>
 			<?php } ?>
 		</div>
-	</div> 
+	</div>
 	<div class="dropdown">
 		<button class="dropbtn"><?= __('Carteira de investimento') ?></button>
 		<div class="dropdown-content">
@@ -57,7 +57,7 @@ $administrador = $conectado && $session->read('User.plano') == 4;
 				<span><?= __('Fronteira eficiente') ?></span>
 			<?php } ?>
 		</div>
-	</div> 
+	</div>
 
 	<?php if ($administrador) { ?>
 		<div class="dropdown">
@@ -68,6 +68,6 @@ $administrador = $conectado && $session->read('User.plano') == 4;
 				<a href="/Admin/permissoes"><?= __('Permissões') ?></a>
 				<a href="/Admin/fronteira"><?= __('Registros') ?></a>
 			</div>
-		</div> 
+		</div>
 	<?php } ?>
 </div>

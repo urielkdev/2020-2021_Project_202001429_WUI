@@ -10,15 +10,13 @@ namespace App\Controller;
  * @property \App\Model\Table\OperacoesFinanceirasTable $OperacoesFinanceiras
  * @method \App\Model\Entity\OperacoesFinanceira[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class OperacoesFinanceirasController extends AppController
-{
+class OperacoesFinanceirasController extends AppController {
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
-    {
+    public function index() {
         $this->paginate = [
             'contain' => ['CarteirasInvestimentos', 'CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras'],
         ];
@@ -34,8 +32,7 @@ class OperacoesFinanceirasController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $operacoesFinanceira = $this->OperacoesFinanceiras->get($id, [
             'contain' => ['CarteirasInvestimentos', 'CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras'],
         ]);
@@ -49,8 +46,7 @@ class OperacoesFinanceirasController extends AppController
      * @param string|null $carteiras_investimento_id Carteiras Investimento id.
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add($carteiras_investimento_id = 1)
-    {
+    public function add($carteiras_investimento_id = 1) {
         $operacoesFinanceira = $this->OperacoesFinanceiras->newEmptyEntity();
         if ($this->request->is('post')) {
             $operacoesFinanceira = $this->OperacoesFinanceiras->patchEntity($operacoesFinanceira, $this->request->getData());
@@ -77,8 +73,7 @@ class OperacoesFinanceirasController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $operacoesFinanceira = $this->OperacoesFinanceiras->get($id, [
             'contain' => [],
         ]);
@@ -93,7 +88,7 @@ class OperacoesFinanceirasController extends AppController
             $this->Flash->error(__('The operacoes financeira could not be saved. Please, try again.'));
         }
         $carteirasInvestimentos = $this->OperacoesFinanceiras->CarteirasInvestimentos->find('list', ['limit' => 200]);
-        $cnpjFundos = $this->OperacoesFinanceiras->CnpjFundos->find('list', ['limit' => 200]);
+        // $cnpjFundos = $this->OperacoesFinanceiras->CnpjFundos->find('list', ['limit' => 200]);
         $distribuidorFundos = $this->OperacoesFinanceiras->DistribuidorFundos->find('list', ['limit' => 200]);
         $tipoOperacoesFinanceiras = $this->OperacoesFinanceiras->TipoOperacoesFinanceiras->find('list', ['limit' => 200]);
         $this->set(compact('operacoesFinanceira', 'carteirasInvestimentos', 'cnpjFundos', 'distribuidorFundos', 'tipoOperacoesFinanceiras'));
@@ -106,8 +101,7 @@ class OperacoesFinanceirasController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $operacoesFinanceira = $this->OperacoesFinanceiras->get($id);
         if ($this->OperacoesFinanceiras->delete($operacoesFinanceira)) {
@@ -116,6 +110,6 @@ class OperacoesFinanceirasController extends AppController
             $this->Flash->error(__('The operacoes financeira could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'CarteirasInvestimentos', 'action' => 'view', $operacoesFinanceira['carteiras_investimento_id']]);
     }
 }
