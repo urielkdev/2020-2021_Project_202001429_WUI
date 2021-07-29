@@ -113,14 +113,14 @@
 				<br>
 
 				<?php
-				echo "dados que vao para o addRow() do grafico<br>";
-				foreach ($tabelaFormatada as $linha) {
-					echo "[new Date(" . $linha[0] . ", " . $linha[1] . ", " . $linha[2] . ")";
-					for ($i = 3; $i < sizeof($linha); $i++) {
-						echo ", " . $linha[$i];
-					}
-					echo "]," . "<br>";
-				}
+				// echo "dados que vao para o addRow() do grafico<br>";
+				// foreach ($tabelaFormatada as $linha) {
+				// 	echo "[new Date(" . $linha[0] . ", " . $linha[1] . ", " . $linha[2] . ")";
+				// 	for ($i = 3; $i < sizeof($linha); $i++) {
+				// 		echo ", " . $linha[$i];
+				// 	}
+				// 	echo "]," . "<br>";
+				// }
 
 				echo "<br>=================<br>";
 
@@ -129,49 +129,52 @@
 
 				echo "<br>=================<br>";
 
-				echo "meses:<br>";
-				foreach ($todosAsDatas as $mes) :
-					echo $mes . "<br>";
-				endforeach;
+				// echo "meses:<br>";
+				// foreach ($todasAsDatas as $mes) :
+				// 	echo $mes . "<br>";
+				// endforeach;
 
 				echo "<br>=================<br>";
 
 				echo "fundos:<br>";
-				foreach ($todosFundos as $fundo) :
-					echo $fundo . "<br>";
-				endforeach;
+				// foreach ($todosFundos as $fundo) :
+				// 	echo $fundo . "<br>";
+				// endforeach;
 
 				echo "<br>=================<br>";
 
 				echo "patrimonio para fundos nos meses:<br>";
-				foreach ($balancoFundoMes as $op) :
-					foreach ($todosFundos as $fundo) :
-						echo $op[$fundo] . "<br>";
-					endforeach;
-					echo "--------------<br>";
-				endforeach;
-				echo "<br>=================<br>";
-
-				echo "patrimonio para fundos nos meses:<br>";
-				foreach ($tabelaFormatada as $op) :
-					foreach ($todosFundos as $fundo) :
-						echo $op[$fundo] . "<br>";
-					endforeach;
-					echo "--------------<br>";
-				endforeach;
+				// foreach ($balancoFundoData as $op) :
+				// 	foreach ($todosFundos as $fundo) :
+				// 		echo $op[$fundo] . "<br>";
+				// 	endforeach;
+				// 	echo "--------------<br>";
+				// endforeach;
 
 				echo "<br><br>";
+
 
 				echo "<br>=================<br>";
 				echo "<br><br>";
 
-				echo var_dump($balancoFundoMes);
+				echo "var_dump(balancoFundoData)";
+				// echo var_dump($balancoFundoData);
 
 				echo "<br><br>";
 				echo "<br>=================<br>";
 				echo "<br><br>";
 
-				echo var_dump($tabelaFormatada);
+				echo "var_dump(rentabilidadeFundoData)";
+				// foreach ($rentabilidadeFundoData as $rentabilidade) :
+				// 	echo var_dump($rentabilidade) . "<br>";
+				// endforeach;
+
+				echo "<br><br>";
+				echo "<br>=================<br>";
+				echo "<br><br>";
+
+				echo "var_dump(tabelaFormatada)";
+				// echo var_dump($tabelaFormatada);
 				?>
 
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use DateTime;
+use Cake\ORM\TableRegistry;
 
 /**
  * CarteirasInvestimentos Controller
@@ -32,77 +32,89 @@ class CarteirasInvestimentosController extends AppController {
 
 	public function indicadores_patrimonio($id_carteira = null) {
 		$operacoesFinanceiras = $this->CarteirasInvestimentos->OperacoesFinanceiras->find('all', ['order' => ['data' => 'ASC']])->where(['carteiras_investimento_id' => $id_carteira])->toList();
-
+		if (sizeof($operacoesFinanceiras) == 0) return;
 		$dataOpMaisAntiga = date_format($operacoesFinanceiras[0]['data'], 'Y-m-d');
 		$dataOpMaisRecente = date("Y-m-d");
 
-		$todosAsDatas = [];
+		$todasAsDatas = [];
 		$todosFundos = [];
-		// balanco de cada fundo em cada mes
-		$balancoFundoMes = [];
+		// balanco de cada fundo em cada data
+		$balancoFundoData = [];
+		// rentabilidade de cada fundo em cada data
+		$rentabilidadeFundoData = [];
 
-		$mesIterador = $operacoesFinanceiras[0]['data'];
-		$mesFormatado = "";
-		// inicializa os todosAsDatas
+		$dataIterador = $operacoesFinanceiras[0]['data'];
+		$dataFormatada = "";
+		// inicializa os todasAsDatas
 		do {
-			$mesFormatado = date_format($mesIterador, 'Y-m-d');
-			$todosAsDatas[] = $mesFormatado;
-			$mesIterador = $mesIterador->modify('+1 day');
-		} while ($mesFormatado != $dataOpMaisRecente);
+			$dataFormatada = date_format($dataIterador, 'Y-m-d');
+			$todasAsDatas[] = $dataFormatada;
+			$dataIterador = $dataIterador->modify('+1 day');
+		} while ($dataFormatada != $dataOpMaisRecente);
 
 		// inicializa todosFundos
 		foreach ($operacoesFinanceiras as $operacaoFinanceira) {
 			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
+			// caso o fundo ainda nao esteja cadastrado
 			if (!in_array($fundoId, $todosFundos)) {
 				$todosFundos[] = $fundoId;
-				foreach ($todosAsDatas as $mes) {
-					$balancoFundoMes[$mes][$fundoId] = 0;
+
+				foreach ($todasAsDatas as $data) {
+					$balancoFundoData[$data][$fundoId] = 0;
+					$rentabilidadeFundoData[$data][$fundoId] = 0;
+				}
+
+				$consultaRentabilidade = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')->find('all', ['order' => ['DT_COMPTC' => 'ASC']])->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $dataOpMaisAntiga])->toList();
+				foreach ($consultaRentabilidade as $consulta) {
+					$data = date_format($consulta['DT_COMPTC'], 'Y-m-d');
+					$rentabilidadeFundoData[$data][$fundoId] = $consulta['rentab_diaria'];
 				}
 			}
 		}
 
-		// inicializa o balanco de cada fundo em cada mes
+		// inicializa o balanco de cada fundo em cada data
 		foreach ($operacoesFinanceiras as $operacaoFinanceira) {
-			$mesFormatado = date_format($operacaoFinanceira['data'], 'Y-m-d');
+			$dataFormatada = date_format($operacaoFinanceira['data'], 'Y-m-d');
 			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
 
 			// TODO: VER TIPO de OPERACOES NEGATIVAS, subtrair
-			$balancoFundoMes[$mesFormatado][$fundoId] += $operacaoFinanceira["valor_total"];
+			// $tipoOperacao = $operacaoFinanceira[];
+			$balancoFundoData[$dataFormatada][$fundoId] += $operacaoFinanceira["valor_total"];
 		}
 
-		$mesAnterior = "";
 
-		// calcula o valor total do patrimonio dos fundos somados em determinado mes
-		foreach ($todosAsDatas as $mes) {
+		$dataAnterior = "";
+		// calcula o valor total do patrimonio dos fundos somados em determinado data
+		foreach ($todasAsDatas as $data) {
 			$soma = 0;
 			foreach ($todosFundos as $fundoId) {
 				// TODO: ADICIONAR O RENDIMENTO DO MES PASSADO, RENTABILIDADE DO FUNDO NO MES ENTRE PARENTESES
-				$rentabilidade = 1 + (0.001);
-				$patrimonioMesAnterios = $balancoFundoMes[$mesAnterior][$fundoId] * $rentabilidade;
-				$balancoFundoMes[$mes][$fundoId] += $patrimonioMesAnterios;
+				$rentabilidade = 1 + $rentabilidadeFundoData[$data][$fundoId];
+				$patrimonioMesAnterios = $balancoFundoData[$dataAnterior][$fundoId] * $rentabilidade;
+				$balancoFundoData[$data][$fundoId] += $patrimonioMesAnterios;
 
-				$soma += $balancoFundoMes[$mes][$fundoId];
+				$soma += $balancoFundoData[$data][$fundoId];
 			}
-			$balancoFundoMes[$mes]['total'] += $soma;
-			$mesAnterior = $mes;
+			$balancoFundoData[$data]['total'] += $soma;
+			$dataAnterior = $data;
 		}
 
 		$tabelaFormatada = [];
 		// setar os valores para usar no grafico
-		foreach ($todosAsDatas as $idx => $mes) {
-			$anoJS = $mes[0] . $mes[1] . $mes[2] . $mes[3];
-			$mesJS = "" . ((int)($mes[5] . $mes[6]) - 1);
-			$diaJS = "" . ((int)($mes[8] . $mes[9]));
-			$tabelaFormatada[$idx] = [$anoJS, $mesJS, $diaJS, floor($balancoFundoMes[$mes]['total'] * 1000) / 1000];
+		foreach ($todasAsDatas as $idx => $data) {
+			$anoJS = $data[0] . $data[1] . $data[2] . $data[3];
+			$mesJS = "" . ((int)($data[5] . $data[6]) - 1);
+			$diaJS = "" . ((int)($data[8] . $data[9]));
+			$tabelaFormatada[$idx] = [$anoJS, $mesJS, $diaJS, floor($balancoFundoData[$data]['total'] * 1000) / 1000];
 			foreach ($todosFundos as $fundo) {
-				$tabelaFormatada[$idx][] = floor($balancoFundoMes[$mes][$fundo] * 1000) / 1000;
+				$tabelaFormatada[$idx][] = $balancoFundoData[$data][$fundo];
 			}
 		}
 
 
 		// return $operacoesFinanceiras;
 		// return $dataOpMaisAntiga;
-		$this->set(compact('dataOpMaisAntiga', 'dataOpMaisRecente', 'todosFundos', 'todosAsDatas', 'balancoFundoMes', 'tabelaFormatada'));
+		$this->set(compact('dataOpMaisAntiga', 'dataOpMaisRecente', 'todosFundos', 'todasAsDatas', 'balancoFundoData', 'rentabilidadeFundoData', 'tabelaFormatada'));
 	}
 
 	/**
