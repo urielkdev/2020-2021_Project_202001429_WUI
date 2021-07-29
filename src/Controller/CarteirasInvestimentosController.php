@@ -36,6 +36,11 @@ class CarteirasInvestimentosController extends AppController {
 		$dataOpMaisAntiga = date_format($operacoesFinanceiras[0]['data'], 'Y-m-d');
 		$dataOpMaisRecente = date("Y-m-d");
 
+		$consultaTipoOperacao = TableRegistry::getTableLocator()->get('TipoOperacoesFinanceiras')->find('all');
+		foreach ($consultaTipoOperacao as $tipoOperacao) {
+			$tiposOperacao[$tipoOperacao['id']] = $tipoOperacao['is_aplicacao'];
+		}
+
 		$todasAsDatas = [];
 		$todosFundos = [];
 		// balanco de cada fundo em cada data
@@ -78,8 +83,10 @@ class CarteirasInvestimentosController extends AppController {
 			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
 
 			// TODO: VER TIPO de OPERACOES NEGATIVAS, subtrair
-			// $tipoOperacao = $operacaoFinanceira[];
-			$balancoFundoData[$dataFormatada][$fundoId] += $operacaoFinanceira["valor_total"];
+			if ($tiposOperacao[$operacaoFinanceira['tipo_operacoes_financeira_id']])
+				$balancoFundoData[$dataFormatada][$fundoId] += $operacaoFinanceira["valor_total"];
+			else
+				$balancoFundoData[$dataFormatada][$fundoId] -= $operacaoFinanceira["valor_total"];
 		}
 
 

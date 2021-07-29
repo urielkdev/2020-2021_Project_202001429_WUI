@@ -122,28 +122,28 @@
 				// 	echo "]," . "<br>";
 				// }
 
-				echo "<br>=================<br>";
+				// echo "<br>=================<br>";
 
-				echo $dataOpMaisAntiga . "<br>";
-				echo $dataOpMaisRecente . "<br>";
+				// echo $dataOpMaisAntiga . "<br>";
+				// echo $dataOpMaisRecente . "<br>";
 
-				echo "<br>=================<br>";
+				// echo "<br>=================<br>";
 
 				// echo "meses:<br>";
 				// foreach ($todasAsDatas as $mes) :
 				// 	echo $mes . "<br>";
 				// endforeach;
 
-				echo "<br>=================<br>";
+				// echo "<br>=================<br>";
 
-				echo "fundos:<br>";
+				// echo "fundos:<br>";
 				// foreach ($todosFundos as $fundo) :
 				// 	echo $fundo . "<br>";
 				// endforeach;
 
-				echo "<br>=================<br>";
+				// echo "<br>=================<br>";
 
-				echo "patrimonio para fundos nos meses:<br>";
+				// echo "patrimonio para fundos nos meses:<br>";
 				// foreach ($balancoFundoData as $op) :
 				// 	foreach ($todosFundos as $fundo) :
 				// 		echo $op[$fundo] . "<br>";
@@ -151,29 +151,29 @@
 				// 	echo "--------------<br>";
 				// endforeach;
 
-				echo "<br><br>";
+				// echo "<br><br>";
 
 
-				echo "<br>=================<br>";
-				echo "<br><br>";
+				// echo "<br>=================<br>";
+				// echo "<br><br>";
 
-				echo "var_dump(balancoFundoData)";
+				// echo "var_dump(balancoFundoData)";
 				// echo var_dump($balancoFundoData);
 
-				echo "<br><br>";
-				echo "<br>=================<br>";
-				echo "<br><br>";
+				// echo "<br><br>";
+				// echo "<br>=================<br>";
+				// echo "<br><br>";
 
-				echo "var_dump(rentabilidadeFundoData)";
+				// echo "var_dump(rentabilidadeFundoData)";
 				// foreach ($rentabilidadeFundoData as $rentabilidade) :
 				// 	echo var_dump($rentabilidade) . "<br>";
 				// endforeach;
 
-				echo "<br><br>";
-				echo "<br>=================<br>";
-				echo "<br><br>";
+				// echo "<br><br>";
+				// echo "<br>=================<br>";
+				// echo "<br><br>";
 
-				echo "var_dump(tabelaFormatada)";
+				// echo "var_dump(tabelaFormatada)";
 				// echo var_dump($tabelaFormatada);
 				?>
 
