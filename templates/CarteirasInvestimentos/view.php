@@ -131,7 +131,7 @@
 							<?php foreach ($todosFundosTotal as $fundoId) : ?>
 								<tr>
 									<th><?= $fundoId ?></td>
-									<td><?= $retornoFundo[$fundoId] ?></td>
+									<td><?= bcdiv($retornoFundo[$fundoId], 1, 3) ?></td>
 									<td>Ainda não implementado</td>
 								</tr>
 							<?php endforeach; ?>
@@ -154,7 +154,7 @@
 							$tamanho = sizeof($tabelaFormatada);
 							echo "[['Fundo', 'Valor Total'],";
 							foreach ($todosFundos as $index => $fundoId) {
-								echo "['" . $fundoId . "', " . $tabelaFormatada[$tamanho - 1][$index + 4];
+								echo "['Fundo " . $fundoId . "', " . $tabelaFormatada[$tamanho - 1][$index + 4];
 								echo "],";
 							}
 							echo "]";
@@ -176,6 +176,42 @@
 				</script>
 
 				<div id="pie-chart" style="width: 100%;"></div>
+
+				<h5><?= __('Proporção de classe de ativos') ?></h5>
+
+				<script type="text/javascript">
+					google.charts.load('current', {
+						'packages': ['corechart']
+					});
+					google.charts.setOnLoadCallback(drawPieChart2);
+
+					function drawPieChart2() {
+						var data = google.visualization.arrayToDataTable(
+							<?php
+							echo "[['Classe de ativo', 'Valor Total'],";
+							foreach ($balancoClasseTabela as $elemento) {
+								echo "['" . $elemento['classe'] . "', " . $elemento['balanco'];
+								echo "],";
+							}
+							echo "]";
+							?>
+						);
+
+						var options = {
+							height: 600,
+							legend: {
+								alignment: 'center',
+								position: 'top'
+							}
+						};
+
+						var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart2'));
+
+						pieChart.draw(data, options);
+					}
+				</script>
+
+				<div id="pie-chart2" style="width: 100%;"></div>
 
 				<?php
 				// echo "retornoFundo:<br>";
