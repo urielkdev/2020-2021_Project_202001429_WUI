@@ -13,35 +13,40 @@ use App\Form\FundosFiltroForm;
  * Fundos Controller
  *
  */
-class FundosController extends AppController {
+class FundosController extends AppController
+{
 
 	//var $helpers = array('Html', 'Ajax', 'Javascript', 'Form');
-// In a controller or table method.
+	// In a controller or table method.
 
 	public $paginate = array(
 		'maxLimit' => 20, //Registros por página
-//		'limit' => 100, //Registros por consulta
+		//		'limit' => 100, //Registros por consulta
 		'paramType' => 'querystring' //Esta linha analisa o parâmetro fornecido pelo link.
 	);
 
-	public function initialize(): void {
+	public function initialize(): void
+	{
 		parent::initialize();
 		$this->loadComponent('RequestHandler');
 	}
 
-	public function beforeFilter(\Cake\Event\EventInterface $event) {
+	public function beforeFilter(\Cake\Event\EventInterface $event)
+	{
 		parent::beforeFilter($event);
 		if ($this->request->is('ajax')) {
 			//	$this->viewBuilder()->setLayout('ajax');
 		}
 	}
 
-	public function index() {
+	public function index()
+	{
 		$this->viewBuilder()->setHelpers(['Html', 'Ajax', 'Javascript', 'Form']);
 		$this->redirect('/Fundos/busca');
 	}
 
-	function buscaFundoPorAssociacaoCampo($associacao, $campo, $valor, \Cake\ORM\Query $queryFundos) {
+	function buscaFundoPorAssociacaoCampo($associacao, $campo, $valor, \Cake\ORM\Query $queryFundos)
+	{
 		$novaQuery = clone $queryFundos;
 		$novaQuery->matching($associacao, function ($q) {
 			return $q->where([$campo . ' LIKE' => '%' . $valor . '%']);
@@ -65,7 +70,8 @@ class FundosController extends AppController {
 		return $novaQuery;
 	}
 
-	function buscaFundoPorCampo($campo, $valor, \Cake\ORM\Query $queryFundos) {
+	function buscaFundoPorCampo($campo, $valor, \Cake\ORM\Query $queryFundos)
+	{
 		$novaQuery = clone $queryFundos;
 		$novaQuery->andWhere([$campo . ' LIKE' => '% ' . $valor . ' %']);
 		if ($novaQuery->count() > 0) {
@@ -88,7 +94,8 @@ class FundosController extends AppController {
 	 *
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
-	public function busca() {
+	public function busca()
+	{
 		/*
 		  $ClassesFundos = TableRegistry::getTableLocator()->get('TipoClasseFundos');
 		  $classeFundos = $ClassesFundos->find();
@@ -104,35 +111,42 @@ class FundosController extends AppController {
 		// lista
 		$CnpjFundos = TableRegistry::getTableLocator()->get('CnpjFundos');
 		$queryFundos = $CnpjFundos->find()
-				->select(['id', 'CNPJ', 'DENOM_SOCIAL'])
-				->distinct(['CnpjFundos.id'])
-				->contain(['CadastroFundos' => [
+			->select(['id', 'CNPJ', 'DENOM_SOCIAL'])
+			->distinct(['CnpjFundos.id'])
+			->contain(
+				[
+					'CadastroFundos' => [
 						'sort' => ['CadastroFundos.DT_REG_CVM ' => 'DESC'],
 						'TipoClasseFundos',
 						'TipoRentabilidadeFundos',
-						'AdministradorFundos']
-						]
-				)
-				->contain(['DocExtratosFundos' => [
-						'sort' => ['DocExtratosFundos.DT_COMPTC' => 'DESC'],
-						'TipoAnbimaClasses']
-				])
-				->contain(['SituacaoFundos' => [
-						'sort' => ['SituacaoFundos.DT_INI_SIT' => 'DESC'],
-						'TipoSituacaoFundos']
-				])
-				->notMatching('CancelamentoFundos')
-				->matching('CadastroFundos', function ($q) {
-					return $q->where(['CadastroFundos.condom_aberto' => 1]); // 1 = Fundos abertos (condomínio aberto)
-				})
-				//->matching('SituacaoFundos', function ($q) {
-				//	return $q->where(['SituacaoFundos.tipo_situacao_fundo_id' => 1]); // 1 = EM FUNCIONAMENTO NORMAL
-				//}) //  TODO Não funciona, pois fundo pode ter duas situações. Uma em funcionamento e depois outra, cancelando. Esse matching não exclui fundos com situação cancelada
-				->where([
-					['CnpjFundos.DENOM_SOCIAL != ' => ' --DESCONHECIDO--'],
-				]) // OUTROS FILTROS
-				->order(['CnpjFundos.DENOM_SOCIAL' => 'asc'])
-		/* 						
+						'AdministradorFundos'
+					]
+				]
+			)
+			->contain([
+				'DocExtratosFundos' => [
+					'sort' => ['DocExtratosFundos.DT_COMPTC' => 'DESC'],
+					'TipoAnbimaClasses'
+				]
+			])
+			->contain([
+				'SituacaoFundos' => [
+					'sort' => ['SituacaoFundos.DT_INI_SIT' => 'DESC'],
+					'TipoSituacaoFundos'
+				]
+			])
+			->notMatching('CancelamentoFundos')
+			->matching('CadastroFundos', function ($q) {
+				return $q->where(['CadastroFundos.condom_aberto' => 1]); // 1 = Fundos abertos (condomínio aberto)
+			})
+			//->matching('SituacaoFundos', function ($q) {
+			//	return $q->where(['SituacaoFundos.tipo_situacao_fundo_id' => 1]); // 1 = EM FUNCIONAMENTO NORMAL
+			//}) //  TODO Não funciona, pois fundo pode ter duas situações. Uma em funcionamento e depois outra, cancelando. Esse matching não exclui fundos com situação cancelada
+			->where([
+				['CnpjFundos.DENOM_SOCIAL != ' => ' --DESCONHECIDO--'],
+			]) // OUTROS FILTROS
+			->order(['CnpjFundos.DENOM_SOCIAL' => 'asc'])
+			/* 						
 		  // OUTROS FILTROS
 		  /*
 		  ->matching('CadastroFundos', function ($q) {
@@ -144,8 +158,7 @@ class FundosController extends AppController {
 		  ->matching('CadastroFundos.AdministradorFundos', function ($q) {
 		  return $q->where(['AdministradorFundos.nome LIKE' => '%PACTUAL%']);
 		  })
-		 */
-		;
+		 */;
 		//
 		// filtro
 		$formFiltro = new FundosFiltroForm();
@@ -192,12 +205,15 @@ class FundosController extends AppController {
 	 * @return \Cake\Http\Response|null|void Renders view
 	 * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
 	 */
-	public function view($id = null) {
+	public function view($id = null)
+	{
 		$CnpjFundos = TableRegistry::getTableLocator()->get('CnpjFundos');
 		$cnpjFundo = $CnpjFundos->get($id, [
-			'contain' => ['DocInfDiarioFundos' => ['sort' => ['DocInfDiarioFundos.DT_COMPTC' => 'ASC']], 'CancelamentoFundos', 'CadastroFundos' => ['sort' => ['CadastroFundos.DT_REG_CVM ' => 'DESC'], 'TipoClasseFundos', 'TipoRentabilidadeFundos', 'GestorFundos', 'AdministradorFundos'],
+			'contain' => [
+				'DocInfDiarioFundos' => ['sort' => ['DocInfDiarioFundos.DT_COMPTC' => 'ASC']], 'CancelamentoFundos', 'CadastroFundos' => ['sort' => ['CadastroFundos.DT_REG_CVM ' => 'DESC'], 'TipoClasseFundos', 'TipoRentabilidadeFundos', 'GestorFundos', 'AdministradorFundos'],
 				'DocExtratosFundos' => ['TipoAnbimaClasses'],
-				'SituacaoFundos' => ['sort' => ['SituacaoFundos.DT_INI_SIT' => 'DESC'], 'TipoSituacaoFundos']],
+				'SituacaoFundos' => ['sort' => ['SituacaoFundos.DT_INI_SIT' => 'DESC'], 'TipoSituacaoFundos']
+			],
 		]);
 		$this->set(compact('cnpjFundo'));
 		//
@@ -211,7 +227,8 @@ class FundosController extends AppController {
 	 *
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
-	public function comparacao() {
+	public function comparacao()
+	{
 		$IndicadoresFundos = TableRegistry::getTableLocator()->get('IndicadoresFundos');
 		//$this->paginate = [
 		//	'contain' => ['CnpjFundos' => ['CadastroFundos' => ['TipoClasseFundos']]],
@@ -225,18 +242,24 @@ class FundosController extends AppController {
 	 *
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
-	public function indicadores() {
-		
+	public function indicadores()
+	{
 	}
 
-	public function ajaxsearch() {
+	public function ajaxsearch()
+	{
 		$this->request->allowMethod('ajax');
 		//$this->viewBuilder()->setLayout('ajax');
 		$CnpjFundos = TableRegistry::getTableLocator()->get('CnpjFundos');
 		$keyword = $this->request->getQuery('keyword');
 		if ($keyword != '') {
 			$query = $CnpjFundos->find('all', [
-				'conditions' => ['DENOM_SOCIAL LIKE' => '%' . $keyword . '%'],
+				'conditions' => [
+					'OR' => [
+						'CNPJ LIKE' => '%' . $keyword . '%',
+						'DENOM_SOCIAL LIKE' => '%' . $keyword . '%'
+					]
+				],
 				'order' => ['CNPJ' => 'DESC'],
 				'limit' => 10
 			]);
@@ -251,5 +274,4 @@ class FundosController extends AppController {
 		$this->viewBuilder()->setLayout('ajax');
 		$this->render('ajax_response', 'ajax');
 	}
-
 }

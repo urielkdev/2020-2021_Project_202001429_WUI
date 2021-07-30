@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -61,6 +62,9 @@ class OperacoesFinanceirasTable extends Table
             'foreignKey' => 'tipo_operacoes_financeira_id',
             'joinType' => 'INNER',
         ]);
+        $this->hasMany('RelCarteirasOperacoes', [
+            'foreignKey' => 'operacoes_financeira_id',
+        ]);
     }
 
     /**
@@ -74,6 +78,10 @@ class OperacoesFinanceirasTable extends Table
         $validator
             ->integer('id')
             ->allowEmptyString('id', null, 'create');
+
+        $validator
+            ->integer('cnpj_fundo_id')
+            ->requirePresence('cnpj_fundo_id', 'create');
 
         $validator
             ->boolean('por_valor')

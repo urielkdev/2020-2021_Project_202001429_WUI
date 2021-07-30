@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\ORM\TableRegistry;
+
 /**
  * CarteirasInvestimentos Controller
  *
@@ -27,6 +29,132 @@ class CarteirasInvestimentosController extends AppController {
 		$this->set(compact('carteirasInvestimentos', 'userName'));
 	}
 
+
+	public function indicadores($id_carteira = null) {
+		$operacoesFinanceiras = $this->CarteirasInvestimentos->OperacoesFinanceiras->find('all', ['order' => ['data' => 'ASC']])->where(['carteiras_investimento_id' => $id_carteira])->toList();
+		if (sizeof($operacoesFinanceiras) == 0) return;
+		$dataOpMaisAntiga = date_format($operacoesFinanceiras[0]['data'], 'Y-m-d');
+		$dataOpMaisRecente = date("Y-m-d");
+
+		$consultaTipoOperacao = TableRegistry::getTableLocator()->get('TipoOperacoesFinanceiras')->find('all');
+		foreach ($consultaTipoOperacao as $tipoOperacao) {
+			$tiposOperacao[$tipoOperacao['id']] = $tipoOperacao['is_aplicacao'];
+		}
+
+		// nome da classe e balanco para cada classe de fundos, para poder fazer o grafico de proporcao de classes de fundos
+		$balancoClasseTabela = [];
+		// classe do fundo
+		$classeFundos = [];
+		// nome das classes
+		$nomeClasses = [];
+		$classesFundosConsulta = TableRegistry::getTableLocator()->get('TipoClasseFundos')->find('all')->toList();
+		foreach ($classesFundosConsulta as $classe) {
+			$nomeClasses[$classe['id']] = $classe['classe'];
+		}
+
+		// todas as datas, para serem utilizadas no grafico
+		$todasAsDatas = [];
+		// todos os fundos, para serem utilizados no grafico
+		$todosFundos = [];
+		// balanco de cada fundo em cada data
+		$balancoFundoData = [];
+		// retorno cada fundo de todos os tempos
+		$retornoFundo = [];
+		// rentabilidade de cada fundo em cada data
+		$rentabilidadeFundoData = [];
+		// drawdown de cada fundo
+		// rever se é a maior perda em X tempo, ou tipo, maior perda em 1 unico dia
+		// se tiver perda por 3 dias seguidos, conta como 1 perda pro drawdown?
+		$drawdownFundo = [];
+
+		$dataIterador = $operacoesFinanceiras[0]['data'];
+		$dataFormatada = "";
+		// inicializa os todasAsDatas
+		do {
+			$dataFormatada = date_format($dataIterador, 'Y-m-d');
+			$todasAsDatas[] = $dataFormatada;
+			$dataIterador = $dataIterador->modify('+1 day');
+		} while ($dataFormatada != $dataOpMaisRecente);
+
+		// inicializa todosFundos, seta o balanco
+		foreach ($operacoesFinanceiras as $operacaoFinanceira) {
+			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
+			// caso o fundo ainda nao esteja cadastrado
+			if (!in_array($fundoId, $todosFundos)) {
+				$todosFundos[] = $fundoId;
+
+				foreach ($todasAsDatas as $data) {
+					$balancoFundoData[$data][$fundoId] = 0;
+					$rentabilidadeFundoData[$data][$fundoId] = 0;
+				}
+
+				$consultaRentabilidade = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')->find('all', ['order' => ['DT_COMPTC' => 'ASC']])->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $dataOpMaisAntiga])->toList();
+				foreach ($consultaRentabilidade as $consulta) {
+					$data = date_format($consulta['DT_COMPTC'], 'Y-m-d');
+					$rentabilidadeFundoData[$data][$fundoId] = $consulta['rentab_diaria'];
+				}
+
+				$classeFundosConsulta = TableRegistry::getTableLocator()->get('CadastroFundos')->find('all')->where(['cnpj_fundo_id' => $fundoId])->toList();
+				$classeFundos[$fundoId] = (int)$classeFundosConsulta[0]['tipo_classe_fundo_id'];
+			}
+		}
+
+		// inicializa o balanco de cada fundo em cada data
+		foreach ($operacoesFinanceiras as $operacaoFinanceira) {
+			$dataFormatada = date_format($operacaoFinanceira['data'], 'Y-m-d');
+			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
+			$valorTotalOp = $operacaoFinanceira["valor_total"];
+			// TODO: VER TIPO de OPERACOES NEGATIVAS, subtrair
+			if ((int)$tiposOperacao[$operacaoFinanceira['tipo_operacoes_financeira_id']] == 1) {
+				$balancoFundoData[$dataFormatada][$fundoId] += $valorTotalOp;
+			} else {
+				$balancoFundoData[$dataFormatada][$fundoId] -= $valorTotalOp;
+			}
+		}
+
+
+		$dataAnterior = "";
+		// calcula o valor total do patrimonio dos fundos somados em determinado data
+		foreach ($todasAsDatas as $data) {
+			$soma = 0;
+			foreach ($todosFundos as $fundoId) {
+				$rendimentoData = $balancoFundoData[$dataAnterior][$fundoId] * $rentabilidadeFundoData[$data][$fundoId];
+				$patrimonioDataAnterios = $balancoFundoData[$dataAnterior][$fundoId] + $rendimentoData;
+				$balancoFundoData[$data][$fundoId] += $patrimonioDataAnterios;
+
+				// calculo para saber o retorno
+				$retornoFundo[$fundoId] += $rendimentoData;
+				$retornoFundo['Total'] += $rendimentoData;
+				$soma += $balancoFundoData[$data][$fundoId];
+			}
+			$balancoFundoData[$data]['Total'] += $soma;
+			$dataAnterior = $data;
+		}
+
+		$tabelaFormatada = [];
+		// setar os valores para usar no grafico
+		foreach ($todasAsDatas as $idx => $data) {
+			$anoJS = $data[0] . $data[1] . $data[2] . $data[3];
+			$mesJS = "" . ((int)($data[5] . $data[6]) - 1);
+			$diaJS = "" . ((int)($data[8] . $data[9]));
+			$tabelaFormatada[$idx] = [$anoJS, $mesJS, $diaJS, floor($balancoFundoData[$data]['Total'] * 1000) / 1000];
+			foreach ($todosFundos as $fundo) {
+				$tabelaFormatada[$idx][] = $balancoFundoData[$data][$fundo];
+			}
+		}
+
+		$balancoClasseTabela = [];
+		foreach ($todosFundos as $fundoId) {
+			// $balancoFundoData[$data][$fundoId]
+			$classe = $classeFundos[$fundoId];
+			$balancoClasseTabela[$classe]['classe'] = $nomeClasses[$classe];
+			$balancoClasseTabela[$classe]['balanco'] += $balancoFundoData[$dataOpMaisRecente][$fundoId];
+		}
+
+		// TODO: RETIRAR DO set VARIAVEIS QUE NÃO SERÃO UTILIZADAS NA VIEW
+		$this->set(compact('balancoClasseTabela', 'retornoFundo', 'dataOpMaisAntiga', 'dataOpMaisRecente', 'todosFundos', 'todasAsDatas', 'balancoFundoData', 'rentabilidadeFundoData', 'tabelaFormatada'));
+	}
+
 	/**
 	 * View method
 	 *
@@ -36,10 +164,15 @@ class CarteirasInvestimentosController extends AppController {
 	 */
 	public function view($id = null) {
 		$carteirasInvestimento = $this->CarteirasInvestimentos->get($id, [
-			'contain' => ['Usuarios', 'IndicadoresCarteiras', 'OperacoesFinanceiras'=>['CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras']],
+			'contain' => ['Usuarios', 'IndicadoresCarteiras', 'OperacoesFinanceiras' => ['CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras']],
 		]);
 
-		$this->set(compact('carteirasInvestimento'));
+		$this->indicadores($id);
+
+		$this->set(compact('carteirasInvestimento', 'indicadoresPatrimonio'));
+
+
+
 		/*
 		$this->paginate = [
 			'contain' => ['CarteirasInvestimentos', 'CnpjFundos', 'DistribuidorFundos', 'TipoOperacoesFinanceiras'],
@@ -127,5 +260,4 @@ class CarteirasInvestimentosController extends AppController {
 			return $this->redirect(['controller' => 'Pages', 'action' => 'home']);
 		}
 	}
-
 }

@@ -120,5 +120,4 @@ class CarteirasInvestimentosController_backup extends AppController {
 			return $this->redirect(['controller' => 'Pages', 'action' => 'home']);
 		}
 	}
-
 }

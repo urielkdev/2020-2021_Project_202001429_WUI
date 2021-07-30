@@ -66,19 +66,26 @@ class PortfolioController extends AppController {
 		$countRec = $RetornoRiscoFundos->find()->count();
 		switch ($countRec) {
 			case 1:
-			case 2:$compensador = 8;
+			case 2:
+				$compensador = 8;
 				break;
-			case 3:$compensador = 6;
+			case 3:
+				$compensador = 6;
 				break;
-			case 4:$compensador = 3;
+			case 4:
+				$compensador = 3;
 				break;
-			case 5:$compensador = 2;
+			case 5:
+				$compensador = 2;
 				break;
-			case 6:$compensador = 2;
+			case 6:
+				$compensador = 2;
 				break;
-			case 7:$compensador = 2;
+			case 7:
+				$compensador = 2;
 				break;
-			default:$compensador = 2;
+			default:
+				$compensador = 2;
 				break;
 		}
 		//if ($countRec>4 && $countRec % 2 ==0) {
@@ -113,7 +120,7 @@ class PortfolioController extends AppController {
 			if ($idxMenorRisco == -1) {
 				$menorRiscoPorRent[] = ['rentab' => round($rentabAlocacao, 2), 'risco' => round($riscoAlocacao, 2)];
 				//echo('Rentab:' . round($rentabAlocacao, 2) . ', Incluído novo:' . round($riscoAlocacao, 2) . "<br/>");
-			} else if (round($riscoAlocacao,2) < $menorRiscoPorRent[$idxMenorRisco]['risco']) {
+			} else if (round($riscoAlocacao, 2) < $menorRiscoPorRent[$idxMenorRisco]['risco']) {
 				//echo('Rentab:' . round($riscoAlocacao,2) . ', era:' . $menorRiscoPorRent[$idxMenorRisco]['risco'] . " -> ");
 				$menorRiscoPorRent[$idxMenorRisco]['risco'] = round($riscoAlocacao, 2);
 				//echo($menorRiscoPorRent[$idxMenorRisco]['risco'] . '<br/>');
@@ -123,7 +130,7 @@ class PortfolioController extends AppController {
 			if ($idxMaiorRent == -1) {
 				$maiorRentPorRisco[] = ['rentab' => round($rentabAlocacao, 2), 'risco' => round($riscoAlocacao, 2)];
 				//echo('Risco:' . $riscoAlocacao . ', Incluído novo:' . $rentabAlocacao . "<br/>");
-			} else if (round($rentabAlocacao,2) > $maiorRentPorRisco[$idxMaiorRent]['rentab']) {
+			} else if (round($rentabAlocacao, 2) > $maiorRentPorRisco[$idxMaiorRent]['rentab']) {
 				//echo('Risco:' . $riscoAlocacao . ', era:' . $maiorRentPorRisco[$idxMaiorRent]['rentab'] . " -> ");
 				$maiorRentPorRisco[$idxMaiorRent]['rentab'] = round($rentabAlocacao, 2);
 				//echo($maiorRentPorRisco[$idxMaiorRent]['rentab'] . '<br/>');
@@ -159,11 +166,11 @@ class PortfolioController extends AppController {
 			//echo("peso total:".array_sum($pesos)." último peso:".$pesos[$coufalsentRec-1].", p's:".($pesos[$countRec-1]/$p)."<br/>");
 		} while ($pos >= 0 && $iteracoes < 1e6);
 
-		  //echo('maiorRentPorRisco');
-		  //var_dump($maiorRentPorRisco);
-		  //echo('menorRiscoPorRent');
-		  //var_dump($menorRiscoPorRent);
-		  //exit();
+		//echo('maiorRentPorRisco');
+		//var_dump($maiorRentPorRisco);
+		//echo('menorRiscoPorRent');
+		//var_dump($menorRiscoPorRent);
+		//exit();
 
 		for ($i = 0; $i < count($alocacoes['alocacoes']); $i++) {
 			$idxMaiorRent = $this->meu_array_search(round($alocacoes['alocacoes'][$i]['risco'], 2), $maiorRentPorRisco, 'risco');
@@ -175,46 +182,43 @@ class PortfolioController extends AppController {
 			$idxMenorRisco = $this->meu_array_search(round($alocacoes['alocacoes'][$i]['rentabilidade'], 2), $menorRiscoPorRent, 'rentab');
 			$menorRisco = $menorRiscoPorRent[$idxMenorRisco]['risco'];
 			$esteRisco = round($alocacoes['alocacoes'][$i]['risco'], 2);
-			if ((abs($menorRisco - $esteRisco) < $this->tolerancia) && (abs($maiorRent - $esteRent) < $this->tolerancia)) {// && (abs($maiorRent - $esteRent) < $this->tolerancia)) {
-				$alocacoes['alocacoes'][$i]['inFronteira'] ++;
+			if ((abs($menorRisco - $esteRisco) < $this->tolerancia) && (abs($maiorRent - $esteRent) < $this->tolerancia)) { // && (abs($maiorRent - $esteRent) < $this->tolerancia)) {
+				$alocacoes['alocacoes'][$i]['inFronteira']++;
 			}
 		}
-		
+
 		$this->set(compact('alocacoes'));
 	}
 
-	
-	
+
+
 	/**
 	 * Fronteira method
 	 *
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
 	public function operacoes() {
-		
 	}
 
-	
+
 	/**
 	 * Fronteira method
 	 *
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
 	public function analise() {
-		
 	}
 
-	
+
 	/**
 	 * Fronteira method
 	 *
 	 * @return \Cake\Http\Response|null|void Renders view
 	 */
 	public function comparacao() {
-		
 	}
 
-	
+
 
 	/**
 	 * Fronteira method
@@ -245,19 +249,26 @@ class PortfolioController extends AppController {
 		$countRec = $RetornoRiscoFundos->find()->count();
 		switch ($countRec) {
 			case 1:
-			case 2:$compensador = 8;
+			case 2:
+				$compensador = 8;
 				break;
-			case 3:$compensador = 6;
+			case 3:
+				$compensador = 6;
 				break;
-			case 4:$compensador = 3;
+			case 4:
+				$compensador = 3;
 				break;
-			case 5:$compensador = 2;
+			case 5:
+				$compensador = 2;
 				break;
-			case 6:$compensador = 2;
+			case 6:
+				$compensador = 2;
 				break;
-			case 7:$compensador = 2;
+			case 7:
+				$compensador = 2;
 				break;
-			default:$compensador = 2;
+			default:
+				$compensador = 2;
 				break;
 		}
 		//if ($countRec>4 && $countRec % 2 ==0) {
@@ -292,7 +303,7 @@ class PortfolioController extends AppController {
 			if ($idxMenorRisco == -1) {
 				$menorRiscoPorRent[] = ['rentab' => round($rentabAlocacao, 2), 'risco' => round($riscoAlocacao, 2)];
 				//echo('Rentab:' . round($rentabAlocacao, 2) . ', Incluído novo:' . round($riscoAlocacao, 2) . "<br/>");
-			} else if (round($riscoAlocacao,2) < $menorRiscoPorRent[$idxMenorRisco]['risco']) {
+			} else if (round($riscoAlocacao, 2) < $menorRiscoPorRent[$idxMenorRisco]['risco']) {
 				//echo('Rentab:' . round($riscoAlocacao,2) . ', era:' . $menorRiscoPorRent[$idxMenorRisco]['risco'] . " -> ");
 				$menorRiscoPorRent[$idxMenorRisco]['risco'] = round($riscoAlocacao, 2);
 				//echo($menorRiscoPorRent[$idxMenorRisco]['risco'] . '<br/>');
@@ -302,7 +313,7 @@ class PortfolioController extends AppController {
 			if ($idxMaiorRent == -1) {
 				$maiorRentPorRisco[] = ['rentab' => round($rentabAlocacao, 2), 'risco' => round($riscoAlocacao, 2)];
 				//echo('Risco:' . $riscoAlocacao . ', Incluído novo:' . $rentabAlocacao . "<br/>");
-			} else if (round($rentabAlocacao,2) > $maiorRentPorRisco[$idxMaiorRent]['rentab']) {
+			} else if (round($rentabAlocacao, 2) > $maiorRentPorRisco[$idxMaiorRent]['rentab']) {
 				//echo('Risco:' . $riscoAlocacao . ', era:' . $maiorRentPorRisco[$idxMaiorRent]['rentab'] . " -> ");
 				$maiorRentPorRisco[$idxMaiorRent]['rentab'] = round($rentabAlocacao, 2);
 				//echo($maiorRentPorRisco[$idxMaiorRent]['rentab'] . '<br/>');
@@ -338,11 +349,11 @@ class PortfolioController extends AppController {
 			//echo("peso total:".array_sum($pesos)." último peso:".$pesos[$coufalsentRec-1].", p's:".($pesos[$countRec-1]/$p)."<br/>");
 		} while ($pos >= 0 && $iteracoes < 1e6);
 
-		  //echo('maiorRentPorRisco');
-		  //var_dump($maiorRentPorRisco);
-		  //echo('menorRiscoPorRent');
-		  //var_dump($menorRiscoPorRent);
-		  //exit();
+		//echo('maiorRentPorRisco');
+		//var_dump($maiorRentPorRisco);
+		//echo('menorRiscoPorRent');
+		//var_dump($menorRiscoPorRent);
+		//exit();
 
 		for ($i = 0; $i < count($alocacoes['alocacoes']); $i++) {
 			$idxMaiorRent = $this->meu_array_search(round($alocacoes['alocacoes'][$i]['risco'], 2), $maiorRentPorRisco, 'risco');
@@ -354,12 +365,11 @@ class PortfolioController extends AppController {
 			$idxMenorRisco = $this->meu_array_search(round($alocacoes['alocacoes'][$i]['rentabilidade'], 2), $menorRiscoPorRent, 'rentab');
 			$menorRisco = $menorRiscoPorRent[$idxMenorRisco]['risco'];
 			$esteRisco = round($alocacoes['alocacoes'][$i]['risco'], 2);
-			if ((abs($menorRisco - $esteRisco) < $this->tolerancia) && (abs($maiorRent - $esteRent) < $this->tolerancia)) {// && (abs($maiorRent - $esteRent) < $this->tolerancia)) {
-				$alocacoes['alocacoes'][$i]['inFronteira'] ++;
+			if ((abs($menorRisco - $esteRisco) < $this->tolerancia) && (abs($maiorRent - $esteRent) < $this->tolerancia)) { // && (abs($maiorRent - $esteRent) < $this->tolerancia)) {
+				$alocacoes['alocacoes'][$i]['inFronteira']++;
 			}
 		}
-		
+
 		$this->set(compact('alocacoes'));
 	}
-	
 }
