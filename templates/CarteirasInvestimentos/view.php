@@ -92,7 +92,7 @@
 						echo "]);";
 						?>
 
-						var chart = new google.visualization.AnnotationChart(document.getElementById('chart_div'));
+						var chart = new google.visualization.AnnotationChart(document.getElementById('chart-div'));
 
 						var options = {
 							fill: 10,
@@ -109,10 +109,84 @@
 					}
 				</script>
 
-				<div id="chart_div" style="width: 100%; margin-left: -20px;"></div>
+				<div id="chart-div" style="width: 100%; margin-left: -20px;"></div>
+
 				<br>
 
+				<?php if (!empty($todosFundos)) :
+					// todos os fundos e o 'Total'
+					$todosFundosTotal = $todosFundos;
+					$todosFundosTotal[] = 'Total';
+				?>
+					<br>
+					<h5><?= __('Simulação por fundo') ?></h5>
+
+					<div class="table-responsive">
+						<table>
+							<tr>
+								<th>Fundo</th>
+								<th>Retorno</th>
+								<th>Drawdown</th>
+							</tr>
+							<?php foreach ($todosFundosTotal as $fundoId) : ?>
+								<tr>
+									<th><?= $fundoId ?></td>
+									<td><?= $retornoFundo[$fundoId] ?></td>
+									<td>Ainda não implementado</td>
+								</tr>
+							<?php endforeach; ?>
+						</table>
+					</div>
+				<?php endif; ?>
+				<br>
+
+				<h5><?= __('Proporção de ativos') ?></h5>
+
+				<script type="text/javascript">
+					google.charts.load('current', {
+						'packages': ['corechart']
+					});
+					google.charts.setOnLoadCallback(drawPieChart);
+
+					function drawPieChart() {
+						var data = google.visualization.arrayToDataTable(
+							<?php
+							$tamanho = sizeof($tabelaFormatada);
+							echo "[['Fundo', 'Valor Total'],";
+							foreach ($todosFundos as $index => $fundoId) {
+								echo "['" . $fundoId . "', " . $tabelaFormatada[$tamanho - 1][$index + 4];
+								echo "],";
+							}
+							echo "]";
+							?>
+						);
+
+						var options = {
+							height: 600,
+							legend: {
+								alignment: 'center',
+								position: 'top'
+							}
+						};
+
+						var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+
+						pieChart.draw(data, options);
+					}
+				</script>
+
+				<div id="pie-chart" style="width: 100%;"></div>
+
 				<?php
+				// echo "retornoFundo:<br>";
+				// echo var_dump($retornoFundo) . "<br>";
+				// foreach ($retornoFundo as $balanco) :
+				// 	echo $balanco . "<br>";
+				// endforeach;
+				// echo $retornoFundo['Total'] . "<br>";
+
+				// echo "<br>=================<br>";
+
 				// echo "dados que vao para o addRow() do grafico<br>";
 				// foreach ($tabelaFormatada as $linha) {
 				// 	echo "[new Date(" . $linha[0] . ", " . $linha[1] . ", " . $linha[2] . ")";
@@ -153,7 +227,6 @@
 
 				// echo "<br><br>";
 
-
 				// echo "<br>=================<br>";
 				// echo "<br><br>";
 
@@ -176,8 +249,6 @@
 				// echo "var_dump(tabelaFormatada)";
 				// echo var_dump($tabelaFormatada);
 				?>
-
-
 
 				<?php if (!empty($carteirasInvestimento->indicadores_carteiras)) : ?>
 					<div class="table-responsive">

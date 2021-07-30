@@ -41,12 +41,20 @@ class CarteirasInvestimentosController extends AppController {
 			$tiposOperacao[$tipoOperacao['id']] = $tipoOperacao['is_aplicacao'];
 		}
 
+		// todas as datas, para serem utilizadas no grafico
 		$todasAsDatas = [];
+		// todos os fundos, para serem utilizados no grafico
 		$todosFundos = [];
 		// balanco de cada fundo em cada data
 		$balancoFundoData = [];
+		// retorno cada fundo de todos os tempos
+		$retornoFundo = [];
 		// rentabilidade de cada fundo em cada data
 		$rentabilidadeFundoData = [];
+		// drawdown de cada fundo
+		// rever se é a maior perda em X tempo, ou tipo, maior perda em 1 unico dia
+		// se tiver perda por 3 dias seguidos, conta como 1 perda pro drawdown?
+		$drawdownFundo = [];
 
 		$dataIterador = $operacoesFinanceiras[0]['data'];
 		$dataFormatada = "";
@@ -57,7 +65,7 @@ class CarteirasInvestimentosController extends AppController {
 			$dataIterador = $dataIterador->modify('+1 day');
 		} while ($dataFormatada != $dataOpMaisRecente);
 
-		// inicializa todosFundos
+		// inicializa todosFundos, seta o balanco
 		foreach ($operacoesFinanceiras as $operacaoFinanceira) {
 			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
 			// caso o fundo ainda nao esteja cadastrado
@@ -81,12 +89,13 @@ class CarteirasInvestimentosController extends AppController {
 		foreach ($operacoesFinanceiras as $operacaoFinanceira) {
 			$dataFormatada = date_format($operacaoFinanceira['data'], 'Y-m-d');
 			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
-
+			$valorTotalOp = $operacaoFinanceira["valor_total"];
 			// TODO: VER TIPO de OPERACOES NEGATIVAS, subtrair
-			if ($tiposOperacao[$operacaoFinanceira['tipo_operacoes_financeira_id']])
-				$balancoFundoData[$dataFormatada][$fundoId] += $operacaoFinanceira["valor_total"];
-			else
-				$balancoFundoData[$dataFormatada][$fundoId] -= $operacaoFinanceira["valor_total"];
+			if ($tiposOperacao[$operacaoFinanceira['tipo_operacoes_financeira_id']]) {
+				$balancoFundoData[$dataFormatada][$fundoId] += $valorTotalOp;
+			} else {
+				$balancoFundoData[$dataFormatada][$fundoId] -= $valorTotalOp;
+			}
 		}
 
 
@@ -95,14 +104,16 @@ class CarteirasInvestimentosController extends AppController {
 		foreach ($todasAsDatas as $data) {
 			$soma = 0;
 			foreach ($todosFundos as $fundoId) {
-				// TODO: ADICIONAR O RENDIMENTO DO MES PASSADO, RENTABILIDADE DO FUNDO NO MES ENTRE PARENTESES
-				$rentabilidade = 1 + $rentabilidadeFundoData[$data][$fundoId];
-				$patrimonioMesAnterios = $balancoFundoData[$dataAnterior][$fundoId] * $rentabilidade;
-				$balancoFundoData[$data][$fundoId] += $patrimonioMesAnterios;
+				$rendimentoData = $balancoFundoData[$dataAnterior][$fundoId] * $rentabilidadeFundoData[$data][$fundoId];
+				$patrimonioDataAnterios = $balancoFundoData[$dataAnterior][$fundoId] + $rendimentoData;
+				$balancoFundoData[$data][$fundoId] += $patrimonioDataAnterios;
 
+				// calculo para saber o retorno
+				$retornoFundo[$fundoId] += $rendimentoData;
+				$retornoFundo['Total'] += $rendimentoData;
 				$soma += $balancoFundoData[$data][$fundoId];
 			}
-			$balancoFundoData[$data]['total'] += $soma;
+			$balancoFundoData[$data]['Total'] += $soma;
 			$dataAnterior = $data;
 		}
 
@@ -112,7 +123,7 @@ class CarteirasInvestimentosController extends AppController {
 			$anoJS = $data[0] . $data[1] . $data[2] . $data[3];
 			$mesJS = "" . ((int)($data[5] . $data[6]) - 1);
 			$diaJS = "" . ((int)($data[8] . $data[9]));
-			$tabelaFormatada[$idx] = [$anoJS, $mesJS, $diaJS, floor($balancoFundoData[$data]['total'] * 1000) / 1000];
+			$tabelaFormatada[$idx] = [$anoJS, $mesJS, $diaJS, floor($balancoFundoData[$data]['Total'] * 1000) / 1000];
 			foreach ($todosFundos as $fundo) {
 				$tabelaFormatada[$idx][] = $balancoFundoData[$data][$fundo];
 			}
@@ -121,7 +132,8 @@ class CarteirasInvestimentosController extends AppController {
 
 		// return $operacoesFinanceiras;
 		// return $dataOpMaisAntiga;
-		$this->set(compact('dataOpMaisAntiga', 'dataOpMaisRecente', 'todosFundos', 'todasAsDatas', 'balancoFundoData', 'rentabilidadeFundoData', 'tabelaFormatada'));
+		// TODO: RETIRAR DO set VARIAVEIS QUE NÃO SERÃO UTILIZADAS NA VIEW
+		$this->set(compact('retornoFundo', 'dataOpMaisAntiga', 'dataOpMaisRecente', 'todosFundos', 'todasAsDatas', 'balancoFundoData', 'rentabilidadeFundoData', 'tabelaFormatada'));
 	}
 
 	/**
