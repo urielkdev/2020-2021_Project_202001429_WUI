@@ -186,7 +186,7 @@ class CarteirasInvestimentosController extends AppController {
 		}
 
 		// TODO: RETIRAR DO set VARIAVEIS QUE NÃO SERÃO UTILIZADAS NA VIEW
-		$this->set(compact('drawdownFundoData', 'qtdMesesPassados', 'retornoFundoData', 'datasPassadasImportantes', 'balancoClasseTabela',  'dataOpMaisAntiga', 'dataOpMaisRecente', 'todosFundos', 'todasAsDatas', 'balancoFundoData', 'rentabilidadeFundoData', 'tabelaFormatada'));
+		$this->set(compact('drawdownFundoData', 'qtdMesesPassados', 'retornoFundoData', 'balancoClasseTabela',   'todosFundos', 'todasAsDatas', 'balancoFundoData', 'tabelaFormatada'));
 	}
 
 	/**
