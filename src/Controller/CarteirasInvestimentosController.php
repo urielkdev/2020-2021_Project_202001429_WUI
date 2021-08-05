@@ -31,14 +31,20 @@ class CarteirasInvestimentosController extends AppController {
 	}
 
 
+	public function calcDrawdown($fundoId, $data) {
+		$maxValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')->find('all', [
+			'fields' => array('VL_QUOTA' => 'MAX(VL_QUOTA)'),
+			'order' => ['DT_COMPTC' => 'DESC']
+		])
+			->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $data])->toList()[0]["VL_QUOTA"];
+		$atualValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')
+			->find('all', ['order' => ['DT_COMPTC' => 'DESC'], 'limit' => 1])->select(['VL_QUOTA'])
+			->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $data])->toList()[0]["VL_QUOTA"];
+
+		return 100 * ($maxValQuota - $atualValQuota) / $maxValQuota;
+	}
+
 	public function indicadores($id_carteira = null) {
-		// foreach ($c as $b) {
-		// 	echo var_dump($b) . '<br><br>';
-		// }
-
-
-
-
 		$operacoesFinanceiras = $this->CarteirasInvestimentos->OperacoesFinanceiras->find('all', ['order' => ['data' => 'ASC']])->where(['carteiras_investimento_id' => $id_carteira])->toList();
 		if (sizeof($operacoesFinanceiras) == 0) return;
 		$dataOpMaisAntiga = date_format($operacoesFinanceiras[0]['data'], 'Y-m-d');
@@ -112,20 +118,13 @@ class CarteirasInvestimentosController extends AppController {
 				$classeFundosConsulta = TableRegistry::getTableLocator()->get('CadastroFundos')->find('all')->where(['cnpj_fundo_id' => $fundoId])->toList();
 				$classeFundos[$fundoId] = (int)$classeFundosConsulta[0]['tipo_classe_fundo_id'];
 
-				// queries para drawdown
+				// calcula o drawdown para cada fundo descoberto
 				foreach ($qtdMesesPassados as $qtdMesPassado) {
-					$maxValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')->find('all', [
-						'fields' => array('VL_QUOTA' => 'MAX(VL_QUOTA)'),
-						'order' => ['DT_COMPTC' => 'DESC']
-					])
-						->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $datasPassadasImportantes[$qtdMesPassado]])->toList()[0]["VL_QUOTA"];
-					$atualValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')
-						->find('all', ['order' => ['DT_COMPTC' => 'DESC'], 'limit' => 1])->select(['VL_QUOTA'])
-						->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $datasPassadasImportantes[$qtdMesPassado]])->toList()[0]["VL_QUOTA"];
-
-					$drawdown = 100 * ($maxValQuota - $atualValQuota) / $maxValQuota;
+					$drawdown = $this->calcDrawdown($fundoId, $datasPassadasImportantes[$qtdMesPassado]);
 					$drawdownFundoData[$qtdMesPassado][$fundoId] = $drawdown > 0 ? $drawdown : 0;
 				}
+				$drawdown = $this->calcDrawdown($fundoId, $dataOpMaisAntiga);
+				$drawdownFundoData['Total'][$fundoId] = $drawdown > 0 ? $drawdown : 0;
 			}
 		}
 
@@ -141,7 +140,6 @@ class CarteirasInvestimentosController extends AppController {
 				$balancoFundoData[$dataFormatada][$fundoId] -= $valorTotalOp;
 			}
 		}
-
 
 		$dataAnterior = "";
 		// calcula o valor total do patrimonio dos fundos somados em determinado data
@@ -206,8 +204,6 @@ class CarteirasInvestimentosController extends AppController {
 		$this->indicadores($id);
 
 		$this->set(compact('carteirasInvestimento', 'indicadoresPatrimonio'));
-
-
 
 		/*
 		$this->paginate = [

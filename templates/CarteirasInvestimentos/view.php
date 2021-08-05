@@ -145,7 +145,6 @@
 					<br><br>
 					<?php
 					array_pop($todosFundosTotal);
-					array_pop($qtdMesesPassados);
 					?>
 					<h5><?= __('Drawdown') ?></h5>
 					<div class="table-responsive">
