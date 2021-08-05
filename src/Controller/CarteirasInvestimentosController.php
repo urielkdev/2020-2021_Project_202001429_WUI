@@ -112,19 +112,19 @@ class CarteirasInvestimentosController extends AppController {
 				$classeFundosConsulta = TableRegistry::getTableLocator()->get('CadastroFundos')->find('all')->where(['cnpj_fundo_id' => $fundoId])->toList();
 				$classeFundos[$fundoId] = (int)$classeFundosConsulta[0]['tipo_classe_fundo_id'];
 
+				// queries para drawdown
 				foreach ($qtdMesesPassados as $qtdMesPassado) {
-
 					$maxValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')->find('all', [
 						'fields' => array('VL_QUOTA' => 'MAX(VL_QUOTA)'),
 						'order' => ['DT_COMPTC' => 'DESC']
 					])
 						->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $datasPassadasImportantes[$qtdMesPassado]])->toList()[0]["VL_QUOTA"];
-
 					$atualValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')
 						->find('all', ['order' => ['DT_COMPTC' => 'DESC'], 'limit' => 1])->select(['VL_QUOTA'])
 						->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $datasPassadasImportantes[$qtdMesPassado]])->toList()[0]["VL_QUOTA"];
 
-					$drawdownFundoData[$qtdMesPassado][$fundoId] = ($maxValQuota - $atualValQuota) / $maxValQuota;
+					$drawdown = 100 * ($maxValQuota - $atualValQuota) / $maxValQuota;
+					$drawdownFundoData[$qtdMesPassado][$fundoId] = $drawdown > 0 ? $drawdown : 0;
 				}
 			}
 		}

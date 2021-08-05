@@ -22,7 +22,7 @@
 			<div class="related">
 				<h4><?= __('Operações Financeiras (Transações)') ?></h4>
 				<?= $this->Html->link(__('Nova Operação Financeira'), ['controller' => 'OperacoesFinanceiras', 'action' => 'add', $carteirasInvestimento->id], ['class' => 'button float-right']) ?>
-
+				<br>
 				<?php if (!empty($carteirasInvestimento->operacoes_financeiras)) : ?>
 					<div class="table-responsive">
 						<table>
@@ -60,8 +60,7 @@
 					</div>
 				<?php endif; ?>
 			</div>
-			<br>
-			<br>
+			<br><br>
 			<?php if (!empty($carteirasInvestimento->operacoes_financeiras)) : ?>
 				<div class="related">
 					<h4><?= __('Indicadores Financeiros da Carteira') ?></h4>
