@@ -113,29 +113,34 @@
 
 				<br>
 
+
 				<?php if (!empty($todosFundos)) :
 					// todos os fundos e o 'Total'
 					$todosFundosTotal = $todosFundos;
 					$todosFundosTotal[] = 'Total';
+					$qtdMesesPassados[] = 'Total';
 				?>
 					<br>
 					<h5><?= __('Simulação por fundo') ?></h5>
-
 					<div class="table-responsive">
 						<table>
 							<tr>
 								<th>Fundo</th>
-								<th>Retorno</th>
-								<th>Drawdown</th>
+								<?php
+								foreach ($qtdMesesPassados as $qtdMesPassado) : ?>
+									<th>Retorno <?= $qtdMesPassado == 'Total' ? $qtdMesPassado : $qtdMesPassado . 'M'; ?></th>
+								<?php endforeach; ?>
 							</tr>
 							<?php foreach ($todosFundosTotal as $fundoId) : ?>
 								<tr>
-									<th><?= $fundoId ?></td>
-									<td><?= bcdiv($retornoFundo[$fundoId], 1, 3) ?></td>
-									<td>Ainda não implementado</td>
+									<th><?= $fundoId ?></th>
+									<?php foreach ($qtdMesesPassados as $qtdMesPassado) : ?>
+										<td>R$ <?= bcdiv($retornoFundoData[$qtdMesPassado][$fundoId], 1, 2) ?></td>
+									<?php endforeach; ?>
 								</tr>
 							<?php endforeach; ?>
 						</table>
+						<br><br>
 					</div>
 				<?php endif; ?>
 				<br>
@@ -214,14 +219,6 @@
 				<div id="pie-chart2" style="width: 100%;"></div>
 
 				<?php
-				// echo "retornoFundo:<br>";
-				// echo var_dump($retornoFundo) . "<br>";
-				// foreach ($retornoFundo as $balanco) :
-				// 	echo $balanco . "<br>";
-				// endforeach;
-				// echo $retornoFundo['Total'] . "<br>";
-
-				// echo "<br>=================<br>";
 
 				// echo "dados que vao para o addRow() do grafico<br>";
 				// foreach ($tabelaFormatada as $linha) {

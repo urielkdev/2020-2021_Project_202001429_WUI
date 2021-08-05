@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\ORM\TableRegistry;
+use DateTime;
 
 /**
  * CarteirasInvestimentos Controller
@@ -41,6 +42,15 @@ class CarteirasInvestimentosController extends AppController {
 			$tiposOperacao[$tipoOperacao['id']] = $tipoOperacao['is_aplicacao'];
 		}
 
+		$datasPassadasImportantes = [];
+		$retornoFundoData = [];
+		$qtdMesesPassados = [6, 12, 24, 36];
+		// datas subtraidas para podermos pegar os indicadores de X meses atras
+		foreach ($qtdMesesPassados as $qtdMesPassado) {
+			$datasPassadasImportantes[$qtdMesPassado] = (new DateTime())->modify('-' . $qtdMesPassado . ' month')->format('Y-m-d');
+		}
+
+
 		// nome da classe e balanco para cada classe de fundos, para poder fazer o grafico de proporcao de classes de fundos
 		$balancoClasseTabela = [];
 		// classe do fundo
@@ -58,8 +68,6 @@ class CarteirasInvestimentosController extends AppController {
 		$todosFundos = [];
 		// balanco de cada fundo em cada data
 		$balancoFundoData = [];
-		// retorno cada fundo de todos os tempos
-		$retornoFundo = [];
 		// rentabilidade de cada fundo em cada data
 		$rentabilidadeFundoData = [];
 		// drawdown de cada fundo
@@ -104,7 +112,7 @@ class CarteirasInvestimentosController extends AppController {
 			$dataFormatada = date_format($operacaoFinanceira['data'], 'Y-m-d');
 			$fundoId = $operacaoFinanceira["cnpj_fundo_id"];
 			$valorTotalOp = $operacaoFinanceira["valor_total"];
-			// TODO: VER TIPO de OPERACOES NEGATIVAS, subtrair
+
 			if ((int)$tiposOperacao[$operacaoFinanceira['tipo_operacoes_financeira_id']] == 1) {
 				$balancoFundoData[$dataFormatada][$fundoId] += $valorTotalOp;
 			} else {
@@ -123,8 +131,14 @@ class CarteirasInvestimentosController extends AppController {
 				$balancoFundoData[$data][$fundoId] += $patrimonioDataAnterios;
 
 				// calculo para saber o retorno
-				$retornoFundo[$fundoId] += $rendimentoData;
-				$retornoFundo['Total'] += $rendimentoData;
+				foreach ($qtdMesesPassados as $qtdMesPassado) {
+					if (strcmp($data, $datasPassadasImportantes[$qtdMesPassado]) >= 0) {
+						$retornoFundoData[$qtdMesPassado][$fundoId] += $rendimentoData;
+						$retornoFundoData[$qtdMesPassado]['Total'] += $rendimentoData;
+					}
+				}
+				$retornoFundoData['Total'][$fundoId] += $rendimentoData;
+				$retornoFundoData['Total']['Total'] += $rendimentoData;
 				$soma += $balancoFundoData[$data][$fundoId];
 			}
 			$balancoFundoData[$data]['Total'] += $soma;
@@ -152,7 +166,7 @@ class CarteirasInvestimentosController extends AppController {
 		}
 
 		// TODO: RETIRAR DO set VARIAVEIS QUE NÃO SERÃO UTILIZADAS NA VIEW
-		$this->set(compact('balancoClasseTabela', 'retornoFundo', 'dataOpMaisAntiga', 'dataOpMaisRecente', 'todosFundos', 'todasAsDatas', 'balancoFundoData', 'rentabilidadeFundoData', 'tabelaFormatada'));
+		$this->set(compact('qtdMesesPassados', 'retornoFundoData', 'datasPassadasImportantes', 'balancoClasseTabela',  'dataOpMaisAntiga', 'dataOpMaisRecente', 'todosFundos', 'todasAsDatas', 'balancoFundoData', 'rentabilidadeFundoData', 'tabelaFormatada'));
 	}
 
 	/**
