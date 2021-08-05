@@ -60,66 +60,67 @@
 					</div>
 				<?php endif; ?>
 			</div>
+			<br>
+			<br>
+			<?php if (!empty($carteirasInvestimento->operacoes_financeiras)) : ?>
+				<div class="related">
+					<h4><?= __('Indicadores Financeiros da Carteira') ?></h4>
+					<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+					<script type='text/javascript'>
+						google.charts.load('current', {
+							'packages': ['annotationchart']
+						});
+						google.charts.setOnLoadCallback(drawChart);
 
-			<div class="related">
-				<h4><?= __('Indicadores Financeiros da Carteira') ?></h4>
-
-				<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-				<script type='text/javascript'>
-					google.charts.load('current', {
-						'packages': ['annotationchart']
-					});
-					google.charts.setOnLoadCallback(drawChart);
-
-					function drawChart() {
-						var data = new google.visualization.DataTable();
-						data.addColumn('date', 'Date');
-						data.addColumn('number', 'Total');
-						<?php
-						foreach ($todosFundos as $fundo) {
-							echo "data.addColumn('number', 'Fundo " . $fundo . "');";
-						}
-						?>
-						<?php
-						echo "data.addRows([";
-						foreach ($tabelaFormatada as $linha) {
-							echo "[new Date(" . $linha[0] . ", " . $linha[1] . ", " . $linha[2] . ")";
-							for ($i = 3; $i < sizeof($linha); $i++) {
-								echo ", " . $linha[$i];
+						function drawChart() {
+							var data = new google.visualization.DataTable();
+							data.addColumn('date', 'Date');
+							data.addColumn('number', 'Total');
+							<?php
+							foreach ($todosFundos as $fundo) {
+								echo "data.addColumn('number', 'Fundo " . $fundo . "');";
 							}
-							echo "],";
-						}
-						echo "]);";
-						?>
-
-						var chart = new google.visualization.AnnotationChart(document.getElementById('chart-div'));
-
-						var options = {
-							fill: 10,
-							height: 700,
-							hAxis: {
-								title: 'Mês'
-							},
-							vAxis: {
-								title: 'Patrimônio'
+							?>
+							<?php
+							echo "data.addRows([";
+							foreach ($tabelaFormatada as $linha) {
+								echo "[new Date(" . $linha[0] . ", " . $linha[1] . ", " . $linha[2] . ")";
+								for ($i = 3; $i < sizeof($linha); $i++) {
+									echo ", " . $linha[$i];
+								}
+								echo "],";
 							}
-						};
+							echo "]);";
+							?>
 
-						chart.draw(data, options);
-					}
-				</script>
+							var chart = new google.visualization.AnnotationChart(document.getElementById('chart-div'));
 
-				<div id="chart-div" style="width: 100%; margin-left: -20px;"></div>
+							var options = {
+								fill: 10,
+								height: 700,
+								hAxis: {
+									title: 'Mês'
+								},
+								vAxis: {
+									title: 'Patrimônio'
+								}
+							};
 
-				<br>
+							chart.draw(data, options);
+						}
+					</script>
+
+					<div id="chart-div" style="width: 100%; margin-left: -20px;"></div>
+
+					<br>
 
 
-				<?php if (!empty($todosFundos)) :
+					<?php
 					// todos os fundos e o 'Total'
 					$todosFundosTotal = $todosFundos;
 					$todosFundosTotal[] = 'Total';
 					$qtdMesesPassados[] = 'Total';
-				?>
+					?>
 					<br>
 					<h5><?= __('Simulação por fundo') ?></h5>
 					<div class="table-responsive">
@@ -142,190 +143,148 @@
 						</table>
 						<br><br>
 					</div>
-				<?php endif; ?>
-				<br>
+					<br>
 
-				<h5><?= __('Proporção de ativos') ?></h5>
+					<h5><?= __('Proporção de ativos') ?></h5>
 
-				<script type="text/javascript">
-					google.charts.load('current', {
-						'packages': ['corechart']
-					});
-					google.charts.setOnLoadCallback(drawPieChart);
+					<script type="text/javascript">
+						google.charts.load('current', {
+							'packages': ['corechart']
+						});
+						google.charts.setOnLoadCallback(drawPieChart);
 
-					function drawPieChart() {
-						var data = google.visualization.arrayToDataTable(
-							<?php
-							$tamanho = sizeof($tabelaFormatada);
-							echo "[['Fundo', 'Valor Total'],";
-							foreach ($todosFundos as $index => $fundoId) {
-								echo "['Fundo " . $fundoId . "', " . $tabelaFormatada[$tamanho - 1][$index + 4];
-								echo "],";
-							}
-							echo "]";
-							?>
-						);
+						function drawPieChart() {
+							var data = google.visualization.arrayToDataTable(
+								<?php
+								$tamanho = sizeof($tabelaFormatada);
+								echo "[['Fundo', 'Valor Total'],";
+								foreach ($todosFundos as $index => $fundoId) {
+									echo "['Fundo " . $fundoId . "', " . $tabelaFormatada[$tamanho - 1][$index + 4];
+									echo "],";
+								}
+								echo "]";
+								?>
+							);
 
-						var options = {
-							height: 600,
-							legend: {
-								alignment: 'center',
-								position: 'top'
-							}
-						};
+							var options = {
+								height: 600,
+								legend: {
+									alignment: 'center',
+									position: 'top'
+								}
+							};
 
-						var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+							var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
 
-						pieChart.draw(data, options);
-					}
-				</script>
+							pieChart.draw(data, options);
+						}
+					</script>
 
-				<div id="pie-chart" style="width: 100%;"></div>
+					<div id="pie-chart" style="width: 100%;"></div>
 
-				<h5><?= __('Proporção de classe de ativos') ?></h5>
+					<h5><?= __('Proporção de classe de ativos') ?></h5>
 
-				<script type="text/javascript">
-					google.charts.load('current', {
-						'packages': ['corechart']
-					});
-					google.charts.setOnLoadCallback(drawPieChart2);
+					<script type="text/javascript">
+						google.charts.load('current', {
+							'packages': ['corechart']
+						});
+						google.charts.setOnLoadCallback(drawPieChart2);
 
-					function drawPieChart2() {
-						var data = google.visualization.arrayToDataTable(
-							<?php
-							echo "[['Classe de ativo', 'Valor Total'],";
-							foreach ($balancoClasseTabela as $elemento) {
-								echo "['" . $elemento['classe'] . "', " . $elemento['balanco'];
-								echo "],";
-							}
-							echo "]";
-							?>
-						);
+						function drawPieChart2() {
+							var data = google.visualization.arrayToDataTable(
+								<?php
+								echo "[['Classe de ativo', 'Valor Total'],";
+								foreach ($balancoClasseTabela as $elemento) {
+									echo "['" . $elemento['classe'] . "', " . $elemento['balanco'];
+									echo "],";
+								}
+								echo "]";
+								?>
+							);
 
-						var options = {
-							height: 600,
-							legend: {
-								alignment: 'center',
-								position: 'top'
-							}
-						};
+							var options = {
+								height: 600,
+								legend: {
+									alignment: 'center',
+									position: 'top'
+								}
+							};
 
-						var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart2'));
+							var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart2'));
 
-						pieChart.draw(data, options);
-					}
-				</script>
+							pieChart.draw(data, options);
+						}
+					</script>
 
-				<div id="pie-chart2" style="width: 100%;"></div>
+					<div id="pie-chart2" style="width: 100%;"></div>
 
-				<?php
+					<?php
 
-				// echo "dados que vao para o addRow() do grafico<br>";
-				// foreach ($tabelaFormatada as $linha) {
-				// 	echo "[new Date(" . $linha[0] . ", " . $linha[1] . ", " . $linha[2] . ")";
-				// 	for ($i = 3; $i < sizeof($linha); $i++) {
-				// 		echo ", " . $linha[$i];
-				// 	}
-				// 	echo "]," . "<br>";
-				// }
+					// echo "dados que vao para o addRow() do grafico<br>";
+					// foreach ($tabelaFormatada as $linha) {
+					// 	echo "[new Date(" . $linha[0] . ", " . $linha[1] . ", " . $linha[2] . ")";
+					// 	for ($i = 3; $i < sizeof($linha); $i++) {
+					// 		echo ", " . $linha[$i];
+					// 	}
+					// 	echo "]," . "<br>";
+					// }
 
-				// echo "<br>=================<br>";
+					// echo "<br>=================<br>";
 
-				// echo $dataOpMaisAntiga . "<br>";
-				// echo $dataOpMaisRecente . "<br>";
+					// echo $dataOpMaisAntiga . "<br>";
+					// echo $dataOpMaisRecente . "<br>";
 
-				// echo "<br>=================<br>";
+					// echo "<br>=================<br>";
 
-				// echo "meses:<br>";
-				// foreach ($todasAsDatas as $mes) :
-				// 	echo $mes . "<br>";
-				// endforeach;
+					// echo "meses:<br>";
+					// foreach ($todasAsDatas as $mes) :
+					// 	echo $mes . "<br>";
+					// endforeach;
 
-				// echo "<br>=================<br>";
+					// echo "<br>=================<br>";
 
-				// echo "fundos:<br>";
-				// foreach ($todosFundos as $fundo) :
-				// 	echo $fundo . "<br>";
-				// endforeach;
+					// echo "fundos:<br>";
+					// foreach ($todosFundos as $fundo) :
+					// 	echo $fundo . "<br>";
+					// endforeach;
 
-				// echo "<br>=================<br>";
+					// echo "<br>=================<br>";
 
-				// echo "patrimonio para fundos nos meses:<br>";
-				// foreach ($balancoFundoData as $op) :
-				// 	foreach ($todosFundos as $fundo) :
-				// 		echo $op[$fundo] . "<br>";
-				// 	endforeach;
-				// 	echo "--------------<br>";
-				// endforeach;
+					// echo "patrimonio para fundos nos meses:<br>";
+					// foreach ($balancoFundoData as $op) :
+					// 	foreach ($todosFundos as $fundo) :
+					// 		echo $op[$fundo] . "<br>";
+					// 	endforeach;
+					// 	echo "--------------<br>";
+					// endforeach;
 
-				// echo "<br><br>";
+					// echo "<br><br>";
 
-				// echo "<br>=================<br>";
-				// echo "<br><br>";
+					// echo "<br>=================<br>";
+					// echo "<br><br>";
 
-				// echo "var_dump(balancoFundoData)";
-				// echo var_dump($balancoFundoData);
+					// echo "var_dump(balancoFundoData)";
+					// echo var_dump($balancoFundoData);
 
-				// echo "<br><br>";
-				// echo "<br>=================<br>";
-				// echo "<br><br>";
+					// echo "<br><br>";
+					// echo "<br>=================<br>";
+					// echo "<br><br>";
 
-				// echo "var_dump(rentabilidadeFundoData)";
-				// foreach ($rentabilidadeFundoData as $rentabilidade) :
-				// 	echo var_dump($rentabilidade) . "<br>";
-				// endforeach;
+					// echo "var_dump(rentabilidadeFundoData)";
+					// foreach ($rentabilidadeFundoData as $rentabilidade) :
+					// 	echo var_dump($rentabilidade) . "<br>";
+					// endforeach;
 
-				// echo "<br><br>";
-				// echo "<br>=================<br>";
-				// echo "<br><br>";
+					// echo "<br><br>";
+					// echo "<br>=================<br>";
+					// echo "<br><br>";
 
-				// echo "var_dump(tabelaFormatada)";
-				// echo var_dump($tabelaFormatada);
-				?>
+					// echo "var_dump(tabelaFormatada)";
+					// echo var_dump($tabelaFormatada);
+					?>
+				</div>
 
-				<?php if (!empty($carteirasInvestimento->indicadores_carteiras)) : ?>
-					<div class="table-responsive">
-						<table>
-							<tr>
-								<th><?= __('Periodo Meses') ?></th>
-								<th><?= __('Data Final') ?></th>
-								<th><?= __('Rentabilidade') ?></th>
-								<th><?= __('Desvio Padrao') ?></th>
-								<th><?= __('Num Valores') ?></th>
-								<th><?= __('Rentab Min') ?></th>
-								<th><?= __('Rentab Max') ?></th>
-								<th><?= __('Max Drawdown') ?></th>
-								<th><?= __('Tipo Benchmark Id') ?></th>
-								<th><?= __('Meses Acima Bench') ?></th>
-								<th><?= __('Sharpe') ?></th>
-								<th><?= __('Beta') ?></th>
-								<th class="actions"><?= __('Actions') ?></th>
-							</tr>
-							<?php foreach ($carteirasInvestimento->indicadores_carteiras as $indicadoresCarteiras) : ?>
-								<tr>
-									<td><?= h($indicadoresCarteiras->periodo_meses) ?></td>
-									<td><?= h($indicadoresCarteiras->data_final) ?></td>
-									<td><?= h($indicadoresCarteiras->rentabilidade) ?></td>
-									<td><?= h($indicadoresCarteiras->desvio_padrao) ?></td>
-									<td><?= h($indicadoresCarteiras->num_valores) ?></td>
-									<td><?= h($indicadoresCarteiras->rentab_min) ?></td>
-									<td><?= h($indicadoresCarteiras->rentab_max) ?></td>
-									<td><?= h($indicadoresCarteiras->max_drawdown) ?></td>
-									<td><?= h($indicadoresCarteiras->tipo_benchmark_id) ?></td>
-									<td><?= h($indicadoresCarteiras->meses_acima_bench) ?></td>
-									<td><?= h($indicadoresCarteiras->sharpe) ?></td>
-									<td><?= h($indicadoresCarteiras->beta) ?></td>
-									<td class="actions">
-										<?= $this->Html->link(__('View'), ['controller' => 'IndicadoresCarteiras', 'action' => 'view', $indicadoresCarteiras->carteiras_investimento_id]) ?>
-										<?= $this->Html->link(__('Edit'), ['controller' => 'IndicadoresCarteiras', 'action' => 'edit', $indicadoresCarteiras->carteiras_investimento_id]) ?>
-										<?= $this->Form->postLink(__('Delete'), ['controller' => 'IndicadoresCarteiras', 'action' => 'delete', $indicadoresCarteiras->carteiras_investimento_id], ['confirm' => __('Are you sure you want to delete # {0}?', $indicadoresCarteiras->carteiras_investimento_id)]) ?>
-									</td>
-								</tr>
-							<?php endforeach; ?>
-						</table>
-					</div>
-				<?php endif; ?>
-			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>

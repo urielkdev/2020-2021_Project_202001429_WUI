@@ -50,7 +50,6 @@ class CarteirasInvestimentosController extends AppController {
 			$datasPassadasImportantes[$qtdMesPassado] = (new DateTime())->modify('-' . $qtdMesPassado . ' month')->format('Y-m-d');
 		}
 
-
 		// nome da classe e balanco para cada classe de fundos, para poder fazer o grafico de proporcao de classes de fundos
 		$balancoClasseTabela = [];
 		// classe do fundo
