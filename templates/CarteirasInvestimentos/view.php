@@ -65,6 +65,7 @@
 			<?php if (!empty($carteirasInvestimento->operacoes_financeiras)) : ?>
 				<div class="related">
 					<h4><?= __('Indicadores Financeiros da Carteira') ?></h4>
+					<h5><?= __('Patrimoniônio') ?></h5>
 					<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 					<script type='text/javascript'>
 						google.charts.load('current', {
@@ -122,7 +123,7 @@
 					$qtdMesesPassados[] = 'Total';
 					?>
 					<br>
-					<h5><?= __('Simulação por fundo') ?></h5>
+					<h5><?= __('Retorno') ?></h5>
 					<div class="table-responsive">
 						<table>
 							<tr>
@@ -141,9 +142,33 @@
 								</tr>
 							<?php endforeach; ?>
 						</table>
-						<br><br>
 					</div>
-					<br>
+					<br><br>
+					<?php
+					array_pop($todosFundosTotal);
+					array_pop($qtdMesesPassados);
+					?>
+					<h5><?= __('Drawdown') ?></h5>
+					<div class="table-responsive">
+						<table>
+							<tr>
+								<th>Fundo</th>
+								<?php
+								foreach ($qtdMesesPassados as $qtdMesPassado) : ?>
+									<th>Drawdown <?= $qtdMesPassado == 'Total' ? $qtdMesPassado : $qtdMesPassado . 'M'; ?></th>
+								<?php endforeach; ?>
+							</tr>
+							<?php foreach ($todosFundosTotal as $fundoId) : ?>
+								<tr>
+									<th><?= $fundoId ?></th>
+									<?php foreach ($qtdMesesPassados as $qtdMesPassado) : ?>
+										<td><?= bcdiv($drawdownFundoData[$qtdMesPassado][$fundoId], 1, 4) ?>%</td>
+									<?php endforeach; ?>
+								</tr>
+							<?php endforeach; ?>
+						</table>
+					</div>
+					<br><br>
 
 					<h5><?= __('Proporção de ativos') ?></h5>
 
