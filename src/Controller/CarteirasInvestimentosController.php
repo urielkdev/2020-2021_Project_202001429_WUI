@@ -30,16 +30,23 @@ class CarteirasInvestimentosController extends AppController {
 		$this->set(compact('carteirasInvestimentos', 'userName'));
 	}
 
-
 	public function calcDrawdown($fundoId, $data) {
-		$maxValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')->find('all', [
-			'fields' => array('VL_QUOTA' => 'MAX(VL_QUOTA)'),
-			'order' => ['DT_COMPTC' => 'DESC']
-		])
-			->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $data])->toList()[0]["VL_QUOTA"];
+		if ($data == 'total') {
+			$maxValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')->find('all', [
+				'fields' => array('VL_QUOTA' => 'MAX(VL_QUOTA)'),
+				'order' => ['DT_COMPTC' => 'DESC']
+			])
+				->where(['cnpj_fundo_id' => $fundoId])->toList()[0]["VL_QUOTA"];
+		} else {
+			$maxValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')->find('all', [
+				'fields' => array('VL_QUOTA' => 'MAX(VL_QUOTA)'),
+				'order' => ['DT_COMPTC' => 'DESC']
+			])
+				->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $data])->toList()[0]["VL_QUOTA"];
+		}
 		$atualValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')
 			->find('all', ['order' => ['DT_COMPTC' => 'DESC'], 'limit' => 1])->select(['VL_QUOTA'])
-			->where(['cnpj_fundo_id' => $fundoId, 'DT_COMPTC >=' => $data])->toList()[0]["VL_QUOTA"];
+			->where(['cnpj_fundo_id' => $fundoId])->toList()[0]["VL_QUOTA"];
 
 		return 100 * ($maxValQuota - $atualValQuota) / $maxValQuota;
 	}
@@ -123,7 +130,7 @@ class CarteirasInvestimentosController extends AppController {
 					$drawdown = $this->calcDrawdown($fundoId, $datasPassadasImportantes[$qtdMesPassado]);
 					$drawdownFundoData[$qtdMesPassado][$fundoId] = $drawdown > 0 ? $drawdown : 0;
 				}
-				$drawdown = $this->calcDrawdown($fundoId, $dataOpMaisAntiga);
+				$drawdown = $this->calcDrawdown($fundoId, 'total');
 				$drawdownFundoData['Total'][$fundoId] = $drawdown > 0 ? $drawdown : 0;
 			}
 		}
