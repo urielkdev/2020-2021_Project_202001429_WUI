@@ -30,6 +30,27 @@ class CarteirasInvestimentosController extends AppController {
 		$this->set(compact('carteirasInvestimentos', 'userName'));
 	}
 
+	public function calcTodasAsDatas($dataIterador, $dataOpMaisRecente) {
+		$todasAsDatas = [];
+		$dataFormatada = "";
+		// inicializa os todasAsDatas
+		do {
+			$dataFormatada = date_format($dataIterador, 'Y-m-d');
+			$todasAsDatas[] = $dataFormatada;
+			$dataIterador = $dataIterador->modify('+1 day');
+		} while ($dataFormatada != $dataOpMaisRecente);
+		return $todasAsDatas;
+	}
+
+	public function consultaNomeClasses() {
+		$nomeClasses = [];
+		$classesFundosConsulta = TableRegistry::getTableLocator()->get('TipoClasseFundos')->find('all')->toList();
+		foreach ($classesFundosConsulta as $classe) {
+			$nomeClasses[$classe['id']] = $classe['classe'];
+		}
+		return $nomeClasses;
+	}
+
 	public function calcDrawdown($fundoId, $data) {
 		if ($data == 'total') {
 			$maxValQuota = TableRegistry::getTableLocator()->get('DocInfDiarioFundos')->find('all', [
@@ -76,14 +97,11 @@ class CarteirasInvestimentosController extends AppController {
 		// classe do fundo
 		$classeFundos = [];
 		// nome das classes
-		$nomeClasses = [];
-		$classesFundosConsulta = TableRegistry::getTableLocator()->get('TipoClasseFundos')->find('all')->toList();
-		foreach ($classesFundosConsulta as $classe) {
-			$nomeClasses[$classe['id']] = $classe['classe'];
-		}
+		$nomeClasses = $this->consultaNomeClasses();
 
+		$dataIterador = $operacoesFinanceiras[0]['data'];
 		// todas as datas, para serem utilizadas no grafico
-		$todasAsDatas = [];
+		$todasAsDatas = $this->calcTodasAsDatas($operacoesFinanceiras[0]['data'], $dataOpMaisRecente);
 		// todos os fundos, para serem utilizados no grafico
 		$todosFundos = [];
 		// balanco de cada fundo em cada data
@@ -94,15 +112,6 @@ class CarteirasInvestimentosController extends AppController {
 		// rever se é a maior perda em X tempo, ou tipo, maior perda em 1 unico dia
 		// se tiver perda por 3 dias seguidos, conta como 1 perda pro drawdown?
 		$drawdownFundo = [];
-
-		$dataIterador = $operacoesFinanceiras[0]['data'];
-		$dataFormatada = "";
-		// inicializa os todasAsDatas
-		do {
-			$dataFormatada = date_format($dataIterador, 'Y-m-d');
-			$todasAsDatas[] = $dataFormatada;
-			$dataIterador = $dataIterador->modify('+1 day');
-		} while ($dataFormatada != $dataOpMaisRecente);
 
 		// inicializa todosFundos, seta o balanco
 		foreach ($operacoesFinanceiras as $operacaoFinanceira) {
@@ -186,14 +195,12 @@ class CarteirasInvestimentosController extends AppController {
 
 		$balancoClasseTabela = [];
 		foreach ($todosFundos as $fundoId) {
-			// $balancoFundoData[$data][$fundoId]
 			$classe = $classeFundos[$fundoId];
 			$balancoClasseTabela[$classe]['classe'] = $nomeClasses[$classe];
 			$balancoClasseTabela[$classe]['balanco'] += $balancoFundoData[$dataOpMaisRecente][$fundoId];
 		}
 
-		// TODO: RETIRAR DO set VARIAVEIS QUE NÃO SERÃO UTILIZADAS NA VIEW
-		$this->set(compact('drawdownFundoData', 'qtdMesesPassados', 'retornoFundoData', 'balancoClasseTabela',   'todosFundos', 'todasAsDatas', 'balancoFundoData', 'tabelaFormatada'));
+		$this->set(compact('drawdownFundoData', 'qtdMesesPassados', 'retornoFundoData', 'balancoClasseTabela',   'todosFundos', 'balancoFundoData', 'tabelaFormatada'));
 	}
 
 	/**
